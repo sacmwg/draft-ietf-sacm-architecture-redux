@@ -1,0 +1,112 @@
+
+
+
+
+SACM Working Group                                          A. Montville
+Internet-Draft                                                 B. Munyan
+Intended status: Informational                                       CIS
+Expires: May 20, 2018                                  November 16, 2017
+
+
+   Security Automation and Continuous Monitoring (SACM) Architecture
+                  draft-mandm-sacm-architecture-latest
+
+Abstract
+
+   This memo documents the notional Security Automation and Continuous
+   Monitoring (SACM) architecture to be used by SACM participants when
+   crafting solutions in the SACM domain.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on May 20, 2018.
+
+Copyright Notice
+
+   Copyright (c) 2017 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+Montville & Munyan        Expires May 20, 2018                  [Page 1]
+
+Internet-Draft              SACM Architecture              November 2017
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   2
+   3.  Informative References  . . . . . . . . . . . . . . . . . . .   2
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   2
+
+1.  Introduction
+
+   TBD
+
+2.  Terms and Definitions
+
+   TBD
+
+3.  Informative References
+
+   [I-D.ietf-sacm-terminology]
+              Birkholz, H., Lu, J., Strassner, J., and N. Cam-Winget,
+              "Security Automation and Continuous Monitoring (SACM)
+              Terminology", draft-ietf-sacm-terminology-13 (work in
+              progress), July 2017.
+
+Authors' Addresses
+
+   Adam W. Montville
+   Center for Internet Security
+   31 Tech Valley Drive
+   East Greenbush, NY  12061
+   USA
+
+   Email: adam.w.montville@gmail.com
+
+
+   Bill Munyan
+   Center for Internet Security
+   31 Tech Valley Drive
+   East Greenbush, NY  12061
+   USA
+
+   Email: bill.munyan.ietf@gmail.com
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires May 20, 2018                  [Page 2]
