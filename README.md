@@ -1,10 +1,7 @@
-# Security Automation and Continuous Monitoring (SACM) Terminology
+# Security Automation and Continuous Monitoring (SACM) Architecture
 
-This is the working area for the IETF SACM Working Group Internet-Draft, "Security Automation and Continuous Monitoring (SACM) Terminology".
+This is the working area for the IETF SACM Working Group Internet-Draft, "Security Automation and Continuous Monitoring (SACM) Architecture".
 
-* [Editor's Copy](https://sacmwg.github.io/draft-ietf-sacm-terminology/#go.draft-ietf-sacm-terminology.html)
-* [Working Group Draft](https://tools.ietf.org/html/draft-ietf-sacm-terminology)
-* [Compare Editor's Copy to Working Group Draft](https://sacmwg.github.io/draft-ietf-sacm-terminology/#go.draft-ietf-sacm-terminology.diff)
 
 ## Building the Draft
 
@@ -21,4 +18,4 @@ This requires that you have the necessary software installed.  See
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/sacmwg/draft-ietf-sacm-terminology/blob/master/CONTRIBUTING.md).
+[guidelines for contributions](CONTRIBUTING.md).
