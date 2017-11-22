@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Informational                                       CIS
-Expires: May 25, 2018                                  November 21, 2017
+Expires: May 26, 2018                                  November 22, 2017
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 25, 2018.
+   This Internet-Draft will expire on May 26, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan        Expires May 25, 2018                  [Page 1]
+Montville & Munyan        Expires May 26, 2018                  [Page 1]
 
 Internet-Draft              SACM Architecture              November 2017
 
@@ -65,14 +65,15 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   2
-   3.  The Architecture  . . . . . . . . . . . . . . . . . . . . . .   2
-   4.  A Word On SACM Components, Capabilities, and Interfaces . . .   6
-   5.  Enumerating SACM components . . . . . . . . . . . . . . . . .   7
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   7
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   7
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
-   9.  Informative References  . . . . . . . . . . . . . . . . . . .   7
-   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .   8
+   3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   2
+   4.  A Word On SACM Components, Capabilities, and Interfaces . . .   4
+   5.  Enumerating SACM components . . . . . . . . . . . . . . . . .   5
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   5
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
+   9.  Informative References  . . . . . . . . . . . . . . . . . . .   5
+   Appendix A.  Endpoint Compliance Profile as a Collector . . . . .   6
+   Appendix B.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .   8
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
 
 1.  Introduction
@@ -85,12 +86,19 @@ Table of Contents
    believe that, in reality, these approaches complement each other to
    more completely meet the spirit of [RFC8248].
 
+   The authors explicitly recognize that some state collection
+   mechanisms exist today, some do not, and some that do may need to be
+   improved over time.  The architecture described in this document
+   seeks to accommodate this recognition by first defining a fairly
+   generic abstract architecture, then making that architecture somewhat
+   more concrete.
+
 2.  Terms and Definitions
 
    This draft defers to [I-D.ietf-sacm-terminology] for terms and
    definitions.
 
-3.  The Architecture
+3.  The Basic Architecture
 
    The architectural approach proposed herein recognizes existing state
    collection mechanisms and makes every attempt to respect [RFC7632]
@@ -101,15 +109,7 @@ Table of Contents
 
 
 
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 25, 2018                  [Page 2]
+Montville & Munyan        Expires May 26, 2018                  [Page 2]
 
 Internet-Draft              SACM Architecture              November 2017
 
@@ -130,9 +130,9 @@ Internet-Draft              SACM Architecture              November 2017
             +-------^---------+                      +----------------+
                     |
                     |
-            +-------v-------+
-            |   Collection  |
-            |     System    |
+            +-------v-------+       NOTE: Some collection mechanisms
+            |   Collection  |             may already exist, whereas
+            |     System    |             others may not.
             +---------------+
 
 
@@ -150,109 +150,6 @@ Internet-Draft              SACM Architecture              November 2017
    then bound to one or more specific implementations.  This should be
    done for each capability related to the given SACM Component.
 
-   The SACM working group has accepted work on the Endpoint Compliance
-   Profile [I-D.ietf-sacm-ecp], which describes a collection
-   architecture and may be viewed as a collector coupled with a
-   collection-specific repository.
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 25, 2018                  [Page 3]
-
-Internet-Draft              SACM Architecture              November 2017
-
-
-                                 Posture Manager              Endpoint
-                Orchestrator    +---------------+        +---------------+
-                +--------+      |               |        |               |
-                |        |      | +-----------+ |        | +-----------+ |
-                |        |<---->| | Posture   | |        | | Posture   | |
-                |        | pub/ | | Validator | |        | | Collector | |
-                |        | sub  | +-----------+ |        | +-----------+ |
-                +--------+      |      |        |        |      |        |
-                                |      |        |        |      |        |
-Evaluator       Repository      |      |        |        |      |        |
-+------+        +--------+      | +-----------+ |<-------| +-----------+ |
-|      |        |        |      | | Posture   | | report | | Posture   | |
-|      |        |        |      | | Collection| |        | | Collection| |
-|      |<-----> |        |<-----| | Manager   | | query  | | Engine    | |
-|      |request/|        | store| +-----------+ |------->| +-----------+ |
-|      |respond |        |      |               |        |               |
-|      |        |        |      |               |        |               |
-+------+        +--------+      +---------------+        +---------------+
-
-
-                   Figure 2: ECP Collection Architecture
-
-   In Figure 2, any of the communications between the Posture Manager
-   and ECP components to the its left could be performed directly or
-   indirectly using a given message transfer mechanism.  For example,
-   the pub/sub interface between the Orchestrator and the Posture
-   Manager could be using a proprietary method or using
-   [I-D.ietf-mile-xmpp-grid] or some other pub/sub mechanism.  Similar
-   the store connection from the Posture Manager to the Repository could
-   be performed internally to a given implementation, via a RESTful API
-   invocation over HTTPS, or even over a pub/sub mechanism.
-
-   Our assertion is that the Evaluator, Respository, Orchestrator, and
-   Posture Manager all have the potential to represent SACM Components
-   with specific capability interfaces that can be logically specified,
-   then bound to one or more specific mechanisms (i.e.  RESTful API,
-   [I-D.ietf-mile-rolie], [I-D.ietf-mile-xmpp-grid], and so on).
-
-   An equally plausible way to view the ECP collection architecture
-   might be as depicted in Figure 3.
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 25, 2018                  [Page 4]
-
-Internet-Draft              SACM Architecture              November 2017
-
-
-                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
-Orchestrator     |                   +---------------+ |    +---------------+
- +--------+      |                   |               | |    |               |
- |        |      |                   | +-----------+ | |    | +-----------+ |
- |        |<------------------------>| | Posture   | | |    | | Posture   | |
- |        |      |           RESTful | | Validator | | |    | | Collector | |
- |        |      |           API     | +-----------+ | |    | +-----------+ |
- +--------+      |                   |      |        | |    |      |        |
-                 |                   |      |        | |    |      |        |
-Evaluator        | Repository        |      |        | |    |      |        |
-+------+         | +--------+        | +-----------+ |<---->| +-----------+ |
-|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
-|      |         | |        |        | | Collection| | |    | | Collection| |
-|      |<--------->|        |<-------| | Manager   | | |    | | Engine    | |
-|      |RESTful  | |        |Direct  | +-----------+ | |    | +-----------+ |
-|      |API      | |        |DB Conn |               | |    |               |
-|      |         | |        |        |               | |    |               |
-+------+         | +--------+        +---------------+ |    +---------------+
-                 |                                     |
-                 |            Posture Manager          |
-                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
-
-              Figure 3: Alternate ECP Collection Architecture
-
-   Here, the Posture Manager is the collection of Repository, Posture
-   Validator, and Posture Collection Manager.  An evaluator could
-   connect via a RESTful API, as could an Orchestrator.
 
 
 
@@ -268,16 +165,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 25, 2018                  [Page 5]
+Montville & Munyan        Expires May 26, 2018                  [Page 3]
 
 Internet-Draft              SACM Architecture              November 2017
 
@@ -303,15 +191,14 @@ Internet-Draft              SACM Architecture              November 2017
 |                      Collectors                         |
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 
-                      Figure 4: Detailed Architecture
+                      Figure 2: Detailed Architecture
 
-   In Figure 4, we have another view of the architecture, but one that
-   fosters the development of a pluggable ecosystem of cooperative
-   tools.  ECP is very relevant, but the interface bindings to things
-   like the Repository and Orchestrator are using
-   [I-D.ietf-mile-xmpp-grid].  Existing collection mechanisms can be
+   In Figure 2, we have a more detailed view of the architecture - one
+   that fosters the development of a pluggable ecosystem of cooperative
+   tools.  Existing collection mechanisms (ECP/SWIMA included) can be
    brought into this architecture by specifying the interface of the
-   collector and creating the XMPP-Grid Connector.
+   collector and creating the XMPP-Grid Connector.  Additionally, this
+   architecture does not preclude point-to-point interfaces.
 
 4.  A Word On SACM Components, Capabilities, and Interfaces
 
@@ -330,15 +217,15 @@ Internet-Draft              SACM Architecture              November 2017
    [RFC5023]), there is a more abstract way to look at ROLIE.  ROLIE
    provides notional workspaces and collections, and provides the
    concept of information categories and links.  Strictly speaking,
+   these are logical concepts independent of the RESTful binding ROLIE
 
 
 
-Montville & Munyan        Expires May 25, 2018                  [Page 6]
+Montville & Munyan        Expires May 26, 2018                  [Page 4]
 
 Internet-Draft              SACM Architecture              November 2017
 
 
-   these are logical concepts independent of the RESTful binding ROLIE
    specifies.  In other words, ROLIE binds a logical interface (i.e.
    GET workspace, GET collection, SET entry, and so on) to a specific
    mechanism (namely an ATOM Publication Protocol extension).  It is not
@@ -368,15 +255,15 @@ Internet-Draft              SACM Architecture              November 2017
 
 6.  Privacy Considerations
 
-   TBD
+   TODO
 
 7.  Security Considerations
 
-   TBD
+   TODO
 
 8.  IANA Considerations
 
-   TBD
+   TODO
 
 9.  Informative References
 
@@ -389,7 +276,8 @@ Internet-Draft              SACM Architecture              November 2017
 
 
 
-Montville & Munyan        Expires May 25, 2018                  [Page 7]
+
+Montville & Munyan        Expires May 26, 2018                  [Page 5]
 
 Internet-Draft              SACM Architecture              November 2017
 
@@ -430,25 +318,115 @@ Internet-Draft              SACM Architecture              November 2017
               DOI 10.17487/RFC8248, September 2017, <https://www.rfc-
               editor.org/info/rfc8248>.
 
-Appendix A.  Mapping to RFC8248
+Appendix A.  Endpoint Compliance Profile as a Collector
+
+   The SACM working group has accepted work on the Endpoint Compliance
+   Profile [I-D.ietf-sacm-ecp], which describes a collection
+   architecture and may be viewed as a collector coupled with a
+   collection-specific repository.
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires May 26, 2018                  [Page 6]
+
+Internet-Draft              SACM Architecture              November 2017
+
+
+                                 Posture Manager              Endpoint
+                Orchestrator    +---------------+        +---------------+
+                +--------+      |               |        |               |
+                |        |      | +-----------+ |        | +-----------+ |
+                |        |<---->| | Posture   | |        | | Posture   | |
+                |        | pub/ | | Validator | |        | | Collector | |
+                |        | sub  | +-----------+ |        | +-----------+ |
+                +--------+      |      |        |        |      |        |
+                                |      |        |        |      |        |
+Evaluator       Repository      |      |        |        |      |        |
++------+        +--------+      | +-----------+ |<-------| +-----------+ |
+|      |        |        |      | | Posture   | | report | | Posture   | |
+|      |        |        |      | | Collection| |        | | Collection| |
+|      |<-----> |        |<-----| | Manager   | | query  | | Engine    | |
+|      |request/|        | store| +-----------+ |------->| +-----------+ |
+|      |respond |        |      |               |        |               |
+|      |        |        |      |               |        |               |
++------+        +--------+      +---------------+        +---------------+
+
+
+                   Figure 3: ECP Collection Architecture
+
+   In Figure 3, any of the communications between the Posture Manager
+   and ECP components to the its left could be performed directly or
+   indirectly using a given message transfer mechanism.  For example,
+   the pub/sub interface between the Orchestrator and the Posture
+   Manager could be using a proprietary method or using
+   [I-D.ietf-mile-xmpp-grid] or some other pub/sub mechanism.  Similar
+   the store connection from the Posture Manager to the Repository could
+   be performed internally to a given implementation, via a RESTful API
+   invocation over HTTPS, or even over a pub/sub mechanism.
+
+   Our assertion is that the Evaluator, Respository, Orchestrator, and
+   Posture Manager all have the potential to represent SACM Components
+   with specific capability interfaces that can be logically specified,
+   then bound to one or more specific mechanisms (i.e.  RESTful API,
+   [I-D.ietf-mile-rolie], [I-D.ietf-mile-xmpp-grid], and so on).
+
+   An equally plausible way to view the ECP collection architecture
+   might be as depicted in Figure 4.
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires May 26, 2018                  [Page 7]
+
+Internet-Draft              SACM Architecture              November 2017
+
+
+                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator     |                   +---------------+ |    +---------------+
+ +--------+      |                   |               | |    |               |
+ |        |      |                   | +-----------+ | |    | +-----------+ |
+ |        |<------------------------>| | Posture   | | |    | | Posture   | |
+ |        |      |           RESTful | | Validator | | |    | | Collector | |
+ |        |      |           API     | +-----------+ | |    | +-----------+ |
+ +--------+      |                   |      |        | |    |      |        |
+                 |                   |      |        | |    |      |        |
+Evaluator        | Repository        |      |        | |    |      |        |
++------+         | +--------+        | +-----------+ |<---->| +-----------+ |
+|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
+|      |         | |        |        | | Collection| | |    | | Collection| |
+|      |<--------->|        |<-------| | Manager   | | |    | | Engine    | |
+|      |RESTful  | |        |Direct  | +-----------+ | |    | +-----------+ |
+|      |API      | |        |DB Conn |               | |    |               |
+|      |         | |        |        |               | |    |               |
++------+         | +--------+        +---------------+ |    +---------------+
+                 |                                     |
+                 |            Posture Manager          |
+                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+
+              Figure 4: Alternate ECP Collection Architecture
+
+   Here, the Posture Manager is the collection of Repository, Posture
+   Validator, and Posture Collection Manager.  An evaluator could
+   connect via a RESTful API, as could an Orchestrator.
+
+Appendix B.  Mapping to RFC8248
 
    TBD
 
 Authors' Addresses
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 25, 2018                  [Page 8]
-
-Internet-Draft              SACM Architecture              November 2017
-
 
    Adam W. Montville
    Center for Internet Security
@@ -457,6 +435,19 @@ Internet-Draft              SACM Architecture              November 2017
    USA
 
    Email: adam.w.montville@gmail.com
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires May 26, 2018                  [Page 8]
+
+Internet-Draft              SACM Architecture              November 2017
 
 
    Bill Munyan
@@ -501,4 +492,13 @@ Internet-Draft              SACM Architecture              November 2017
 
 
 
-Montville & Munyan        Expires May 25, 2018                  [Page 9]
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires May 26, 2018                  [Page 9]
