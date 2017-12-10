@@ -7,7 +7,7 @@ ipr: trust200902
 area: Security
 wg: SACM Working Group
 kw: Internet-Draft
-cat: info
+cat: std
 coding: us-ascii
 pi:
   toc: yes
@@ -51,14 +51,14 @@ informative:
 
 --- abstract
 
-This memo documents the notional Security Automation and Continuous Monitoring (SACM) architecture to be used by SACM participants when crafting SACM-related solutions. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{I-D.ietf-sacm-terminology}}.
+This memo documents the Security Automation and Continuous Monitoring (SACM) architecture to be used by SACM participants when crafting SACM-related solutions. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{I-D.ietf-sacm-terminology}}.
 
 --- middle
 
 # Introduction
-The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches typically thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that, in reality, these approaches complement each other to more completely meet the spirit of {{RFC8248}}.
+The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that, in reality, these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
 
-The authors explicitly recognize that some state collection mechanisms exist today, some do not, and some that do may need to be improved over time. The architecture described in this document seeks to accommodate this recognition by first defining a fairly generic abstract architecture, then making that architecture somewhat more concrete.
+The authors recognize that some state collection mechanisms exist today, some do not, and some that do may need to be improved over time. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
 
 ## Requirements notation
 
@@ -80,7 +80,7 @@ The architectural approach proposed herein recognizes existing state collection 
   A  |            B  |          C |               | Downstream Uses|
      |               |            |               | +-----------+  |
 +----v---------------v------------v-------+       | |Evaluations|  |
-|       Message Transfer System           <-------> +-----------+  |
+|             Message Transfer             <------> +-----------+  |
 +----------------^------------------------+     D | +---------+    |
                  |                                | |Analytics|    |
                  |                                | +---------+    |
@@ -90,9 +90,9 @@ The architectural approach proposed herein recognizes existing state collection 
          +-------^---------+                      +----------------+
                  |
                  |
-         +-------v-------+       NOTE: Some collection mechanisms
-         |   Collection  |             may already exist, whereas
-         |     System    |             others may not.
+         +-------v-------+       
+         |   Collection  |        
+         |     System    |          
          +---------------+
 
 ~~~~~~~~~~
@@ -100,7 +100,7 @@ The architectural approach proposed herein recognizes existing state collection 
 
 As shown in {{fig-notional}}, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. While not depicted, the message transfer system is expected to maximally align with the requirements described in {{RFC8248}}, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.
 
-Additionally, component-specific interfaces (i.e. such as A, B, C, and D in the figure above) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
+Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
 ~~~~~~~~~~
   +----------+      +------+   +------------+
@@ -151,7 +151,14 @@ TODO
 TODO
 
 # IANA Considerations
-TODO
+
+TODO: IANA tables can probably be used to make life a little easier. We would like a place to enumerate:
+
+* Capability/operation semantics
+* SACM Component implementation identifiers
+* SACM Component versions
+* Associations of SACM Components to Capabilities
+
 
 --- back
 
@@ -181,11 +188,11 @@ Evaluator       Repository      |      |        |        |      |        |
 ~~~~~~~~~~
 {: #fig-ecp title="ECP Collection Architecture"}
 
-In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to the its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{I-D.ietf-mile-xmpp-grid}} or some other pub/sub mechanism. Similar the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
+In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{I-D.ietf-mile-xmpp-grid}} or some other pub/sub mechanism. Similar the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
 
 Our assertion is that the Evaluator, Respository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific mechanisms (i.e. RESTful API, {{I-D.ietf-mile-rolie}}, {{I-D.ietf-mile-xmpp-grid}}, and so on).
 
-An equally plausible way to view the ECP collection architecture might be as depicted in {{fig-ecp-alternate}}.
+An equally plausible way to view the ECP collection architecture might be as depicted in {{fig-ecp-alternate-1}}.
 
 ~~~~~~~~~~
                  /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
@@ -210,9 +217,35 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  |            Posture Manager          |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 ~~~~~~~~~~
-{: #fig-ecp-alternate title="Alternate ECP Collection Architecture"}
+{: #fig-ecp-alternate-1 title="Alternate ECP Collection Architecture"}
 
-Here, the Posture Manager is the collection of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator.
+Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in {{fig-ecp-alternate-2}}, The Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.
+
+~~~~~~~~~~
+                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator     |                   +---------------+ |    +---------------+
+ +--------+      |                   |               | |    |               |
+ |        |      |                   | +-----------+ | |    | +-----------+ |
+ |        |<------------------------>| | Posture   | | |    | | Posture   | |
+ |        |      |         XMPP-Grid | | Validator | | |    | | Collector | |
+ |        |      |         Connector | +-----------+ | |    | +-----------+ |
+ +--------+      |                   |      |        | |    |      |        |
+                 |                   |      |        | |    |      |        |
+Evaluator        | Repository        |      |        | |    |      |        |
++------+         | +--------+        | +-----------+ |<---->| +-----------+ |
+|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
+|      |         | |        |        | | Collection| | |    | | Collection| |
+|      |<--------->|        |<-------| | Manager   | | |    | | Engine    | |
+|      |XMPP-Grid| |        |Direct  | +-----------+ | |    | +-----------+ |
+|      |Connector| |        |DB Conn |               | |    |               |
+|      |         | |        |        |               | |    |               |
++------+         | +--------+        +---------------+ |    +---------------+
+                 |                                     |
+                 |            Posture Manager          |
+                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+~~~~~~~~~~
+{: #fig-ecp-alternate-2 title="Alternate ECP Collection Architecture"}
 
 # Mapping to RFC8248
+
 TBD
