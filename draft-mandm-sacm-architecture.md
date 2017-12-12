@@ -58,7 +58,7 @@ This memo documents the Security Automation and Continuous Monitoring (SACM) arc
 # Introduction
 The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that, in reality, these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
 
-The authors recognize that some state collection mechanisms exist today, some do not, and some that do may need to be improved over time. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
+The authors recognize that some state collection mechanisms exist today, some do not, and of those that do, some may need to be improved. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
 
 ## Requirements notation
 
@@ -128,6 +128,8 @@ Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fi
 
 In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers.
 
+Each of the SACM Components listed depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
+
 # A Word On SACM Components, Capabilities, and Interfaces
 As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
 
@@ -151,13 +153,12 @@ TODO
 TODO
 
 # IANA Considerations
-
-TODO: IANA tables can probably be used to make life a little easier. We would like a place to enumerate:
+IANA tables can probably be used to make life a little easier. We would like a place to enumerate:
 
 * Capability/operation semantics
 * SACM Component implementation identifiers
 * SACM Component versions
-* Associations of SACM Components to Capabilities
+* Associations of SACM Components (and versions) to specific Capabilities
 
 
 --- back
