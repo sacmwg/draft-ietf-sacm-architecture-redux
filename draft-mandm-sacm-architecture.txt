@@ -4,8 +4,8 @@
 
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
-Intended status: Informational                                       CIS
-Expires: May 26, 2018                                  November 22, 2017
+Intended status: Standards Track                                     CIS
+Expires: June 16, 2018                                 December 13, 2017
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -13,11 +13,11 @@ Expires: May 26, 2018                                  November 22, 2017
 
 Abstract
 
-   This memo documents the notional Security Automation and Continuous
-   Monitoring (SACM) architecture to be used by SACM participants when
-   crafting SACM-related solutions.  The SACM architecture is predicated
-   upon information gleaned from SACM Use Cases and Requirements
-   ([RFC7632] and [RFC8248] respectively) and terminology as found in
+   This memo documents the Security Automation and Continuous Monitoring
+   (SACM) architecture to be used by SACM participants when crafting
+   SACM-related solutions.  The SACM architecture is predicated upon
+   information gleaned from SACM Use Cases and Requirements ([RFC7632]
+   and [RFC8248] respectively) and terminology as found in
    [I-D.ietf-sacm-terminology].
 
 Status of This Memo
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 26, 2018.
+   This Internet-Draft will expire on June 16, 2018.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montville & Munyan        Expires May 26, 2018                  [Page 1]
+Montville & Munyan        Expires June 16, 2018                 [Page 1]
 
-Internet-Draft              SACM Architecture              November 2017
+Internet-Draft              SACM Architecture              December 2017
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -64,34 +64,62 @@ Internet-Draft              SACM Architecture              November 2017
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   2
-   3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   3
+   2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   3
+   3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   3
    4.  A Word On SACM Components, Capabilities, and Interfaces . . .   4
+     4.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .   5
+     4.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .   5
+     4.3.  Datastream Collection . . . . . . . . . . . . . . . . . .   5
+     4.4.  Network Configuration Collection  . . . . . . . . . . . .   5
    5.  Enumerating SACM components . . . . . . . . . . . . . . . . .   5
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   5
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   5
-   9.  Informative References  . . . . . . . . . . . . . . . . . . .   5
-   Appendix A.  Endpoint Compliance Profile as a Collector . . . . .   6
-   Appendix B.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .   8
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   6
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Appendix A.  Endpoint Compliance Profile as a Collector . . . . .   7
+   Appendix B.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  10
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
 1.  Introduction
 
    The SACM working group has experienced some difficulty gaining
    consensus around a single architectural vision.  Our hope is that
    this document begins to alleviate this.  We have recognized viability
-   in approaches typically thought to be at odds with each other -
+   in approaches sometimes thought to be at odds with each other -
    specifically [I-D.ietf-sacm-ecp] and [I-D.ietf-mile-xmpp-grid].  We
    believe that, in reality, these approaches complement each other to
-   more completely meet the spirit of [RFC8248].
+   more completely meet the spirit of [RFC7632] and [RFC8248].
 
-   The authors explicitly recognize that some state collection
-   mechanisms exist today, some do not, and some that do may need to be
-   improved over time.  The architecture described in this document
-   seeks to accommodate this recognition by first defining a fairly
+   The authors recognize that some state collection mechanisms exist
+   today, some do not, and of those that do, some may need to be
+   improved.  The authors further recognize that SACM ideally intends to
+   enable a cooperative ecosystem of tools from disparate sources with
+   minimal operator configuration.  The architecture described in this
+   document seeks to accommodate these recognitions by first defining a
    generic abstract architecture, then making that architecture somewhat
    more concrete.
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 2]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
+1.1.  Requirements notation
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in RFC
+   2119, BCP 14 [RFC2119].
 
 2.  Terms and Definitions
 
@@ -104,23 +132,13 @@ Table of Contents
    collection mechanisms and makes every attempt to respect [RFC7632]
    and [RFC8248].
 
-
-
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 2]
-
-Internet-Draft              SACM Architecture              November 2017
-
-
    +----------+      +------+   +------------+
    |Repository|      |Policy|   |Orchestrator|
    +----^-----+      +--^---+   +----^-------+       +----------------+
      A  |            B  |          C |               | Downstream Uses|
         |               |            |               | +-----------+  |
    +----v---------------v------------v-------+       | |Evaluations|  |
-   |       Message Transfer System           <-------> +-----------+  |
+   |             Message Transfer            <-------> +-----------+  |
    +----------------^------------------------+     D | +---------+    |
                     |                                | |Analytics|    |
                     |                                | +---------+    |
@@ -130,9 +148,9 @@ Internet-Draft              SACM Architecture              November 2017
             +-------^---------+                      +----------------+
                     |
                     |
-            +-------v-------+       NOTE: Some collection mechanisms
-            |   Collection  |             may already exist, whereas
-            |     System    |             others may not.
+            +-------v-------+
+            |   Collection  |
+            |     System    |
             +---------------+
 
 
@@ -145,30 +163,17 @@ Internet-Draft              SACM Architecture              November 2017
    means that the message transfer system will support brokered (i.e.
    point-to-point) and proxied data exchange.
 
-   Additionally, component-specific interfaces (i.e. such as A, B, C,
-   and D in the figure above) are expected to be specified logically
-   then bound to one or more specific implementations.  This should be
-   done for each capability related to the given SACM Component.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 3]
+Montville & Munyan        Expires June 16, 2018                 [Page 3]
 
-Internet-Draft              SACM Architecture              November 2017
+Internet-Draft              SACM Architecture              December 2017
 
+
+   Additionally, component-specific interfaces (i.e. such as A, B, C,
+   and D in Figure 1) are expected to be specified logically then bound
+   to one or more specific implementations.  This should be done for
+   each capability related to the given SACM Component.
 
   +----------+      +------+   +------------+
   |Repository|      |Policy|   |Orchestrator|
@@ -197,8 +202,14 @@ Internet-Draft              SACM Architecture              November 2017
    that fosters the development of a pluggable ecosystem of cooperative
    tools.  Existing collection mechanisms (ECP/SWIMA included) can be
    brought into this architecture by specifying the interface of the
-   collector and creating the XMPP-Grid Connector.  Additionally, this
-   architecture does not preclude point-to-point interfaces.
+   collector and creating the XMPP-Grid Connector.  Additionally, while
+   not directly depicted in Figure 2, this architecture does not
+   preclude point-to-point interfaces.  In fact,
+   [I-D.ietf-mile-xmpp-grid] provides brokering capabilities to
+   facilitate such point-to-point data transfers.
+
+   Each of the SACM Components listed depicted in Figure 2 may be a
+   Provider, a Consumer, or both, depending on the circumstance.
 
 4.  A Word On SACM Components, Capabilities, and Interfaces
 
@@ -207,8 +218,20 @@ Internet-Draft              SACM Architecture              November 2017
    or more specific capabilities.  Interacting with these capabilities
    will require at least two levels of interface specification.  The
    first is a logical interface specification, and the second is at
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 4]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
    least one binding to a specific transfer mechanism, where the
    preferred transfer mechanism would be XMPP-grid.
+
+   The scenarios described in this section are informational.
+
+4.1.  Policy Services
 
    Consider a policy server conforming to [I-D.ietf-mile-rolie].
    [I-D.ietf-mile-rolie] describes a RESTful way based on the ATOM
@@ -218,20 +241,24 @@ Internet-Draft              SACM Architecture              November 2017
    provides notional workspaces and collections, and provides the
    concept of information categories and links.  Strictly speaking,
    these are logical concepts independent of the RESTful binding ROLIE
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 4]
-
-Internet-Draft              SACM Architecture              November 2017
-
-
    specifies.  In other words, ROLIE binds a logical interface (i.e.
    GET workspace, GET collection, SET entry, and so on) to a specific
    mechanism (namely an ATOM Publication Protocol extension).  It is not
    inconceivable to believe there could be a different interface
    mechanism, or a connector, providing these same operations using
    XMPP-Grid as the transfer mechanism.
+
+4.2.  Software Inventory
+
+   TODO: Add ECP/SWIMA here.
+
+4.3.  Datastream Collection
+
+   TODO: Add SCAP datastream colleciton here.
+
+4.4.  Network Configuration Collection
+
+   TODO: Add YANG Push here.
 
 5.  Enumerating SACM components
 
@@ -246,6 +273,14 @@ Internet-Draft              SACM Architecture              November 2017
    o  Software Inventory Repository
 
    o  Configuration Policy Repository
+
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 5]
+
+Internet-Draft              SACM Architecture              December 2017
+
 
    o  Configuration State Repository
 
@@ -263,29 +298,45 @@ Internet-Draft              SACM Architecture              November 2017
 
 8.  IANA Considerations
 
-   TODO
+   IANA tables can probably be used to make life a little easier.  We
+   would like a place to enumerate:
 
-9.  Informative References
+   o  Capability/operation semantics
+
+   o  SACM Component implementation identifiers
+
+   o  SACM Component versions
+
+   o  Associations of SACM Components (and versions) to specific
+      Capabilities
+
+9.  References
+
+9.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
+
+9.2.  Informative References
 
    [I-D.ietf-mile-rolie]
               Field, J., Banghart, S., and D. Waltermire, "Resource-
               Oriented Lightweight Information Exchange", draft-ietf-
-              mile-rolie-14 (work in progress), November 2017.
-
-
-
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 5]
-
-Internet-Draft              SACM Architecture              November 2017
-
+              mile-rolie-15 (work in progress), December 2017.
 
    [I-D.ietf-mile-xmpp-grid]
               Cam-Winget, N., Appala, S., Pope, S., and P. Saint-Andre,
               "Using XMPP for Security Information Exchange", draft-
               ietf-mile-xmpp-grid-04 (work in progress), October 2017.
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 6]
+
+Internet-Draft              SACM Architecture              December 2017
+
 
    [I-D.ietf-sacm-ecp]
               Haynes, D., Fitzgerald-McKay, J., and L. Lorenzin,
@@ -299,10 +350,10 @@ Internet-Draft              SACM Architecture              November 2017
               patnc-01 (work in progress), March 2017.
 
    [I-D.ietf-sacm-terminology]
-              Birkholz, H., Lu, J., Strassner, J., and N. Cam-Winget,
-              "Security Automation and Continuous Monitoring (SACM)
-              Terminology", draft-ietf-sacm-terminology-13 (work in
-              progress), July 2017.
+              Birkholz, H., Lu, J., Strassner, J., Cam-Winget, N., and
+              A. Montville, "Security Automation and Continuous
+              Monitoring (SACM) Terminology", draft-ietf-sacm-
+              terminology-14 (work in progress), December 2017.
 
    [RFC5023]  Gregorio, J., Ed. and B. de hOra, Ed., "The Atom
               Publishing Protocol", RFC 5023, DOI 10.17487/RFC5023,
@@ -333,9 +384,14 @@ Appendix A.  Endpoint Compliance Profile as a Collector
 
 
 
-Montville & Munyan        Expires May 26, 2018                  [Page 6]
+
+
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 7]
 
-Internet-Draft              SACM Architecture              November 2017
+Internet-Draft              SACM Architecture              December 2017
 
 
                                  Posture Manager              Endpoint
@@ -361,7 +417,7 @@ Evaluator       Repository      |      |        |        |      |        |
                    Figure 3: ECP Collection Architecture
 
    In Figure 3, any of the communications between the Posture Manager
-   and ECP components to the its left could be performed directly or
+   and ECP components to its left could be performed directly or
    indirectly using a given message transfer mechanism.  For example,
    the pub/sub interface between the Orchestrator and the Posture
    Manager could be using a proprietary method or using
@@ -389,9 +445,9 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-Montville & Munyan        Expires May 26, 2018                  [Page 7]
+Montville & Munyan        Expires June 16, 2018                 [Page 8]
 
-Internet-Draft              SACM Architecture              November 2017
+Internet-Draft              SACM Architecture              December 2017
 
 
                  /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
@@ -418,9 +474,61 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
               Figure 4: Alternate ECP Collection Architecture
 
-   Here, the Posture Manager is the collection of Repository, Posture
+   Here, the Posture Manager is the aggregate of Repository, Posture
    Validator, and Posture Collection Manager.  An evaluator could
-   connect via a RESTful API, as could an Orchestrator.
+   connect via a RESTful API, as could an Orchestrator.  Alternatively,
+   and as depicted in Figure 5, The Posture Manager could interact with
+   other security ecosystem components using an XMPP-Grid connector.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires June 16, 2018                 [Page 9]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
+                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator     |                   +---------------+ |    +---------------+
+ +--------+      |                   |               | |    |               |
+ |        |      |                   | +-----------+ | |    | +-----------+ |
+ |        |<------------------------>| | Posture   | | |    | | Posture   | |
+ |        |      |         XMPP-Grid | | Validator | | |    | | Collector | |
+ |        |      |         Connector | +-----------+ | |    | +-----------+ |
+ +--------+      |                   |      |        | |    |      |        |
+                 |                   |      |        | |    |      |        |
+Evaluator        | Repository        |      |        | |    |      |        |
++------+         | +--------+        | +-----------+ |<---->| +-----------+ |
+|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
+|      |         | |        |        | | Collection| | |    | | Collection| |
+|      |<--------->|        |<-------| | Manager   | | |    | | Engine    | |
+|      |XMPP-Grid| |        |Direct  | +-----------+ | |    | +-----------+ |
+|      |Connector| |        |DB Conn |               | |    |               |
+|      |         | |        |        |               | |    |               |
++------+         | +--------+        +---------------+ |    +---------------+
+                 |                                     |
+                 |            Posture Manager          |
+                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+
+              Figure 5: Alternate ECP Collection Architecture
 
 Appendix B.  Mapping to RFC8248
 
@@ -437,19 +545,6 @@ Authors' Addresses
    Email: adam.w.montville@gmail.com
 
 
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 8]
-
-Internet-Draft              SACM Architecture              November 2017
-
-
    Bill Munyan
    Center for Internet Security
    31 Tech Valley Drive
@@ -462,43 +557,4 @@ Internet-Draft              SACM Architecture              November 2017
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires May 26, 2018                  [Page 9]
+Montville & Munyan        Expires June 16, 2018                [Page 10]

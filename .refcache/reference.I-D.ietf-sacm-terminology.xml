@@ -20,13 +20,17 @@
     <organization />
 </author>
 
-<date month='July' day='3' year='2017' />
+<author initials='A' surname='Montville' fullname='Adam Montville'>
+    <organization />
+</author>
+
+<date month='December' day='10' year='2017' />
 
 <abstract><t>This memo documents terminology used in the documents produced by SACM (Security Automation and Continuous Monitoring).</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-terminology-13' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-terminology-14' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-terminology-13.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-terminology-14.txt' />
 </reference>

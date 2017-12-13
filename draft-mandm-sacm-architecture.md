@@ -37,6 +37,7 @@ author:
   country: USA
 
 normative:
+  RFC2119:
 
 informative:
   I-D.ietf-sacm-terminology:
@@ -80,7 +81,7 @@ The architectural approach proposed herein recognizes existing state collection 
   A  |            B  |          C |               | Downstream Uses|
      |               |            |               | +-----------+  |
 +----v---------------v------------v-------+       | |Evaluations|  |
-|             Message Transfer             <------> +-----------+  |
+|             Message Transfer            <-------> +-----------+  |
 +----------------^------------------------+     D | +---------+    |
                  |                                | |Analytics|    |
                  |                                | +---------+    |
@@ -133,7 +134,19 @@ Each of the SACM Components listed depicted in {{fig-detailed}} may be a Provide
 # A Word On SACM Components, Capabilities, and Interfaces
 As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
 
+The scenarios described in this section are informational.
+
+## Policy Services
 Consider a policy server conforming to {{I-D.ietf-mile-rolie}}. {{I-D.ietf-mile-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE. ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension). It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.
+
+## Software Inventory
+TODO: Add ECP/SWIMA here.
+
+## Datastream Collection
+TODO: Add SCAP datastream colleciton here.
+
+## Network Configuration Collection
+TODO: Add YANG Push here.
 
 # Enumerating SACM components
 The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Components.
