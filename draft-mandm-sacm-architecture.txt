@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: June 16, 2018                                 December 13, 2017
+Expires: June 18, 2018                                 December 15, 2017
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 16, 2018.
+   This Internet-Draft will expire on June 18, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan        Expires June 16, 2018                 [Page 1]
+Montville & Munyan        Expires June 18, 2018                 [Page 1]
 
 Internet-Draft              SACM Architecture              December 2017
 
@@ -64,24 +64,23 @@ Internet-Draft              SACM Architecture              December 2017
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-     1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   3
+     1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   2
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   3
    3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   3
    4.  A Word On SACM Components, Capabilities, and Interfaces . . .   4
      4.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .   5
      4.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .   5
-     4.3.  Datastream Collection . . . . . . . . . . . . . . . . . .   5
-     4.4.  Network Configuration Collection  . . . . . . . . . . . .   5
-   5.  Enumerating SACM components . . . . . . . . . . . . . . . . .   5
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   6
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   6
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .   6
-   Appendix A.  Endpoint Compliance Profile as a Collector . . . . .   7
-   Appendix B.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
+     4.3.  Datastream Collection . . . . . . . . . . . . . . . . . .   8
+     4.4.  Network Configuration Collection  . . . . . . . . . . . .   8
+   5.  Enumerating SACM components . . . . . . . . . . . . . . . . .   9
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   9
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  10
+   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
 
 1.  Introduction
 
@@ -102,22 +101,19 @@ Table of Contents
    generic abstract architecture, then making that architecture somewhat
    more concrete.
 
-
-
-
-
-
-
-
-Montville & Munyan        Expires June 16, 2018                 [Page 2]
-
-Internet-Draft              SACM Architecture              December 2017
-
-
 1.1.  Requirements notation
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+
+
+
+
+Montville & Munyan        Expires June 18, 2018                 [Page 2]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
    "OPTIONAL" in this document are to be interpreted as described in RFC
    2119, BCP 14 [RFC2119].
 
@@ -163,15 +159,17 @@ Internet-Draft              SACM Architecture              December 2017
    means that the message transfer system will support brokered (i.e.
    point-to-point) and proxied data exchange.
 
+   Additionally, component-specific interfaces (i.e. such as A, B, C,
+   and D in Figure 1) are expected to be specified logically then bound
 
 
-Montville & Munyan        Expires June 16, 2018                 [Page 3]
+
+
+Montville & Munyan        Expires June 18, 2018                 [Page 3]
 
 Internet-Draft              SACM Architecture              December 2017
 
 
-   Additionally, component-specific interfaces (i.e. such as A, B, C,
-   and D in Figure 1) are expected to be specified logically then bound
    to one or more specific implementations.  This should be done for
    each capability related to the given SACM Component.
 
@@ -218,18 +216,19 @@ Internet-Draft              SACM Architecture              December 2017
    or more specific capabilities.  Interacting with these capabilities
    will require at least two levels of interface specification.  The
    first is a logical interface specification, and the second is at
+   least one binding to a specific transfer mechanism, where the
+   preferred transfer mechanism would be XMPP-grid.
 
 
 
-Montville & Munyan        Expires June 16, 2018                 [Page 4]
+Montville & Munyan        Expires June 18, 2018                 [Page 4]
 
 Internet-Draft              SACM Architecture              December 2017
 
 
-   least one binding to a specific transfer mechanism, where the
-   preferred transfer mechanism would be XMPP-grid.
-
-   The scenarios described in this section are informational.
+   The scenarios described in this section are informational, but may be
+   taken as guidance or a starting point for further specifications
+   concerning each of these areas.
 
 4.1.  Policy Services
 
@@ -237,139 +236,20 @@ Internet-Draft              SACM Architecture              December 2017
    [I-D.ietf-mile-rolie] describes a RESTful way based on the ATOM
    Publishing Protocol ([RFC5023]) to find specific data collections.
    While this represents a specific binding (i.e.  RESTful API based on
-   [RFC5023]), there is a more abstract way to look at ROLIE.  ROLIE
-   provides notional workspaces and collections, and provides the
+   [RFC5023]), there is a more abstract way to look at ROLIE.
+
+   ROLIE provides notional workspaces and collections, and provides the
    concept of information categories and links.  Strictly speaking,
    these are logical concepts independent of the RESTful binding ROLIE
    specifies.  In other words, ROLIE binds a logical interface (i.e.
    GET workspace, GET collection, SET entry, and so on) to a specific
-   mechanism (namely an ATOM Publication Protocol extension).  It is not
-   inconceivable to believe there could be a different interface
-   mechanism, or a connector, providing these same operations using
-   XMPP-Grid as the transfer mechanism.
+   mechanism (namely an ATOM Publication Protocol extension).
+
+   It is not inconceivable to believe there could be a different
+   interface mechanism, or a connector, providing these same operations
+   using XMPP-Grid as the transfer mechanism.
 
 4.2.  Software Inventory
-
-   TODO: Add ECP/SWIMA here.
-
-4.3.  Datastream Collection
-
-   TODO: Add SCAP datastream colleciton here.
-
-4.4.  Network Configuration Collection
-
-   TODO: Add YANG Push here.
-
-5.  Enumerating SACM components
-
-   The list of SACM Components is theoretically endless, but we need to
-   start somewhere.  The following is a list of suggested SACM
-   Components.
-
-   o  Vulnerability Information Repository
-
-   o  Software Inventory Collector
-
-   o  Software Inventory Repository
-
-   o  Configuration Policy Repository
-
-
-
-
-Montville & Munyan        Expires June 16, 2018                 [Page 5]
-
-Internet-Draft              SACM Architecture              December 2017
-
-
-   o  Configuration State Repository
-
-   o  Vulnerability Management Orchestrator
-
-   o  Configuration Management Orchestrator
-
-6.  Privacy Considerations
-
-   TODO
-
-7.  Security Considerations
-
-   TODO
-
-8.  IANA Considerations
-
-   IANA tables can probably be used to make life a little easier.  We
-   would like a place to enumerate:
-
-   o  Capability/operation semantics
-
-   o  SACM Component implementation identifiers
-
-   o  SACM Component versions
-
-   o  Associations of SACM Components (and versions) to specific
-      Capabilities
-
-9.  References
-
-9.1.  Normative References
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
-              editor.org/info/rfc2119>.
-
-9.2.  Informative References
-
-   [I-D.ietf-mile-rolie]
-              Field, J., Banghart, S., and D. Waltermire, "Resource-
-              Oriented Lightweight Information Exchange", draft-ietf-
-              mile-rolie-15 (work in progress), December 2017.
-
-   [I-D.ietf-mile-xmpp-grid]
-              Cam-Winget, N., Appala, S., Pope, S., and P. Saint-Andre,
-              "Using XMPP for Security Information Exchange", draft-
-              ietf-mile-xmpp-grid-04 (work in progress), October 2017.
-
-
-
-Montville & Munyan        Expires June 16, 2018                 [Page 6]
-
-Internet-Draft              SACM Architecture              December 2017
-
-
-   [I-D.ietf-sacm-ecp]
-              Haynes, D., Fitzgerald-McKay, J., and L. Lorenzin,
-              "Endpoint Compliance Profile", draft-ietf-sacm-ecp-00
-              (work in progress), September 2017.
-
-   [I-D.ietf-sacm-nea-swid-patnc]
-              Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
-              J. Fitzgerald-McKay, "Software Inventory Message and
-              Attributes (SWIMA) for PA-TNC", draft-ietf-sacm-nea-swid-
-              patnc-01 (work in progress), March 2017.
-
-   [I-D.ietf-sacm-terminology]
-              Birkholz, H., Lu, J., Strassner, J., Cam-Winget, N., and
-              A. Montville, "Security Automation and Continuous
-              Monitoring (SACM) Terminology", draft-ietf-sacm-
-              terminology-14 (work in progress), December 2017.
-
-   [RFC5023]  Gregorio, J., Ed. and B. de hOra, Ed., "The Atom
-              Publishing Protocol", RFC 5023, DOI 10.17487/RFC5023,
-              October 2007, <https://www.rfc-editor.org/info/rfc5023>.
-
-   [RFC7632]  Waltermire, D. and D. Harrington, "Endpoint Security
-              Posture Assessment: Enterprise Use Cases", RFC 7632,
-              DOI 10.17487/RFC7632, September 2015, <https://www.rfc-
-              editor.org/info/rfc7632>.
-
-   [RFC8248]  Cam-Winget, N. and L. Lorenzin, "Security Automation and
-              Continuous Monitoring (SACM) Requirements", RFC 8248,
-              DOI 10.17487/RFC8248, September 2017, <https://www.rfc-
-              editor.org/info/rfc8248>.
-
-Appendix A.  Endpoint Compliance Profile as a Collector
 
    The SACM working group has accepted work on the Endpoint Compliance
    Profile [I-D.ietf-sacm-ecp], which describes a collection
@@ -389,7 +269,15 @@ Appendix A.  Endpoint Compliance Profile as a Collector
 
 
 
-Montville & Munyan        Expires June 16, 2018                 [Page 7]
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires June 18, 2018                 [Page 5]
 
 Internet-Draft              SACM Architecture              December 2017
 
@@ -421,12 +309,13 @@ Evaluator       Repository      |      |        |        |      |        |
    indirectly using a given message transfer mechanism.  For example,
    the pub/sub interface between the Orchestrator and the Posture
    Manager could be using a proprietary method or using
-   [I-D.ietf-mile-xmpp-grid] or some other pub/sub mechanism.  Similar
-   the store connection from the Posture Manager to the Repository could
-   be performed internally to a given implementation, via a RESTful API
-   invocation over HTTPS, or even over a pub/sub mechanism.
+   [I-D.ietf-mile-xmpp-grid] or some other pub/sub mechanism.
+   Similarly, the store connection from the Posture Manager to the
+   Repository could be performed internally to a given implementation,
+   via a RESTful API invocation over HTTPS, or even over a pub/sub
+   mechanism.
 
-   Our assertion is that the Evaluator, Respository, Orchestrator, and
+   Our assertion is that the Evaluator, Repository, Orchestrator, and
    Posture Manager all have the potential to represent SACM Components
    with specific capability interfaces that can be logically specified,
    then bound to one or more specific mechanisms (i.e.  RESTful API,
@@ -444,8 +333,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-
-Montville & Munyan        Expires June 16, 2018                 [Page 8]
+Montville & Munyan        Expires June 18, 2018                 [Page 6]
 
 Internet-Draft              SACM Architecture              December 2017
 
@@ -477,7 +365,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
    Here, the Posture Manager is the aggregate of Repository, Posture
    Validator, and Posture Collection Manager.  An evaluator could
    connect via a RESTful API, as could an Orchestrator.  Alternatively,
-   and as depicted in Figure 5, The Posture Manager could interact with
+   and as depicted in Figure 5, the Posture Manager could interact with
    other security ecosystem components using an XMPP-Grid connector.
 
 
@@ -501,7 +389,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan        Expires June 16, 2018                 [Page 9]
+Montville & Munyan        Expires June 18, 2018                 [Page 7]
 
 Internet-Draft              SACM Architecture              December 2017
 
@@ -530,7 +418,161 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
               Figure 5: Alternate ECP Collection Architecture
 
-Appendix B.  Mapping to RFC8248
+4.3.  Datastream Collection
+
+   The NIST 800-126 specification, also known as SCAP 1.2, provides
+   details on what it calls a "datastream".  A datastream is an
+   encapsulation of all the content required to, for example, perform
+   configuration assessment on a given endpoint.  This includes CPE,
+   OVAL, XCCDF, and CPE-Dictionary information.  Datastreams were
+   intended to provide an envelope enabling transfer of SCAP data more
+   easily.
+
+   What NIST 800-126 did not do is specify the interface for finding or
+   acquiring this information.  Discovering the actual resources for
+   this information could be done via ROLIE, as described in the
+   Software Inventory section above, but it could also be performed on
+   an existing basis.  Or, perhaps this is an opportunity to provide
+   results produced by SCAP-validated tooling to a larger ecosystem.
+
+4.4.  Network Configuration Collection
+
+   Henk's draft illustrates a SACM Component incorporating a YANG Push
+   client function and an XMPP-grid publisher function.  Henk's draft
+   further states "the output of the YANG Push client function is
+   encapsulated in a SACM Content Element envelope, which is again
+   encapsulated in a SACM statement envelope" which are published,
+
+
+
+Montville & Munyan        Expires June 18, 2018                 [Page 8]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
+   essentially, via an XMPP-Grid Connector for SACM Components also part
+   of the XMPP-Grid.
+
+   This is a specific example of an existing collection mechanism being
+   adapted to the XMPP-Grid message transfer system.
+
+5.  Enumerating SACM components
+
+   The list of SACM Components is theoretically endless, but we need to
+   start somewhere.  The following is a list of suggested SACM
+   Components.
+
+   o  Vulnerability Information Repository
+
+   o  Software Inventory Collector
+
+   o  Software Inventory Repository
+
+   o  Configuration Policy Repository
+
+   o  Configuration State Repository
+
+   o  Vulnerability Management Orchestrator
+
+   o  Configuration Management Orchestrator
+
+   o  State Collectors
+
+6.  Privacy Considerations
+
+   TODO
+
+7.  Security Considerations
+
+   TODO
+
+8.  IANA Considerations
+
+   IANA tables can probably be used to make life a little easier.  We
+   would like a place to enumerate:
+
+   o  Capability/operation semantics
+
+   o  SACM Component implementation identifiers
+
+   o  SACM Component versions
+
+
+
+
+
+Montville & Munyan        Expires June 18, 2018                 [Page 9]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
+   o  Associations of SACM Components (and versions) to specific
+      Capabilities
+
+9.  References
+
+9.1.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
+
+9.2.  Informative References
+
+   [I-D.ietf-mile-rolie]
+              Field, J., Banghart, S., and D. Waltermire, "Resource-
+              Oriented Lightweight Information Exchange", draft-ietf-
+              mile-rolie-15 (work in progress), December 2017.
+
+   [I-D.ietf-mile-xmpp-grid]
+              Cam-Winget, N., Appala, S., Pope, S., and P. Saint-Andre,
+              "Using XMPP for Security Information Exchange", draft-
+              ietf-mile-xmpp-grid-04 (work in progress), October 2017.
+
+   [I-D.ietf-sacm-ecp]
+              Haynes, D., Fitzgerald-McKay, J., and L. Lorenzin,
+              "Endpoint Compliance Profile", draft-ietf-sacm-ecp-00
+              (work in progress), September 2017.
+
+   [I-D.ietf-sacm-nea-swid-patnc]
+              Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
+              J. Fitzgerald-McKay, "Software Inventory Message and
+              Attributes (SWIMA) for PA-TNC", draft-ietf-sacm-nea-swid-
+              patnc-01 (work in progress), March 2017.
+
+   [I-D.ietf-sacm-terminology]
+              Birkholz, H., Lu, J., Strassner, J., Cam-Winget, N., and
+              A. Montville, "Security Automation and Continuous
+              Monitoring (SACM) Terminology", draft-ietf-sacm-
+              terminology-14 (work in progress), December 2017.
+
+   [RFC5023]  Gregorio, J., Ed. and B. de hOra, Ed., "The Atom
+              Publishing Protocol", RFC 5023, DOI 10.17487/RFC5023,
+              October 2007, <https://www.rfc-editor.org/info/rfc5023>.
+
+
+
+
+
+
+
+Montville & Munyan        Expires June 18, 2018                [Page 10]
+
+Internet-Draft              SACM Architecture              December 2017
+
+
+   [RFC7632]  Waltermire, D. and D. Harrington, "Endpoint Security
+              Posture Assessment: Enterprise Use Cases", RFC 7632,
+              DOI 10.17487/RFC7632, September 2015, <https://www.rfc-
+              editor.org/info/rfc7632>.
+
+   [RFC8248]  Cam-Winget, N. and L. Lorenzin, "Security Automation and
+              Continuous Monitoring (SACM) Requirements", RFC 8248,
+              DOI 10.17487/RFC8248, September 2017, <https://www.rfc-
+              editor.org/info/rfc8248>.
+
+Appendix A.  Mapping to RFC8248
 
    TBD
 
@@ -557,4 +599,18 @@ Authors' Addresses
 
 
 
-Montville & Munyan        Expires June 16, 2018                [Page 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires June 18, 2018                [Page 11]
