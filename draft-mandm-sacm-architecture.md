@@ -50,6 +50,7 @@ informative:
   RFC8248:
   RFC5023:
   #NIST800126:
+  #NISTIR7694:
 
 
 --- abstract
@@ -230,9 +231,11 @@ Evaluator        | Repository        |      |        | |    |      |        |
 {: #fig-ecp-alternate-2 title="Alternate ECP Collection Architecture"}
 
 ## Datastream Collection
-The NIST 800-126 specification, also known as SCAP  1.2, provides details on what it calls a "datastream". A datastream is an encapsulation of all the content required to, for example, perform configuration assessment on a given endpoint. This includes CPE, OVAL, XCCDF, and CPE-Dictionary information. Datastreams were intended to provide an envelope enabling transfer of SCAP data more easily.
+The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
 
-What NIST 800-126 did not do is specify the interface for finding or acquiring this information. Discovering the actual resources for this information could be done via ROLIE, as described in the Software Inventory section above, but it could also be performed on an existing basis. Or, perhaps this is an opportunity to provide results produced by SCAP-validated tooling to a larger ecosystem.
+The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
+
+What NIST 800-126 did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
 
 ## Network Configuration Collection
 Henk's draft illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. Henk's draft further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
