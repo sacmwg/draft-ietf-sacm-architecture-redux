@@ -60,9 +60,9 @@ This memo documents the Security Automation and Continuous Monitoring (SACM) arc
 --- middle
 
 # Introduction
-The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that, in reality, these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
+The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
 
-The authors recognize that some state collection mechanisms exist today, some do not, and of those that do, some may need to be improved. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
+The authors recognize that some state collection mechanisms exist today, some do not, and of those that do, some may need to be improved. In other words, we can gain the most advantage by supporting a variety of collection mechanisms, including those that exist today. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
 
 ## Requirements notation
 
@@ -174,7 +174,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{I-D.ietf-mile-xmpp-grid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
 
-Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific mechanisms (i.e. RESTful API, {{I-D.ietf-mile-rolie}}, {{I-D.ietf-mile-xmpp-grid}}, and so on).
+Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{I-D.ietf-mile-rolie}}, {{I-D.ietf-mile-xmpp-grid}}, and so on).
 
 An equally plausible way to view the ECP collection architecture might be as depicted in {{fig-ecp-alternate-1}}.
 

@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: July 8, 2018                                   January 04, 2018
+Expires: July 16, 2018                                  January 12, 2018
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 8, 2018.
+   This Internet-Draft will expire on July 16, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 1]
+Montville & Munyan        Expires July 16, 2018                 [Page 1]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -64,7 +64,7 @@ Internet-Draft              SACM Architecture               January 2018
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-     1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   2
+     1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   3
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   3
    3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   3
    4.  A Word On SACM Components, Capabilities, and Interfaces . . .   4
@@ -89,31 +89,35 @@ Table of Contents
    this document begins to alleviate this.  We have recognized viability
    in approaches sometimes thought to be at odds with each other -
    specifically [I-D.ietf-sacm-ecp] and [I-D.ietf-mile-xmpp-grid].  We
-   believe that, in reality, these approaches complement each other to
-   more completely meet the spirit of [RFC7632] and [RFC8248].
+   believe that these approaches complement each other to more
+   completely meet the spirit of [RFC7632] and [RFC8248].
 
    The authors recognize that some state collection mechanisms exist
    today, some do not, and of those that do, some may need to be
-   improved.  The authors further recognize that SACM ideally intends to
-   enable a cooperative ecosystem of tools from disparate sources with
-   minimal operator configuration.  The architecture described in this
-   document seeks to accommodate these recognitions by first defining a
-   generic abstract architecture, then making that architecture somewhat
-   more concrete.
+   improved.  In other words, we can gain the most advantage by
+   supporting a variety of collection mechanisms, including those that
+   exist today.  The authors further recognize that SACM ideally intends
+   to enable a cooperative ecosystem of tools from disparate sources
+   with minimal operator configuration.  The architecture described in
+   this document seeks to accommodate these recognitions by first
+   defining a generic abstract architecture, then making that
+   architecture somewhat more concrete.
+
+
+
+
+
+
+
+Montville & Munyan        Expires July 16, 2018                 [Page 2]
+
+Internet-Draft              SACM Architecture               January 2018
+
 
 1.1.  Requirements notation
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-
-
-
-
-Montville & Munyan        Expires July 8, 2018                  [Page 2]
-
-Internet-Draft              SACM Architecture               January 2018
-
-
    "OPTIONAL" in this document are to be interpreted as described in RFC
    2119, BCP 14 [RFC2119].
 
@@ -159,17 +163,15 @@ Internet-Draft              SACM Architecture               January 2018
    means that the message transfer system will support brokered (i.e.
    point-to-point) and proxied data exchange.
 
-   Additionally, component-specific interfaces (i.e. such as A, B, C,
-   and D in Figure 1) are expected to be specified logically then bound
 
 
-
-
-Montville & Munyan        Expires July 8, 2018                  [Page 3]
+Montville & Munyan        Expires July 16, 2018                 [Page 3]
 
 Internet-Draft              SACM Architecture               January 2018
 
 
+   Additionally, component-specific interfaces (i.e. such as A, B, C,
+   and D in Figure 1) are expected to be specified logically then bound
    to one or more specific implementations.  This should be done for
    each capability related to the given SACM Component.
 
@@ -216,15 +218,16 @@ Internet-Draft              SACM Architecture               January 2018
    or more specific capabilities.  Interacting with these capabilities
    will require at least two levels of interface specification.  The
    first is a logical interface specification, and the second is at
-   least one binding to a specific transfer mechanism, where the
-   preferred transfer mechanism would be XMPP-grid.
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 4]
+Montville & Munyan        Expires July 16, 2018                 [Page 4]
 
 Internet-Draft              SACM Architecture               January 2018
 
+
+   least one binding to a specific transfer mechanism, where the
+   preferred transfer mechanism would be XMPP-grid.
 
    The scenarios described in this section are informational, but may be
    taken as guidance or a starting point for further specifications
@@ -274,10 +277,7 @@ Internet-Draft              SACM Architecture               January 2018
 
 
 
-
-
-
-Montville & Munyan        Expires July 8, 2018                  [Page 5]
+Montville & Munyan        Expires July 16, 2018                 [Page 5]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -318,8 +318,8 @@ Evaluator       Repository      |      |        |        |      |        |
    Our assertion is that the Evaluator, Repository, Orchestrator, and
    Posture Manager all have the potential to represent SACM Components
    with specific capability interfaces that can be logically specified,
-   then bound to one or more specific mechanisms (i.e.  RESTful API,
-   [I-D.ietf-mile-rolie], [I-D.ietf-mile-xmpp-grid], and so on).
+   then bound to one or more specific transfer mechanisms (i.e.  RESTful
+   API, [I-D.ietf-mile-rolie], [I-D.ietf-mile-xmpp-grid], and so on).
 
    An equally plausible way to view the ECP collection architecture
    might be as depicted in Figure 4.
@@ -333,7 +333,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 6]
+Montville & Munyan        Expires July 16, 2018                 [Page 6]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -389,7 +389,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 7]
+Montville & Munyan        Expires July 16, 2018                 [Page 7]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -445,7 +445,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 8]
+Montville & Munyan        Expires July 16, 2018                 [Page 8]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -501,7 +501,7 @@ Internet-Draft              SACM Architecture               January 2018
 
 
 
-Montville & Munyan        Expires July 8, 2018                  [Page 9]
+Montville & Munyan        Expires July 16, 2018                 [Page 9]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -557,7 +557,7 @@ Internet-Draft              SACM Architecture               January 2018
 
 
 
-Montville & Munyan        Expires July 8, 2018                 [Page 10]
+Montville & Munyan        Expires July 16, 2018                [Page 10]
 
 Internet-Draft              SACM Architecture               January 2018
 
@@ -613,4 +613,4 @@ Authors' Addresses
 
 
 
-Montville & Munyan        Expires July 8, 2018                 [Page 11]
+Montville & Munyan        Expires July 16, 2018                [Page 11]
