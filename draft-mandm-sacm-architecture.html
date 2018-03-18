@@ -299,8 +299,8 @@ address {
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-1-12" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-00" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-3-18" />
   <meta name="dct.abstract" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture to be used by SACM participants when crafting SACM-related solutions. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements (" />
   <meta name="description" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture to be used by SACM participants when crafting SACM-related solutions. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements (" />
 
@@ -324,8 +324,8 @@ address {
   <td class="right">CIS</td>
 </tr>
 <tr>
-  <td class="left">Expires: July 16, 2018</td>
-  <td class="right">January 12, 2018</td>
+  <td class="left">Expires: September 19, 2018</td>
+  <td class="right">March 18, 2018</td>
 </tr>
 
     	
@@ -333,7 +333,7 @@ address {
   </table>
 
   <p class="title">Security Automation and Continuous Monitoring (SACM) Architecture<br />
-  <span class="filename">draft-mandm-sacm-architecture-latest</span></p>
+  <span class="filename">draft-mandm-sacm-architecture-00</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
@@ -345,7 +345,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on July 16, 2018.</p>
+<p>This Internet-Draft will expire on September 19, 2018.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -442,7 +442,21 @@ address {
 </pre>
 <p class="figure">Figure 2: Detailed Architecture</p>
 <p id="rfc.section.3.p.4">In <a href="#fig-detailed">Figure 2</a>, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in <a href="#fig-detailed">Figure 2</a>, this architecture does not preclude point-to-point interfaces. In fact, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> provides brokering capabilities to facilitate such point-to-point data transfers.</p>
-<p id="rfc.section.3.p.5">Each of the SACM Components listed depicted in <a href="#fig-detailed">Figure 2</a> may be a Provider, a Consumer, or both, depending on the circumstance.</p>
+<p id="rfc.section.3.p.5">Each of the SACM Components depicted in <a href="#fig-detailed">Figure 2</a> may be a Provider, a Consumer, or both, depending on the circumstance.</p>
+<p id="rfc.section.3.p.6">At this point, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. Specifically, the authors would propose work to extend (or modify) <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> to include additional XEPs, possibly the following:</p>
+<p/>
+
+<ul>
+  <li>Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.</li>
+  <li>Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.</li>
+  <li>Ad Hoc Commands (XEP-0050): May be usable for simple orchestration (i.e. "do assessment").</li>
+  <li>File Repository and Sharing (XEP-0214): Appears to be needed for handling large amounts of data (if not fragmenting).</li>
+  <li>Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.</li>
+  <li>PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.</li>
+  <li>Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.</li>
+  <li>PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server</li>
+  <li>Easy User Onboarding (XEP-0253): Simplified client registration</li>
+</ul>
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#a-word-on-sacm-components-capabilities-and-interfaces" id="a-word-on-sacm-components-capabilities-and-interfaces">A Word On SACM Components, Capabilities, and Interfaces</a></h1>
 <p id="rfc.section.4.p.1">As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.</p>
 <p id="rfc.section.4.p.2">The scenarios described in this section are informational, but may be taken as guidance or a starting point for further specifications concerning each of these areas.</p>
@@ -532,6 +546,33 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 5: Alternate ECP Collection Architecture</p>
+<p id="rfc.section.4.2.p.6">There is yet another alternative (see <a href="#fig-ecp-alternate-3">Figure 6</a>) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.</p>
+<div id="rfc.figure.6"/>
+<div id="fig-ecp-alternate-3"/>
+<pre>
+                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator     |                   +---------------+ |       +---------------+
+ +--------+      |                   |               | |       |               |
+ |        |      |                   | +-----------+ | |       | +-----------+ |
+ |        |&lt;------------------------&gt;| | Posture   | | |       | | Posture   | |
+ |        |      |         XMPP-Grid | | Validator | | |       | | Collector | |
+ |        |      |         Connector | +-----------+ | |       | +-----------+ |
+ +--------+      |                   |      |        | |       |      |        |
+                 |                   |      |        | |       |      |        |
+Evaluator        | Repository        |      |        | |       |      |        |
++------+         | +--------+        | +-----------+ |&lt;-------&gt;| +-----------+ |
+|      |         | |        |        | | Posture   | |XMPP-Grid| | Posture   | |
+|      |         | |        |        | | Collection| | |   Conn| | Collection| |
+|      |&lt;---------&gt;|        |&lt;-------| | Manager   | | |       | | Engine    | |
+|      |XMPP-Grid| |        |Direct  | +-----------+ | |       | +-----------+ |
+|      |Connector| |        |DB Conn |               | |       |               |
+|      |         | |        |        |               | |       |               |
++------+         | +--------+        +---------------+ |       +---------------+
+                 |                                     |
+                 |            Posture Manager          |
+                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+</pre>
+<p class="figure">Figure 6: Yet Another Alternate ECP Collection Architecture</p>
 <h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#datastream-collection" id="datastream-collection">Datastream Collection</a></h1>
 <p id="rfc.section.4.3.p.1">The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.</p>
 <p id="rfc.section.4.3.p.2">The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.</p>
@@ -592,13 +633,13 @@ Evaluator        | Repository        |      |        | |    |      |        |
       <td class="reference">
         <b id="I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</b>
       </td>
-      <td class="top"><a>Cam-Winget, N.</a>, <a>Appala, S.</a>, <a>Pope, S.</a> and <a>P. Saint-Andre</a>, "<a href="http://tools.ietf.org/html/draft-ietf-mile-xmpp-grid-04">Using XMPP for Security Information Exchange</a>", Internet-Draft draft-ietf-mile-xmpp-grid-04, October 2017.</td>
+      <td class="top"><a>Cam-Winget, N.</a>, <a>Appala, S.</a>, <a>Pope, S.</a> and <a>P. Saint-Andre</a>, "<a href="http://tools.ietf.org/html/draft-ietf-mile-xmpp-grid-05">Using XMPP for Security Information Exchange</a>", Internet-Draft draft-ietf-mile-xmpp-grid-05, February 2018.</td>
     </tr>
     <tr>
       <td class="reference">
         <b id="I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</b>
       </td>
-      <td class="top"><a>Haynes, D.</a>, <a>Fitzgerald-McKay, J.</a> and <a>L. Lorenzin</a>, "<a href="http://tools.ietf.org/html/draft-ietf-sacm-ecp-00">Endpoint Compliance Profile</a>", Internet-Draft draft-ietf-sacm-ecp-00, September 2017.</td>
+      <td class="top"><a>Haynes, D.</a>, <a>Fitzgerald-McKay, J.</a> and <a>L. Lorenzin</a>, "<a href="http://tools.ietf.org/html/draft-ietf-sacm-ecp-01">Endpoint Compliance Profile</a>", Internet-Draft draft-ietf-sacm-ecp-01, January 2018.</td>
     </tr>
     <tr>
       <td class="reference">

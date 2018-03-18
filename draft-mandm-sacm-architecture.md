@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-mandm-sacm-architecture-latest
+docname: draft-mandm-sacm-architecture-00
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -130,9 +130,19 @@ Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fi
 ~~~~~~~~~~
 {: #fig-detailed title="Detailed Architecture"}
 
-In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers.
+In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers. Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
 
-Each of the SACM Components listed depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
+At this point, {{I-D.ietf-mile-xmpp-grid}} does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. Specifically, the authors would propose work to extend (or modify) {{I-D.ietf-mile-xmpp-grid}} to include additional XEPs, possibly the following:
+
+* Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.
+* Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.
+* Ad Hoc Commands (XEP-0050): May be usable for simple orchestration (i.e. "do assessment").
+* File Repository and Sharing (XEP-0214): Appears to be needed for handling large amounts of data (if not fragmenting).
+* Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.
+* PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
+* Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
+* PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
+* Easy User Onboarding (XEP-0253): Simplified client registration
 
 # A Word On SACM Components, Capabilities, and Interfaces
 As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
@@ -230,6 +240,33 @@ Evaluator        | Repository        |      |        | |    |      |        |
 ~~~~~~~~~~
 {: #fig-ecp-alternate-2 title="Alternate ECP Collection Architecture"}
 
+There is yet another alternative (see {{fig-ecp-alternate-3}}) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.
+
+~~~~~~~~~~
+                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator     |                   +---------------+ |       +---------------+
+ +--------+      |                   |               | |       |               |
+ |        |      |                   | +-----------+ | |       | +-----------+ |
+ |        |<------------------------>| | Posture   | | |       | | Posture   | |
+ |        |      |         XMPP-Grid | | Validator | | |       | | Collector | |
+ |        |      |         Connector | +-----------+ | |       | +-----------+ |
+ +--------+      |                   |      |        | |       |      |        |
+                 |                   |      |        | |       |      |        |
+Evaluator        | Repository        |      |        | |       |      |        |
++------+         | +--------+        | +-----------+ |<------->| +-----------+ |
+|      |         | |        |        | | Posture   | |XMPP-Grid| | Posture   | |
+|      |         | |        |        | | Collection| | |   Conn| | Collection| |
+|      |<--------->|        |<-------| | Manager   | | |       | | Engine    | |
+|      |XMPP-Grid| |        |Direct  | +-----------+ | |       | +-----------+ |
+|      |Connector| |        |DB Conn |               | |       |               |
+|      |         | |        |        |               | |       |               |
++------+         | +--------+        +---------------+ |       +---------------+
+                 |                                     |
+                 |            Posture Manager          |
+                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+~~~~~~~~~~
+{: #fig-ecp-alternate-3 title="Yet Another Alternate ECP Collection Architecture"}
+
 ## Datastream Collection
 The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
 
@@ -242,8 +279,6 @@ Henk's draft illustrates a SACM Component incorporating a YANG Push client funct
 
 This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.
 
-
-
 # Enumerating SACM components
 The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Components.
 
@@ -255,6 +290,9 @@ The list of SACM Components is theoretically endless, but we need to start somew
 * Vulnerability Management Orchestrator
 * Configuration Management Orchestrator
 * State Collectors
+
+# Open Questions
+TBD
 
 # Privacy Considerations
 TODO

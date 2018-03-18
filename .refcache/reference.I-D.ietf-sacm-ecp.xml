@@ -16,15 +16,15 @@
     <organization />
 </author>
 
-<date month='September' day='8' year='2017' />
+<date month='January' day='30' year='2018' />
 
-<abstract><t>This document specifies the Endpoint Compliance Profile, a high-level specification that describes a specific combination and application of IETF and TNC protocols and interfaces specifically designed to support ongoing assessment of endpoint posture and the controlled exposure of collected posture information to appropriate security applications.  This document is a subset of the Trusted Computing Group's Endpoint Compliance Profile Version 1.0 specification.</t></abstract>
+<abstract><t>This document specifies the Endpoint Compliance Profile, a high-level specification that describes a specific combination and application of IETF and TNC protocols and interfaces specifically designed to support ongoing assessment of endpoint posture and the controlled exposure of collected posture information to appropriate security applications.  This document is an extension of the Trusted Computing Group's Endpoint Compliance Profile Version 1.0 specification.</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-00' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-01' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-00.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-01.txt' />
 <format type='PDF'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-00.pdf' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-01.pdf' />
 </reference>
