@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-mandm-sacm-architecture-00
+docname: draft-mandm-sacm-architecture-01
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -45,17 +45,48 @@ informative:
   I-D.ietf-sacm-ecp:
   I-D.ietf-mile-xmpp-grid:
   I-D.ietf-mile-rolie:
-  #I-D.draft-birkholz-sacm-yang-content:
+  draft-birkholz-sacm-yang-content:
+    target: https://tools.ietf.org/html/draft-birkholz-sacm-yang-content-01
+    title: YANG subscribed notifications via SACM Statements
+    author:
+    - ins: H. Birkholz
+      name: Henk Birkholz
+    - ins: N. Cam-Winget
+      name: Nancy Cam-Winget
   RFC7632:
   RFC8248:
   RFC5023:
-  #NIST800126:
-  #NISTIR7694:
+  NIST800126:
+    target: https://csrc.nist.gov/publications/detail/sp/800-126/rev-3/final
+    title: SP 800-126 Rev. 3 - The Technical Specification for the Security Content Automation Protocol (SCAP) - SCAP Version 1.3
+    author:
+    - ins: D. Waltermire
+      name: David Waltermire
+    - ins: S. Quinn
+      name: Stephen Quinn
+    - ins: H. Booth
+      name: Harold Booth
+    - ins: K. Scarfone
+      name: Karen Scarfone
+    - ins: D. Prisaca
+      name: Dragos Prisaca
+    date: February 2018
+  NISTIR7694:
+    target: https://csrc.nist.gov/publications/detail/nistir/7694/final
+    title: NISTIR 7694 Specification for Asset Reporting Format 1.1
+    author:
+    - ins: A. Halbardier
+      name: Adam Halbardier
+    - ins: D. Waltermire
+      name: David Waltermire
+    - ins: M. Johnson
+      name: Mark Johnson
+
 
 
 --- abstract
 
-This memo documents the Security Automation and Continuous Monitoring (SACM) architecture to be used by SACM participants when crafting SACM-related solutions. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{I-D.ietf-sacm-terminology}}.
+This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on {{I-D.ietf-mile-xmpp-grid}}. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{I-D.ietf-sacm-terminology}}.
 
 --- middle
 
@@ -106,6 +137,12 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
+## SACM Roles and Functions
+TBD
+
+## XMPP-based Solution
+In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers. Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
+
 ~~~~~~~~~~
   +----------+      +------+   +------------+
   |Repository|      |Policy|   |Orchestrator|
@@ -129,8 +166,6 @@ Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fi
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 ~~~~~~~~~~
 {: #fig-detailed title="Detailed Architecture"}
-
-In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers. Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
 
 At this point, {{I-D.ietf-mile-xmpp-grid}} does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. Specifically, the authors would propose work to extend (or modify) {{I-D.ietf-mile-xmpp-grid}} to include additional XEPs, possibly the following:
 
@@ -283,14 +318,14 @@ There is yet another alternative (see {{fig-ecp-alternate-3}}) that could be wor
 {: #fig-ecp-alternate-3 title="Yet Another Alternate ECP Collection Architecture"}
 
 ### Datastream Collection
-The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
+{{NIST800126}}, also known as SCAP 1.3, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
 
-The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
+The {{NIST800126}} specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in {{NISTIR7694}}.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
 
-What NIST 800-126 did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
+What {{NIST800126}}did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
 
 ### Network Configuration Collection
-Henk's draft illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. Henk's draft further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
+{{draft-birkholz-sacm-yang-content}} illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. {{draft-birkholz-sacm-yang-content}} further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
 
 This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.
 
