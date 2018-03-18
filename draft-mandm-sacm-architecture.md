@@ -144,19 +144,37 @@ At this point, {{I-D.ietf-mile-xmpp-grid}} does not provide enough of a start fo
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
 * Easy User Onboarding (XEP-0253): Simplified client registration
 
-# A Word On SACM Components, Capabilities, and Interfaces
+# SACM Components, Capabilities, and Interfaces
 As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
 
 The scenarios described in this section are informational, but may be taken as guidance or a starting point for further specifications concerning each of these areas.
 
-## Policy Services
+## Components
+The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Component classes and specializations.
+
+* Repository
+  * Vulnerability Information Repository
+  * Software Inventory Repository
+  * Configuration Policy Repository
+  * Configuration State Repository
+* Collector
+  * Software Inventory Collector
+  * State Collector
+* Evaluator
+  * Software Inventory Evaluator
+  * State Evaluator
+* Orchestrator
+  * Vulnerability Management Orchestrator
+  * Configuration Management Orchestrator
+
+### Policy Services
 Consider a policy server conforming to {{I-D.ietf-mile-rolie}}. {{I-D.ietf-mile-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.
 
 ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).
 
 It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.
 
-## Software Inventory
+### Software Inventory
 The SACM working group has accepted work on the Endpoint Compliance Profile {{I-D.ietf-sacm-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
 
 ~~~~~~~~~~
@@ -243,53 +261,44 @@ Evaluator        | Repository        |      |        | |    |      |        |
 There is yet another alternative (see {{fig-ecp-alternate-3}}) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.
 
 ~~~~~~~~~~
-                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
-Orchestrator     |                   +---------------+ |       +---------------+
- +--------+      |                   |               | |       |               |
- |        |      |                   | +-----------+ | |       | +-----------+ |
- |        |<------------------------>| | Posture   | | |       | | Posture   | |
- |        |      |         XMPP-Grid | | Validator | | |       | | Collector | |
- |        |      |         Connector | +-----------+ | |       | +-----------+ |
- +--------+      |                   |      |        | |       |      |        |
-                 |                   |      |        | |       |      |        |
-Evaluator        | Repository        |      |        | |       |      |        |
-+------+         | +--------+        | +-----------+ |<------->| +-----------+ |
-|      |         | |        |        | | Posture   | |XMPP-Grid| | Posture   | |
-|      |         | |        |        | | Collection| | |   Conn| | Collection| |
-|      |<--------->|        |<-------| | Manager   | | |       | | Engine    | |
-|      |XMPP-Grid| |        |Direct  | +-----------+ | |       | +-----------+ |
-|      |Connector| |        |DB Conn |               | |       |               |
-|      |         | |        |        |               | |       |               |
-+------+         | +--------+        +---------------+ |       +---------------+
-                 |                                     |
-                 |            Posture Manager          |
-                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+                                                             Endpoint
+  Posture Manager     +------------+      +------+      +---------------+
++----------------+    |Orchestrator+------+      |      |               |
+| +------------+ |    +------------+      |      |      | +-----------+ |
+| | Posture    | |                        |      |      | | Posture   | |
+| | Validator  | |    +------------+      |XMPP  |      | | Collector | |
+| +------------+ |    | Evaluator  |------|GRID  |      | +-----------+ |
+|       |        |    +------------+      |CNTRLR|      |      |        |
+| +------------+ |                        |      |      | +-----------+ |
+| | Posture    | |                        |      |      | | Posture   | |
+| | Collection | |                        |      |      | | Collection| |
+| | Manager    | |------------------------|      |------| | Engine    | |
+| +------------+ |                        |      |      | +-----------+ |
+|                |                        +------+      +---------------+
+| +------------+ |
+| | Repository | |
+| +------------+ |
++----------------+                        
 ~~~~~~~~~~
 {: #fig-ecp-alternate-3 title="Yet Another Alternate ECP Collection Architecture"}
 
-## Datastream Collection
+### Datastream Collection
 The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
 
 The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
 
 What NIST 800-126 did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
 
-## Network Configuration Collection
+### Network Configuration Collection
 Henk's draft illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. Henk's draft further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
 
 This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.
 
-# Enumerating SACM components
-The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Components.
+## Capabilities
+Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.
 
-* Vulnerability Information Repository
-* Software Inventory Collector
-* Software Inventory Repository
-* Configuration Policy Repository
-* Configuration State Repository
-* Vulnerability Management Orchestrator
-* Configuration Management Orchestrator
-* State Collectors
+## Interfaces
+TBD
 
 # Open Questions
 TBD

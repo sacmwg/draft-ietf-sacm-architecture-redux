@@ -279,12 +279,15 @@ address {
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements notation"/>
 <link href="#rfc.section.2" rel="Chapter" title="2 Terms and Definitions"/>
 <link href="#rfc.section.3" rel="Chapter" title="3 The Basic Architecture"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 A Word On SACM Components, Capabilities, and Interfaces"/>
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Policy Services"/>
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Software Inventory"/>
-<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Datastream Collection"/>
-<link href="#rfc.section.4.4" rel="Chapter" title="4.4 Network Configuration Collection"/>
-<link href="#rfc.section.5" rel="Chapter" title="5 Enumerating SACM components"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 SACM Components, Capabilities, and Interfaces"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Components"/>
+<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Policy Services"/>
+<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Software Inventory"/>
+<link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 Datastream Collection"/>
+<link href="#rfc.section.4.1.4" rel="Chapter" title="4.1.4 Network Configuration Collection"/>
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Capabilities"/>
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Interfaces"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Open Questions"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Privacy Considerations"/>
 <link href="#rfc.section.7" rel="Chapter" title="7 Security Considerations"/>
 <link href="#rfc.section.8" rel="Chapter" title="8 IANA Considerations"/>
@@ -361,12 +364,15 @@ address {
 <ul><li>1.1.   <a href="#rfc.section.1.1">Requirements notation</a></li>
 </ul><li>2.   <a href="#rfc.section.2">Terms and Definitions</a></li>
 <li>3.   <a href="#rfc.section.3">The Basic Architecture</a></li>
-<li>4.   <a href="#rfc.section.4">A Word On SACM Components, Capabilities, and Interfaces</a></li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">Policy Services</a></li>
-<li>4.2.   <a href="#rfc.section.4.2">Software Inventory</a></li>
-<li>4.3.   <a href="#rfc.section.4.3">Datastream Collection</a></li>
-<li>4.4.   <a href="#rfc.section.4.4">Network Configuration Collection</a></li>
-</ul><li>5.   <a href="#rfc.section.5">Enumerating SACM components</a></li>
+<li>4.   <a href="#rfc.section.4">SACM Components, Capabilities, and Interfaces</a></li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Components</a></li>
+<ul><li>4.1.1.   <a href="#rfc.section.4.1.1">Policy Services</a></li>
+<li>4.1.2.   <a href="#rfc.section.4.1.2">Software Inventory</a></li>
+<li>4.1.3.   <a href="#rfc.section.4.1.3">Datastream Collection</a></li>
+<li>4.1.4.   <a href="#rfc.section.4.1.4">Network Configuration Collection</a></li>
+</ul><li>4.2.   <a href="#rfc.section.4.2">Capabilities</a></li>
+<li>4.3.   <a href="#rfc.section.4.3">Interfaces</a></li>
+</ul><li>5.   <a href="#rfc.section.5">Open Questions</a></li>
 <li>6.   <a href="#rfc.section.6">Privacy Considerations</a></li>
 <li>7.   <a href="#rfc.section.7">Security Considerations</a></li>
 <li>8.   <a href="#rfc.section.8">IANA Considerations</a></li>
@@ -441,9 +447,8 @@ address {
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 2: Detailed Architecture</p>
-<p id="rfc.section.3.p.4">In <a href="#fig-detailed">Figure 2</a>, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in <a href="#fig-detailed">Figure 2</a>, this architecture does not preclude point-to-point interfaces. In fact, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> provides brokering capabilities to facilitate such point-to-point data transfers.</p>
-<p id="rfc.section.3.p.5">Each of the SACM Components depicted in <a href="#fig-detailed">Figure 2</a> may be a Provider, a Consumer, or both, depending on the circumstance.</p>
-<p id="rfc.section.3.p.6">At this point, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. Specifically, the authors would propose work to extend (or modify) <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> to include additional XEPs, possibly the following:</p>
+<p id="rfc.section.3.p.4">In <a href="#fig-detailed">Figure 2</a>, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in <a href="#fig-detailed">Figure 2</a>, this architecture does not preclude point-to-point interfaces. In fact, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> provides brokering capabilities to facilitate such point-to-point data transfers. Additionally, each of the SACM Components depicted in <a href="#fig-detailed">Figure 2</a> may be a Provider, a Consumer, or both, depending on the circumstance.</p>
+<p id="rfc.section.3.p.5">At this point, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. Specifically, the authors would propose work to extend (or modify) <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> to include additional XEPs, possibly the following:</p>
 <p/>
 
 <ul>
@@ -457,15 +462,25 @@ address {
   <li>PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server</li>
   <li>Easy User Onboarding (XEP-0253): Simplified client registration</li>
 </ul>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#a-word-on-sacm-components-capabilities-and-interfaces" id="a-word-on-sacm-components-capabilities-and-interfaces">A Word On SACM Components, Capabilities, and Interfaces</a></h1>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sacm-components-capabilities-and-interfaces" id="sacm-components-capabilities-and-interfaces">SACM Components, Capabilities, and Interfaces</a></h1>
 <p id="rfc.section.4.p.1">As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.</p>
 <p id="rfc.section.4.p.2">The scenarios described in this section are informational, but may be taken as guidance or a starting point for further specifications concerning each of these areas.</p>
-<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#policy-services" id="policy-services">Policy Services</a></h1>
-<p id="rfc.section.4.1.p.1">Consider a policy server conforming to <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a>. <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a> describes a RESTful way based on the ATOM Publishing Protocol (<a href="#RFC5023">[RFC5023]</a>) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on <a href="#RFC5023">[RFC5023]</a>), there is a more abstract way to look at ROLIE.</p>
-<p id="rfc.section.4.1.p.2">ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).</p>
-<p id="rfc.section.4.1.p.3">It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.</p>
-<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#software-inventory" id="software-inventory">Software Inventory</a></h1>
-<p id="rfc.section.4.2.p.1">The SACM working group has accepted work on the Endpoint Compliance Profile <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.</p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#components" id="components">Components</a></h1>
+<p id="rfc.section.4.1.p.1">The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Component classes and specializations.</p>
+<p/>
+
+<ul>
+  <li>Repository <ul><li>Vulnerability Information Repository</li><li>Software Inventory Repository</li><li>Configuration Policy Repository</li><li>Configuration State Repository</li></ul></li>
+  <li>Collector <ul><li>Software Inventory Collector</li><li>State Collector</li></ul></li>
+  <li>Evaluator <ul><li>Software Inventory Evaluator</li><li>State Evaluator</li></ul></li>
+  <li>Orchestrator <ul><li>Vulnerability Management Orchestrator</li><li>Configuration Management Orchestrator</li></ul></li>
+</ul>
+<h1 id="rfc.section.4.1.1"><a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#policy-services" id="policy-services">Policy Services</a></h1>
+<p id="rfc.section.4.1.1.p.1">Consider a policy server conforming to <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a>. <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a> describes a RESTful way based on the ATOM Publishing Protocol (<a href="#RFC5023">[RFC5023]</a>) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on <a href="#RFC5023">[RFC5023]</a>), there is a more abstract way to look at ROLIE.</p>
+<p id="rfc.section.4.1.1.p.2">ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).</p>
+<p id="rfc.section.4.1.1.p.3">It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.</p>
+<h1 id="rfc.section.4.1.2"><a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#software-inventory" id="software-inventory">Software Inventory</a></h1>
+<p id="rfc.section.4.1.2.p.1">The SACM working group has accepted work on the Endpoint Compliance Profile <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.</p>
 <div id="rfc.figure.3"/>
 <div id="fig-ecp"/>
 <pre>
@@ -490,9 +505,9 @@ Evaluator       Repository      |      |        |        |      |        |
 
 </pre>
 <p class="figure">Figure 3: ECP Collection Architecture</p>
-<p id="rfc.section.4.2.p.2">In <a href="#fig-ecp">Figure 3</a>, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
-<p id="rfc.section.4.2.p.3">Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a>, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a>, and so on).</p>
-<p id="rfc.section.4.2.p.4">An equally plausible way to view the ECP collection architecture might be as depicted in <a href="#fig-ecp-alternate-1">Figure 4</a>.</p>
+<p id="rfc.section.4.1.2.p.2">In <a href="#fig-ecp">Figure 3</a>, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
+<p id="rfc.section.4.1.2.p.3">Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a>, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a>, and so on).</p>
+<p id="rfc.section.4.1.2.p.4">An equally plausible way to view the ECP collection architecture might be as depicted in <a href="#fig-ecp-alternate-1">Figure 4</a>.</p>
 <div id="rfc.figure.4"/>
 <div id="fig-ecp-alternate-1"/>
 <pre>
@@ -519,7 +534,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 4: Alternate ECP Collection Architecture</p>
-<p id="rfc.section.4.2.p.5">Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in <a href="#fig-ecp-alternate-2">Figure 5</a>, the Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.</p>
+<p id="rfc.section.4.1.2.p.5">Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in <a href="#fig-ecp-alternate-2">Figure 5</a>, the Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.</p>
 <div id="rfc.figure.5"/>
 <div id="fig-ecp-alternate-2"/>
 <pre>
@@ -546,54 +561,43 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 5: Alternate ECP Collection Architecture</p>
-<p id="rfc.section.4.2.p.6">There is yet another alternative (see <a href="#fig-ecp-alternate-3">Figure 6</a>) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.</p>
+<p id="rfc.section.4.1.2.p.6">There is yet another alternative (see <a href="#fig-ecp-alternate-3">Figure 6</a>) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.</p>
 <div id="rfc.figure.6"/>
 <div id="fig-ecp-alternate-3"/>
 <pre>
-                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
-Orchestrator     |                   +---------------+ |       +---------------+
- +--------+      |                   |               | |       |               |
- |        |      |                   | +-----------+ | |       | +-----------+ |
- |        |&lt;------------------------&gt;| | Posture   | | |       | | Posture   | |
- |        |      |         XMPP-Grid | | Validator | | |       | | Collector | |
- |        |      |         Connector | +-----------+ | |       | +-----------+ |
- +--------+      |                   |      |        | |       |      |        |
-                 |                   |      |        | |       |      |        |
-Evaluator        | Repository        |      |        | |       |      |        |
-+------+         | +--------+        | +-----------+ |&lt;-------&gt;| +-----------+ |
-|      |         | |        |        | | Posture   | |XMPP-Grid| | Posture   | |
-|      |         | |        |        | | Collection| | |   Conn| | Collection| |
-|      |&lt;---------&gt;|        |&lt;-------| | Manager   | | |       | | Engine    | |
-|      |XMPP-Grid| |        |Direct  | +-----------+ | |       | +-----------+ |
-|      |Connector| |        |DB Conn |               | |       |               |
-|      |         | |        |        |               | |       |               |
-+------+         | +--------+        +---------------+ |       +---------------+
-                 |                                     |
-                 |            Posture Manager          |
-                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+                                                             Endpoint
+  Posture Manager     +------------+      +------+      +---------------+
++----------------+    |Orchestrator+------+      |      |               |
+| +------------+ |    +------------+      |      |      | +-----------+ |
+| | Posture    | |                        |      |      | | Posture   | |
+| | Validator  | |    +------------+      |XMPP  |      | | Collector | |
+| +------------+ |    | Evaluator  |------|GRID  |      | +-----------+ |
+|       |        |    +------------+      |CNTRLR|      |      |        |
+| +------------+ |                        |      |      | +-----------+ |
+| | Posture    | |                        |      |      | | Posture   | |
+| | Collection | |                        |      |      | | Collection| |
+| | Manager    | |------------------------|      |------| | Engine    | |
+| +------------+ |                        |      |      | +-----------+ |
+|                |                        +------+      +---------------+
+| +------------+ |
+| | Repository | |
+| +------------+ |
++----------------+                        
 </pre>
 <p class="figure">Figure 6: Yet Another Alternate ECP Collection Architecture</p>
-<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#datastream-collection" id="datastream-collection">Datastream Collection</a></h1>
-<p id="rfc.section.4.3.p.1">The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.</p>
-<p id="rfc.section.4.3.p.2">The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.</p>
-<p id="rfc.section.4.3.p.3">What NIST 800-126 did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.</p>
-<h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#network-configuration-collection" id="network-configuration-collection">Network Configuration Collection</a></h1>
-<p id="rfc.section.4.4.p.1">Henk's draft illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. Henk's draft further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.</p>
-<p id="rfc.section.4.4.p.2">This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.</p>
-<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#enumerating-sacm-components" id="enumerating-sacm-components">Enumerating SACM components</a></h1>
-<p id="rfc.section.5.p.1">The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Components.</p>
-<p/>
-
-<ul>
-  <li>Vulnerability Information Repository</li>
-  <li>Software Inventory Collector</li>
-  <li>Software Inventory Repository</li>
-  <li>Configuration Policy Repository</li>
-  <li>Configuration State Repository</li>
-  <li>Vulnerability Management Orchestrator</li>
-  <li>Configuration Management Orchestrator</li>
-  <li>State Collectors</li>
-</ul>
+<h1 id="rfc.section.4.1.3"><a href="#rfc.section.4.1.3">4.1.3.</a> <a href="#datastream-collection" id="datastream-collection">Datastream Collection</a></h1>
+<p id="rfc.section.4.1.3.p.1">The NIST 800-126 specification, also known as SCAP 1.2, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.</p>
+<p id="rfc.section.4.1.3.p.2">The NIST 800-126 specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in NISTIR-7694.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.</p>
+<p id="rfc.section.4.1.3.p.3">What NIST 800-126 did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.</p>
+<h1 id="rfc.section.4.1.4"><a href="#rfc.section.4.1.4">4.1.4.</a> <a href="#network-configuration-collection" id="network-configuration-collection">Network Configuration Collection</a></h1>
+<p id="rfc.section.4.1.4.p.1">Henk's draft illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. Henk's draft further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.</p>
+<p id="rfc.section.4.1.4.p.2">This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.</p>
+<h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#capabilities" id="capabilities">Capabilities</a></h1>
+<p id="rfc.section.4.2.p.1">Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.</p>
+<h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#interfaces" id="interfaces">Interfaces</a></h1>
+<p id="rfc.section.4.3.p.1">TBD</p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#open-questions" id="open-questions">Open Questions</a></h1>
+<p id="rfc.section.5.p.1">TBD</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#privacy-considerations" id="privacy-considerations">Privacy Considerations</a></h1>
 <p id="rfc.section.6.p.1">TODO</p>
 <h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
