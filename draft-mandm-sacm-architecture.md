@@ -40,11 +40,11 @@ normative:
   RFC2119:
 
 informative:
-  I-D.ietf-sacm-terminology:
-  I-D.ietf-sacm-nea-swid-patnc:
-  I-D.ietf-sacm-ecp:
-  I-D.ietf-mile-xmpp-grid:
-  I-D.ietf-mile-rolie:
+  I-D.ietf-sacm-terminology: sacmt
+  I-D.ietf-sacm-nea-swid-patnc: swidtnc
+  I-D.ietf-sacm-ecp: ecp
+  I-D.ietf-mile-xmpp-grid: xmppgrid
+  I-D.ietf-mile-rolie: rolie
   draft-birkholz-sacm-yang-content:
     target: https://tools.ietf.org/html/draft-birkholz-sacm-yang-content-01
     title: YANG subscribed notifications via SACM Statements
@@ -86,12 +86,12 @@ informative:
 
 --- abstract
 
-This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on {{I-D.ietf-mile-xmpp-grid}}. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{I-D.ietf-sacm-terminology}}.
+This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on {{I-D.ietf-mile-xmpp-grid}}. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{-sacmt}}.
 
 --- middle
 
 # Introduction
-The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{I-D.ietf-sacm-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
+The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
 
 The authors recognize that some state collection mechanisms exist today, some do not, and of those that do, some may need to be improved. In other words, we can gain the most advantage by supporting a variety of collection mechanisms, including those that exist today. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
 
@@ -103,7 +103,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 2119, BCP 14 {{RFC2119}}.
 
 # Terms and Definitions
-This draft defers to {{I-D.ietf-sacm-terminology}} for terms and definitions.
+This draft defers to {{-sacmt}} for terms and definitions.
 
 # The Basic Architecture
 The architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}.
@@ -141,7 +141,7 @@ Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fi
 TBD
 
 ## XMPP-based Solution
-In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{I-D.ietf-mile-xmpp-grid}} provides brokering capabilities to facilitate such point-to-point data transfers. Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
+In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers, though {{-xmppgrid}} does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
 
 ~~~~~~~~~~
   +----------+      +------+   +------------+
@@ -150,7 +150,7 @@ In {{fig-detailed}}, we have a more detailed view of the architecture - one that
        |               |            |               
        |               |            |               
   +----v---------------v------------v-----------------+     +-----------------+
-  |                     XMPP-Grid                     <-----> Downstream Uses |
+  |                     XMPP-Grid+                    <-----> Downstream Uses |
   +-----^-------------^-------------^-------------^---+     +-----------------+
         |             |             |             |
         |             |             |             |
@@ -167,7 +167,7 @@ In {{fig-detailed}}, we have a more detailed view of the architecture - one that
 ~~~~~~~~~~
 {: #fig-detailed title="Detailed Architecture"}
 
-At this point, {{I-D.ietf-mile-xmpp-grid}} does not provide enough of a start for SACM, and there are other XMPP extensions we are likely to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. Specifically, the authors would propose work to extend (or modify) {{I-D.ietf-mile-xmpp-grid}} to include additional XEPs, possibly the following:
+At this point, {{-xmppgrid}} does not provide enough of a start for SACM, and there are other XMPP extensions we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone. Specifically, the authors would propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs, possibly the following:
 
 * Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.
 * Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.
@@ -203,14 +203,14 @@ The list of SACM Components is theoretically endless, but we need to start somew
   * Configuration Management Orchestrator
 
 ### Policy Services
-Consider a policy server conforming to {{I-D.ietf-mile-rolie}}. {{I-D.ietf-mile-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.
+Consider a policy server conforming to {{-rolie}}. {{-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.
 
 ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).
 
 It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.
 
 ### Software Inventory
-The SACM working group has accepted work on the Endpoint Compliance Profile {{I-D.ietf-sacm-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
+The SACM working group has accepted work on the Endpoint Compliance Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
 
 ~~~~~~~~~~
                                  Posture Manager              Endpoint
@@ -235,9 +235,9 @@ Evaluator       Repository      |      |        |        |      |        |
 ~~~~~~~~~~
 {: #fig-ecp title="ECP Collection Architecture"}
 
-In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{I-D.ietf-mile-xmpp-grid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
+In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{-xmppgrid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
 
-Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{I-D.ietf-mile-rolie}}, {{I-D.ietf-mile-xmpp-grid}}, and so on).
+Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{-rolie}}, {{-xmppgrid}}, and so on).
 
 An equally plausible way to view the ECP collection architecture might be as depicted in {{fig-ecp-alternate-1}}.
 
@@ -266,7 +266,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 ~~~~~~~~~~
 {: #fig-ecp-alternate-1 title="Alternate ECP Collection Architecture"}
 
-Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in {{fig-ecp-alternate-2}}, the Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.
+Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in {{fig-ecp-alternate-2}} below, the Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.
 
 ~~~~~~~~~~
                  /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
@@ -291,9 +291,9 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  |            Posture Manager          |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 ~~~~~~~~~~
-{: #fig-ecp-alternate-2 title="Alternate ECP Collection Architecture"}
+{: #fig-ecp-alternate-2 title="Another Alternate ECP Collection Architecture"}
 
-There is yet another alternative (see {{fig-ecp-alternate-3}}) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.
+There is yet another alternative (see {{fig-ecp-alternate-3}} below) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.
 
 ~~~~~~~~~~
                                                              Endpoint

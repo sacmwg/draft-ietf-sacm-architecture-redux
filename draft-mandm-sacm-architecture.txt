@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: September 19, 2018                               March 18, 2018
+Expires: September 20, 2018                               March 19, 2018
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 19, 2018.
+   This Internet-Draft will expire on September 20, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 1]
+Montville & Munyan     Expires September 20, 2018               [Page 1]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 2]
+Montville & Munyan     Expires September 20, 2018               [Page 2]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -165,7 +165,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 3]
+Montville & Munyan     Expires September 20, 2018               [Page 3]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -193,9 +193,11 @@ Internet-Draft              SACM Architecture                 March 2018
    not directly depicted in Figure 2, this architecture does not
    preclude point-to-point interfaces.  In fact,
    [I-D.ietf-mile-xmpp-grid] provides brokering capabilities to
-   facilitate such point-to-point data transfers.  Additionally, each of
-   the SACM Components depicted in Figure 2 may be a Provider, a
-   Consumer, or both, depending on the circumstance.
+   facilitate such point-to-point data transfers, though
+   [I-D.ietf-mile-xmpp-grid] does not provide everything SACM needs (an
+   update to that draft or a new, extending draft is needed).
+   Additionally, each of the SACM Components depicted in Figure 2 may be
+   a Provider, a Consumer, or both, depending on the circumstance.
 
 
 
@@ -219,9 +221,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-
-
-Montville & Munyan     Expires September 19, 2018               [Page 4]
+Montville & Munyan     Expires September 20, 2018               [Page 4]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -232,7 +232,7 @@ Internet-Draft              SACM Architecture                 March 2018
        |               |            |
        |               |            |
   +----v---------------v------------v-----------------+     +-----------------+
-  |                     XMPP-Grid                     <-----> Downstream Uses |
+  |                     XMPP-Grid+                    <-----> Downstream Uses |
   +-----^-------------^-------------^-------------^---+     +-----------------+
         |             |             |             |
         |             |             |             |
@@ -250,11 +250,12 @@ Internet-Draft              SACM Architecture                 March 2018
                       Figure 2: Detailed Architecture
 
    At this point, [I-D.ietf-mile-xmpp-grid] does not provide enough of a
-   start for SACM, and there are other XMPP extensions we are likely to
-   consider to meet the needs of [RFC7632] and [RFC8248].  Specifically,
-   the authors would propose work to extend (or modify)
-   [I-D.ietf-mile-xmpp-grid] to include additional XEPs, possibly the
-   following:
+   start for SACM, and there are other XMPP extensions we need to
+   consider to meet the needs of [RFC7632] and [RFC8248].  In Figure 2
+   we therefore use "XMPP-Grid+" to indicate something more than
+   [I-D.ietf-mile-xmpp-grid] alone.  Specifically, the authors would
+   propose work to extend (or modify) [I-D.ietf-mile-xmpp-grid] to
+   include additional XEPs, possibly the following:
 
    o  Entity Capabilities (XEP-0115): May be used to express the
       specific capabilities that a particular client embodies.
@@ -272,15 +273,17 @@ Internet-Draft              SACM Architecture                 March 2018
    o  Publishing Stream Initiation Requests (XEP-0137): Provides ability
       to stream information between two XMPP entities.
 
-   o  PubSub Collection Nodes (XEP-0248): Nested topics for
-      specialization to the leaf node level.
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 5]
+
+Montville & Munyan     Expires September 20, 2018               [Page 5]
 
 Internet-Draft              SACM Architecture                 March 2018
 
+
+   o  PubSub Collection Nodes (XEP-0248): Nested topics for
+      specialization to the leaf node level.
 
    o  Security Labels In Pub/Sub (XEP-0314): Enables tagging data with
       classification categories.
@@ -327,16 +330,17 @@ Internet-Draft              SACM Architecture                 March 2018
 
       *  State Collector
 
-   o  Evaluator
-
-      *  Software Inventory Evaluator
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 6]
+Montville & Munyan     Expires September 20, 2018               [Page 6]
 
 Internet-Draft              SACM Architecture                 March 2018
 
+
+   o  Evaluator
+
+      *  Software Inventory Evaluator
 
       *  State Evaluator
 
@@ -385,11 +389,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-
-
-
-
-Montville & Munyan     Expires September 19, 2018               [Page 7]
+Montville & Munyan     Expires September 20, 2018               [Page 7]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -445,7 +445,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-Montville & Munyan     Expires September 19, 2018               [Page 8]
+Montville & Munyan     Expires September 20, 2018               [Page 8]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -477,8 +477,9 @@ Evaluator        | Repository        |      |        | |    |      |        |
    Here, the Posture Manager is the aggregate of Repository, Posture
    Validator, and Posture Collection Manager.  An evaluator could
    connect via a RESTful API, as could an Orchestrator.  Alternatively,
-   and as depicted in Figure 5, the Posture Manager could interact with
-   other security ecosystem components using an XMPP-Grid connector.
+   and as depicted in Figure 5 below, the Posture Manager could interact
+   with other security ecosystem components using an XMPP-Grid
+   connector.
 
 
 
@@ -500,8 +501,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-
-Montville & Munyan     Expires September 19, 2018               [Page 9]
+Montville & Munyan     Expires September 20, 2018               [Page 9]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -528,17 +528,15 @@ Evaluator        | Repository        |      |        | |    |      |        |
                  |            Posture Manager          |
                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 
-              Figure 5: Alternate ECP Collection Architecture
+          Figure 5: Another Alternate ECP Collection Architecture
 
-   There is yet another alternative (see Figure 6) that could be worth
-   exploring.  What if the connection between an ECP posture collection
-   group (Posture Collection and Posture Collection Engine together) and
-   the Posture Manager were not done over PA/TNC but instead via XMPP?
-   In such a scenario, the software running on the Endpoint would
-   essentially be an posture collector that is an XMPP entity
-   participating in the SACM-extended XMPP-grid.
-
-
+   There is yet another alternative (see Figure 6 below) that could be
+   worth exploring.  What if the connection between an ECP posture
+   collection group (Posture Collection and Posture Collection Engine
+   together) and the Posture Manager were not done over PA/TNC but
+   instead via XMPP?  In such a scenario, the software running on the
+   Endpoint would essentially be an posture collector that is an XMPP
+   entity participating in the SACM-extended XMPP-grid.
 
 
 
@@ -557,7 +555,9 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 10]
+
+
+Montville & Munyan     Expires September 20, 2018              [Page 10]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -613,7 +613,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 11]
+Montville & Munyan     Expires September 20, 2018              [Page 11]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -669,7 +669,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 12]
+Montville & Munyan     Expires September 20, 2018              [Page 12]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -725,7 +725,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 13]
+Montville & Munyan     Expires September 20, 2018              [Page 13]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -781,7 +781,7 @@ Authors' Addresses
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 14]
+Montville & Munyan     Expires September 20, 2018              [Page 14]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -837,4 +837,4 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 19, 2018              [Page 15]
+Montville & Munyan     Expires September 20, 2018              [Page 15]
