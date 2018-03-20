@@ -305,7 +305,7 @@ address {
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-01" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-3-19" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-3-20" />
   <meta name="dct.abstract" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on " />
   <meta name="description" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on " />
 
@@ -329,8 +329,8 @@ address {
   <td class="right">CIS</td>
 </tr>
 <tr>
-  <td class="left">Expires: September 20, 2018</td>
-  <td class="right">March 19, 2018</td>
+  <td class="left">Expires: September 21, 2018</td>
+  <td class="right">March 20, 2018</td>
 </tr>
 
     	
@@ -350,7 +350,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 20, 2018.</p>
+<p>This Internet-Draft will expire on September 21, 2018.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -545,27 +545,27 @@ Evaluator        | Repository        |      |        | |    |      |        |
 <div id="rfc.figure.5"/>
 <div id="fig-ecp-alternate-2"/>
 <pre>
-                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
-Orchestrator     |                   +---------------+ |    +---------------+
- +--------+      |                   |               | |    |               |
- |        |      |                   | +-----------+ | |    | +-----------+ |
- |        |&lt;------------------------&gt;| | Posture   | | |    | | Posture   | |
- |        |      |         XMPP-Grid | | Validator | | |    | | Collector | |
- |        |      |         Connector | +-----------+ | |    | +-----------+ |
- +--------+      |                   |      |        | |    |      |        |
-                 |                   |      |        | |    |      |        |
-Evaluator        | Repository        |      |        | |    |      |        |
-+------+         | +--------+        | +-----------+ |&lt;----&gt;| +-----------+ |
-|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
-|      |         | |        |        | | Collection| | |    | | Collection| |
-|      |&lt;---------&gt;|        |&lt;-------| | Manager   | | |    | | Engine    | |
-|      |XMPP-Grid| |        |Direct  | +-----------+ | |    | +-----------+ |
-|      |Connector| |        |DB Conn |               | |    |               |
-|      |         | |        |        |               | |    |               |
-+------+         | +--------+        +---------------+ |    +---------------+
-                 |                                     |
-                 |            Posture Manager          |
-                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+                  /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator      |                   +---------------+ |    +---------------+
+ +--------+       |                   |               | |    |               |
+ |        |       |                   | +-----------+ | |    | +-----------+ |
+ |        |&lt;-------------------------&gt;| | Posture   | | |    | | Posture   | |
+ |        |       |        XMPP-Grid+ | | Validator | | |    | | Collector | |
+ |        |       |         Connector | +-----------+ | |    | +-----------+ |
+ +--------+       |                   |      |        | |    |      |        |
+                  |                   |      |        | |    |      |        |
+Evaluator         | Repository        |      |        | |    |      |        |
++------+          | +--------+        | +-----------+ |&lt;----&gt;| +-----------+ |
+|      |          | |        |        | | Posture   | |PA/TNC| | Posture   | |
+|      |          | |        |        | | Collection| | |    | | Collection| |
+|      |&lt;----------&gt;|        |&lt;-------| | Manager   | | |    | | Engine    | |
+|      |XMPP-Grid+| |        |Direct  | +-----------+ | |    | +-----------+ |
+|      |Connector | |        |DB Conn |               | |    |               |
+|      |          | |        |        |               | |    |               |
++------+          | +--------+        +---------------+ |    +---------------+
+                  |                                     |
+                  |            Posture Manager          |
+                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 5: Another Alternate ECP Collection Architecture</p>
 <p id="rfc.section.4.1.2.p.6">There is yet another alternative (see <a href="#fig-ecp-alternate-3">Figure 6</a> below) that could be worth exploring. What if the connection between an ECP posture collection group (Posture Collection and Posture Collection Engine together) and the Posture Manager were not done over PA/TNC but instead via XMPP? In such a scenario, the software running on the Endpoint would essentially be an posture collector that is an XMPP entity participating in the SACM-extended XMPP-grid.</p>
@@ -578,7 +578,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 | +------------+ |    +------------+      |      |      | +-----------+ |
 | | Posture    | |                        |      |      | | Posture   | |
 | | Validator  | |    +------------+      |XMPP  |      | | Collector | |
-| +------------+ |    | Evaluator  |------|GRID  |      | +-----------+ |
+| +------------+ |    | Evaluator  |------|GRID+ |      | +-----------+ |
 |       |        |    +------------+      |CNTRLR|      |      |        |
 | +------------+ |                        |      |      | +-----------+ |
 | | Posture    | |                        |      |      | | Posture   | |

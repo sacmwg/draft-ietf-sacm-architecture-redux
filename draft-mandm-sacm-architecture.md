@@ -269,27 +269,27 @@ Evaluator        | Repository        |      |        | |    |      |        |
 Here, the Posture Manager is the aggregate of Repository, Posture Validator, and Posture Collection Manager. An evaluator could connect via a RESTful API, as could an Orchestrator. Alternatively, and as depicted in {{fig-ecp-alternate-2}} below, the Posture Manager could interact with other security ecosystem components using an XMPP-Grid connector.
 
 ~~~~~~~~~~
-                 /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
-Orchestrator     |                   +---------------+ |    +---------------+
- +--------+      |                   |               | |    |               |
- |        |      |                   | +-----------+ | |    | +-----------+ |
- |        |<------------------------>| | Posture   | | |    | | Posture   | |
- |        |      |         XMPP-Grid | | Validator | | |    | | Collector | |
- |        |      |         Connector | +-----------+ | |    | +-----------+ |
- +--------+      |                   |      |        | |    |      |        |
-                 |                   |      |        | |    |      |        |
-Evaluator        | Repository        |      |        | |    |      |        |
-+------+         | +--------+        | +-----------+ |<---->| +-----------+ |
-|      |         | |        |        | | Posture   | |PA/TNC| | Posture   | |
-|      |         | |        |        | | Collection| | |    | | Collection| |
-|      |<--------->|        |<-------| | Manager   | | |    | | Engine    | |
-|      |XMPP-Grid| |        |Direct  | +-----------+ | |    | +-----------+ |
-|      |Connector| |        |DB Conn |               | |    |               |
-|      |         | |        |        |               | |    |               |
-+------+         | +--------+        +---------------+ |    +---------------+
-                 |                                     |
-                 |            Posture Manager          |
-                 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+                  /~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\           Endpoint
+Orchestrator      |                   +---------------+ |    +---------------+
+ +--------+       |                   |               | |    |               |
+ |        |       |                   | +-----------+ | |    | +-----------+ |
+ |        |<------------------------->| | Posture   | | |    | | Posture   | |
+ |        |       |        XMPP-Grid+ | | Validator | | |    | | Collector | |
+ |        |       |         Connector | +-----------+ | |    | +-----------+ |
+ +--------+       |                   |      |        | |    |      |        |
+                  |                   |      |        | |    |      |        |
+Evaluator         | Repository        |      |        | |    |      |        |
++------+          | +--------+        | +-----------+ |<---->| +-----------+ |
+|      |          | |        |        | | Posture   | |PA/TNC| | Posture   | |
+|      |          | |        |        | | Collection| | |    | | Collection| |
+|      |<---------->|        |<-------| | Manager   | | |    | | Engine    | |
+|      |XMPP-Grid+| |        |Direct  | +-----------+ | |    | +-----------+ |
+|      |Connector | |        |DB Conn |               | |    |               |
+|      |          | |        |        |               | |    |               |
++------+          | +--------+        +---------------+ |    +---------------+
+                  |                                     |
+                  |            Posture Manager          |
+                  \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 ~~~~~~~~~~
 {: #fig-ecp-alternate-2 title="Another Alternate ECP Collection Architecture"}
 
@@ -302,7 +302,7 @@ There is yet another alternative (see {{fig-ecp-alternate-3}} below) that could 
 | +------------+ |    +------------+      |      |      | +-----------+ |
 | | Posture    | |                        |      |      | | Posture   | |
 | | Validator  | |    +------------+      |XMPP  |      | | Collector | |
-| +------------+ |    | Evaluator  |------|GRID  |      | +-----------+ |
+| +------------+ |    | Evaluator  |------|GRID+ |      | +-----------+ |
 |       |        |    +------------+      |CNTRLR|      |      |        |
 | +------------+ |                        |      |      | +-----------+ |
 | | Posture    | |                        |      |      | | Posture   | |
