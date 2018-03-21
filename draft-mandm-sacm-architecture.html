@@ -305,7 +305,7 @@ address {
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-01" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-3-20" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-3-21" />
   <meta name="dct.abstract" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on " />
   <meta name="description" content="This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on " />
 
@@ -329,8 +329,8 @@ address {
   <td class="right">CIS</td>
 </tr>
 <tr>
-  <td class="left">Expires: September 21, 2018</td>
-  <td class="right">March 20, 2018</td>
+  <td class="left">Expires: September 22, 2018</td>
+  <td class="right">March 21, 2018</td>
 </tr>
 
     	
@@ -350,7 +350,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 21, 2018.</p>
+<p>This Internet-Draft will expire on September 22, 2018.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -467,7 +467,7 @@ address {
   <li>PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.</li>
   <li>Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.</li>
   <li>PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server</li>
-  <li>Easy User Onboarding (XEP-0253): Simplified client registration</li>
+  <li>Easy User Onboarding (XEP-401): Simplified client registration</li>
 </ul>
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sacm-components-capabilities-and-interfaces" id="sacm-components-capabilities-and-interfaces">SACM Components, Capabilities, and Interfaces</a></h1>
 <p id="rfc.section.4.p.1">As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.</p>
@@ -478,9 +478,9 @@ address {
 
 <ul>
   <li>Repository <ul><li>Vulnerability Information Repository</li><li>Software Inventory Repository</li><li>Configuration Policy Repository</li><li>Configuration State Repository</li></ul></li>
-  <li>Collector <ul><li>Software Inventory Collector</li><li>State Collector</li></ul></li>
-  <li>Evaluator <ul><li>Software Inventory Evaluator</li><li>State Evaluator</li></ul></li>
-  <li>Orchestrator <ul><li>Vulnerability Management Orchestrator</li><li>Configuration Management Orchestrator</li></ul></li>
+  <li>Collector <ul><li>Software Inventory Collector</li><li>Vulnerability State Collector</li><li>Configuration State Collector</li></ul></li>
+  <li>Evaluator <ul><li>Software Inventory Evaluator</li><li>Vulnerability State Evaluator</li><li>Configuration State Evaluator</li></ul></li>
+  <li>Orchestrator <ul><li>Vulnerability Management Orchestrator</li><li>Configuration Management Orchestrator</li><li>Asset Management Orchestrator</li></ul></li>
 </ul>
 <h1 id="rfc.section.4.1.1"><a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#policy-services" id="policy-services">Policy Services</a></h1>
 <p id="rfc.section.4.1.1.p.1">Consider a policy server conforming to <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a>. <a href="#I-D.ietf-mile-rolie">[I-D.ietf-mile-rolie]</a> describes a RESTful way based on the ATOM Publishing Protocol (<a href="#RFC5023">[RFC5023]</a>) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on <a href="#RFC5023">[RFC5023]</a>), there is a more abstract way to look at ROLIE.</p>

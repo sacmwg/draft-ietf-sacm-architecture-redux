@@ -177,7 +177,7 @@ At this point, {{-xmppgrid}} does not provide enough of a start for SACM, and th
 * PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
 * Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
-* Easy User Onboarding (XEP-0253): Simplified client registration
+* Easy User Onboarding (XEP-401): Simplified client registration
 
 # SACM Components, Capabilities, and Interfaces
 As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
@@ -194,13 +194,16 @@ The list of SACM Components is theoretically endless, but we need to start somew
   * Configuration State Repository
 * Collector
   * Software Inventory Collector
-  * State Collector
+  * Vulnerability State Collector
+  * Configuration State Collector
 * Evaluator
   * Software Inventory Evaluator
-  * State Evaluator
+  * Vulnerability State Evaluator
+  * Configuration State Evaluator
 * Orchestrator
   * Vulnerability Management Orchestrator
   * Configuration Management Orchestrator
+  * Asset Management Orchestrator
 
 ### Policy Services
 Consider a policy server conforming to {{-rolie}}. {{-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.

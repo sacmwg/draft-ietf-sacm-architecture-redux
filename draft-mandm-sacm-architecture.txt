@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: September 21, 2018                               March 20, 2018
+Expires: September 22, 2018                               March 21, 2018
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 21, 2018.
+   This Internet-Draft will expire on September 22, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 1]
+Montville & Munyan     Expires September 22, 2018               [Page 1]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 2]
+Montville & Munyan     Expires September 22, 2018               [Page 2]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -165,7 +165,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 3]
+Montville & Munyan     Expires September 22, 2018               [Page 3]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -221,7 +221,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 4]
+Montville & Munyan     Expires September 22, 2018               [Page 4]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -277,7 +277,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 5]
+Montville & Munyan     Expires September 22, 2018               [Page 5]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -292,7 +292,7 @@ Internet-Draft              SACM Architecture                 March 2018
       enabling a publish node of one server to be a subscriber to a
       publishing node of another server
 
-   o  Easy User Onboarding (XEP-0253): Simplified client registration
+   o  Easy User Onboarding (XEP-401): Simplified client registration
 
 4.  SACM Components, Capabilities, and Interfaces
 
@@ -328,27 +328,33 @@ Internet-Draft              SACM Architecture                 March 2018
 
       *  Software Inventory Collector
 
-      *  State Collector
+      *  Vulnerability State Collector
 
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 6]
+Montville & Munyan     Expires September 22, 2018               [Page 6]
 
 Internet-Draft              SACM Architecture                 March 2018
 
+
+      *  Configuration State Collector
 
    o  Evaluator
 
       *  Software Inventory Evaluator
 
-      *  State Evaluator
+      *  Vulnerability State Evaluator
+
+      *  Configuration State Evaluator
 
    o  Orchestrator
 
       *  Vulnerability Management Orchestrator
 
       *  Configuration Management Orchestrator
+
+      *  Asset Management Orchestrator
 
 4.1.1.  Policy Services
 
@@ -383,13 +389,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-
-
-
-
-
-
-Montville & Munyan     Expires September 21, 2018               [Page 7]
+Montville & Munyan     Expires September 22, 2018               [Page 7]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -445,7 +445,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 8]
+Montville & Munyan     Expires September 22, 2018               [Page 8]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -501,7 +501,7 @@ Evaluator        | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan     Expires September 21, 2018               [Page 9]
+Montville & Munyan     Expires September 22, 2018               [Page 9]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -557,7 +557,7 @@ Evaluator         | Repository        |      |        | |    |      |        |
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 10]
+Montville & Munyan     Expires September 22, 2018              [Page 10]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -613,7 +613,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 11]
+Montville & Munyan     Expires September 22, 2018              [Page 11]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -669,7 +669,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 12]
+Montville & Munyan     Expires September 22, 2018              [Page 12]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -725,7 +725,7 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 13]
+Montville & Munyan     Expires September 22, 2018              [Page 13]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -781,7 +781,7 @@ Authors' Addresses
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 14]
+Montville & Munyan     Expires September 22, 2018              [Page 14]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -837,4 +837,4 @@ Internet-Draft              SACM Architecture                 March 2018
 
 
 
-Montville & Munyan     Expires September 21, 2018              [Page 15]
+Montville & Munyan     Expires September 22, 2018              [Page 15]
