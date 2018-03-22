@@ -2,7 +2,7 @@
 
 This is the working area for the IETF SACM Working Group Internet-Draft, "Security Automation and Continuous Monitoring (SACM) Architecture".
 
-* [Editor's Copy](https://sacmwg.github.io/draft-mandm-sacm-architecture-redux/#go.draft-mandm-sacm-architeture-redux.html)
+* [Editor's Copy](https://adammontville.github.io/draft-mandm-sacm-architecture-redux/#go.draft-mandm-sacm-architeture-redux.html)
 * Working Group Draft: This draft has not been adopted by the working group.
 * Compare Editor's Copy to Working Group Draft: See previous item.
 
