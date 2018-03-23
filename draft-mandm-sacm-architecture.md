@@ -81,6 +81,9 @@ informative:
       name: David Waltermire
     - ins: M. Johnson
       name: Mark Johnson
+  XMPPEXT:
+    target: https://xmpp.org/extensions/
+    title: XMPP Extensions
 
 
 
@@ -137,8 +140,8 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
-## SACM Roles and Functions
-TBD
+## SACM Roles, Capabilities, and Functions
+In this example architecture there are a variety of players in the cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem: Consumer, Provider. Each SACM Component, depending on its specialized role, will be endowed with one or more capabilities. These capabilities are realized by functions exposing specific interfaces.
 
 ## XMPP-based Solution
 In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers, though {{-xmppgrid}} does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
@@ -282,5 +285,76 @@ IANA tables can probably be used to make life a little easier. We would like a p
 
 
 # Mapping to RFC8248
+This section provides a mapping of XMPP and XMPP Extensions to the relevant requirements from {{RFC8248}}. In the table below, the ID and Name columns provide the ID and Name of the requirement directly out of {{RFC8248}}. The Supported By column may contain one of several values:
 
-TBD
+* N/A: The requirement is not applicable to this architectural exploration
+* XMPP-Core: The requirement is satisfied by a core XMPP feature
+* XEP-nnnn: The requirement is satisfied by a numbered XMPP extension (see {{XMPPEXT}})
+* Operational: The requirement is an operational concern or can be addressed by an operational deployment
+* Implementation: The requirement is an implementation concern
+
+If there is no entry in the Supported By column, then there is a gap that must be filled.
+
+| ID       | Name                                        | Supported By |
+|----------|---------------------------------------------|:------------:|
+| G-001    | Solution Extensibility                      |              |
+| G-002    | Interoperability                            |              |
+| G-003    | Scalability                                 |              |
+| G-004    | Versatility                                 |              |
+| G-005    | Information Extensibility                   |              |
+| G-006    | Data Protection                             |              |
+| G-007    | Data Partitioning                           |              |
+| G-008    | Versioning and Backward Compatibility       |              |
+| G-009    | Information Discovery                       |              |
+| G-010    | Target Endpoint Discovery                   |              |
+| G-011    | Push and Pull Access                        |              |
+| G-012    | SACM Component Interface                    |              |
+| G-013    | Endpoint Location and Network Topology      |              |
+| G-014    | Target Endpoint Identity                    |              |
+| G-015    | Data Access Control                         |              |
+| ARCH-001 | Component Functions                         |              |
+| ARCH-002 | Scalability                                 |              |
+| ARCH-003 | Flexibility                                 |              |
+| ARCH-004 | Separation of Data and Management Functions |              |
+| ARCH-005 | Topology Flexibility                        |              |
+| ARCH-006 | Capability Negotiation                      |              |
+| ARCH-007 | Role-Based Authorization                    |              |
+| ARCH-008 | Context-Based Authorization                 |              |
+| ARCH-009 | Time Synchronization                        |              |
+| IM-001   | Extensible Attribute Vocabulary             |              |
+| IM-002   | Posture Data Publication                    |              |
+| IM-003   | Data Model Negotiation                      |              |
+| IM-004   | Data Model Identification                   |              |
+| IM-005   | Data Lifetime Management                    |              |
+| IM-006   | Singularity and Modularity                  |              |
+| DM-001   | Element Association                         |              |
+| DM-002   | Data Model Structure                        |              |
+| DM-003   | Search Flexibility                          |              |
+| DM-004   | Full vs. Partial Updates                    |              |
+| DM-005   | Loose Coupling                              |              |
+| DM-006   | Data Cardinality                            |              |
+| DM-007   | Data Model Negotiation                      |              |
+| DM-008   | Data Origin                                 |              |
+| DM-009   | Origination Time                            |              |
+| DM-010   | Data Generation                             |              |
+| DM-011   | Data Source                                 |              |
+| DM-012   | Data Updates                                |              |
+| DM-013   | Multiple Collectors                         |              |
+| DM-014   | Attribute Extensibility                     |              |
+| DM-015   | Solicited vs. Unsolicited Updates           |              |
+| DM-016   | Transfer Agnostic                           |              |
+| OP-001   | Time Synchronization                        |              |
+| OP-002   | Collection Abstraction                      |              |
+| OP-003   | Collection Composition                      |              |
+| OP-004   | Attribute-Based Query                       |              |
+| OP-005   | Information-Based Query with Filtering      |              |
+| OP-006   | Operation Scalability                       |              |
+| OP-007   | Data Abstraction                            |              |
+| OP-008   | Provider Restriction                        |              |
+| T-001    | Multiple Transfer Protocol Support          |              |
+| T-002    | Data Integrity                              |              |
+| T-003    | Data Confidentiality                        |              |
+| T-004    | Transfer Protection                         |              |
+| T-005    | Transfer Reliability                        |              |
+| T-006    | Transfer-Layer Requirements                 |              |
+| T-007    | Transfer Protocol Adoption                  |              |
