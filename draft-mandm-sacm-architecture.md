@@ -84,19 +84,32 @@ informative:
   XMPPEXT:
     target: https://xmpp.org/extensions/
     title: XMPP Extensions
-
-
+  HACK99:
+    target: https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon
+    title: IETF 99 Hackathon - Vulnerability Scenario ECP
+  HACK100:
+    target: https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon
+    title: IETF 100 Hackathon - Vulnerability Scenario ECP+XMPP
+  HACK101:
+    target: https://www.github.com/CISecurity/Integration
+    title: IETF 101 Hackathon - Configuration Assessment XMPP
 
 --- abstract
 
-This memo documents the Security Automation and Continuous Monitoring (SACM) architecture and begins to explore a potential solution based on {{I-D.ietf-mile-xmpp-grid}}. The SACM architecture is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively) and terminology as found in {{-sacmt}}.
+This memo documents an exploration of a notional Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{I-D.ietf-mile-xmpp-grid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
 
 --- middle
 
 # Introduction
-The SACM working group has experienced some difficulty gaining consensus around a single architectural vision. Our hope is that this document begins to alleviate this. We have recognized viability in approaches sometimes thought to be at odds with each other - specifically {{-ecp}} and {{I-D.ietf-mile-xmpp-grid}}. We believe that these approaches complement each other to more completely meet the spirit of {{RFC7632}} and {{RFC8248}}.
+The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our solution upon {{-xmppgrid}} and {{-ecp}}, and believe these approaches complement each other to more completely meet the spirit of {{RFC7632}} and requirements found in {{RFC8248}}.
 
-The authors recognize that some state collection mechanisms exist today, some do not, and of those that do, some may need to be improved. In other words, we can gain the most advantage by supporting a variety of collection mechanisms, including those that exist today. The authors further recognize that SACM ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The architecture described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that architecture somewhat more concrete.
+This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, our solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.
+
+Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around IETF hackathons. The list of hackathon efforts follows:
+
+* {{HACK99}}
+* {{HACK100}}
+* {{HACK101}}
 
 ## Requirements notation
 
@@ -108,8 +121,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 # Terms and Definitions
 This draft defers to {{-sacmt}} for terms and definitions.
 
-# The Basic Architecture
-The architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}.
+# The Approach
+The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}.
 
 ~~~~~~~~~~
 +----------+      +------+   +------------+
@@ -141,7 +154,7 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
 ## SACM Roles, Capabilities, and Functions
-In this example architecture there are a variety of players in the cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem: Consumer, Provider. Each SACM Component, depending on its specialized role, will be endowed with one or more capabilities. These capabilities are realized by functions exposing specific interfaces.
+In this example architecture there are a variety of players in the cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem: Consumer, Provider. Each SACM Component, depending on its specialized role, will be endowed with one or more capabilities. These capabilities are realized by functions exposing specific interfaces. It is important to reiterate that each component in the ecosystem can be a composite of various roles and capabilities.
 
 ## XMPP-based Solution
 In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers, though {{-xmppgrid}} does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
@@ -170,7 +183,7 @@ In {{fig-detailed}}, we have a more detailed view of the architecture - one that
 ~~~~~~~~~~
 {: #fig-detailed title="Detailed Architecture"}
 
-At this point, {{-xmppgrid}} does not provide enough of a start for SACM, and there are other XMPP extensions we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone. Specifically, the authors would propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs, possibly the following:
+At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs, possibly the following:
 
 * Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.
 * Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.
@@ -179,16 +192,17 @@ At this point, {{-xmppgrid}} does not provide enough of a start for SACM, and th
 * Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.
 * PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
 * Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
+* PubSub Since (XEP-nnnn): Persists published items, which may be useful
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
 * Easy User Onboarding (XEP-401): Simplified client registration
 
 # SACM Components, Capabilities, and Interfaces
-As previously mentioned, the SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism, where the preferred transfer mechanism would be XMPP-grid.
+The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. At this point, we have been experimenting with XMPP as a transfer mechanism.
 
-The scenarios described in this section are informational, but may be taken as guidance or a starting point for further specifications concerning each of these areas.
+The following subsections describe some of the components, capabilities, and interfaces we may expect to see participating in a SACM Domain.
 
 ## Components
-The list of SACM Components is theoretically endless, but we need to start somewhere. The following is a list of suggested SACM Component classes and specializations.
+The following is a list of suggested SACM Component classes and specializations.
 
 * Repository
   * Vulnerability Information Repository
@@ -209,11 +223,7 @@ The list of SACM Components is theoretically endless, but we need to start somew
   * Asset Management Orchestrator
 
 ### Policy Services
-Consider a policy server conforming to {{-rolie}}. {{-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.
-
-ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).
-
-It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.
+TBD
 
 ### Software Inventory
 The SACM working group has accepted work on the Endpoint Compliance Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
@@ -288,6 +298,8 @@ IANA tables can probably be used to make life a little easier. We would like a p
 This section provides a mapping of XMPP and XMPP Extensions to the relevant requirements from {{RFC8248}}. In the table below, the ID and Name columns provide the ID and Name of the requirement directly out of {{RFC8248}}. The Supported By column may contain one of several values:
 
 * N/A: The requirement is not applicable to this architectural exploration
+* Architecture: This architecture (possibly assuming some components) should meet the requirement
+* XMPP: The set of XMPP Core specifications and the collection of applicable extensions, deployment, and operational considerations.
 * XMPP-Core: The requirement is satisfied by a core XMPP feature
 * XEP-nnnn: The requirement is satisfied by a numbered XMPP extension (see {{XMPPEXT}})
 * Operational: The requirement is an operational concern or can be addressed by an operational deployment
@@ -297,52 +309,52 @@ If there is no entry in the Supported By column, then there is a gap that must b
 
 | ID       | Name                                        | Supported By |
 |----------|---------------------------------------------|:------------:|
-| G-001    | Solution Extensibility                      |              |
-| G-002    | Interoperability                            |              |
-| G-003    | Scalability                                 |              |
-| G-004    | Versatility                                 |              |
-| G-005    | Information Extensibility                   |              |
-| G-006    | Data Protection                             |              |
-| G-007    | Data Partitioning                           |              |
-| G-008    | Versioning and Backward Compatibility       |              |
-| G-009    | Information Discovery                       |              |
-| G-010    | Target Endpoint Discovery                   |              |
-| G-011    | Push and Pull Access                        |              |
-| G-012    | SACM Component Interface                    |              |
+| G-001    | Solution Extensibility                      | XMPP-Core    |
+| G-002    | Interoperability                            | XMPP         |
+| G-003    | Scalability                                 | XMPP         |
+| G-004    | Versatility                                 | XMPP-Core    |
+| G-005    | Information Extensibility                   | XMPP-Core    |
+| G-006    | Data Protection                             | Operational  |
+| G-007    | Data Partitioning                           | Operational  |
+| G-008    | Versioning and Backward Compatibility       | XEP-0115     |
+| G-009    | Information Discovery                       | XEP-0030     |
+| G-010    | Target Endpoint Discovery                   | XMPP-Core    |
+| G-011    | Push and Pull Access                        | XEP-0060/0312|
+| G-012    | SACM Component Interface                    | N/A          |
 | G-013    | Endpoint Location and Network Topology      |              |
-| G-014    | Target Endpoint Identity                    |              |
+| G-014    | Target Endpoint Identity                    | XMPP-Core    |
 | G-015    | Data Access Control                         |              |
-| ARCH-001 | Component Functions                         |              |
-| ARCH-002 | Scalability                                 |              |
-| ARCH-003 | Flexibility                                 |              |
+| ARCH-001 | Component Functions                         | XMPP         |
+| ARCH-002 | Scalability                                 | XMPP-Core    |
+| ARCH-003 | Flexibility                                 | XMPP-Core    |
 | ARCH-004 | Separation of Data and Management Functions |              |
-| ARCH-005 | Topology Flexibility                        |              |
-| ARCH-006 | Capability Negotiation                      |              |
-| ARCH-007 | Role-Based Authorization                    |              |
+| ARCH-005 | Topology Flexibility                        | XMPP-Core    |
+| ARCH-006 | Capability Negotiation                      | XEP-0115     |
+| ARCH-007 | Role-Based Authorization                    | XMPP-Core    |
 | ARCH-008 | Context-Based Authorization                 |              |
-| ARCH-009 | Time Synchronization                        |              |
-| IM-001   | Extensible Attribute Vocabulary             |              |
-| IM-002   | Posture Data Publication                    |              |
-| IM-003   | Data Model Negotiation                      |              |
-| IM-004   | Data Model Identification                   |              |
-| IM-005   | Data Lifetime Management                    |              |
-| IM-006   | Singularity and Modularity                  |              |
-| DM-001   | Element Association                         |              |
-| DM-002   | Data Model Structure                        |              |
-| DM-003   | Search Flexibility                          |              |
-| DM-004   | Full vs. Partial Updates                    |              |
-| DM-005   | Loose Coupling                              |              |
-| DM-006   | Data Cardinality                            |              |
-| DM-007   | Data Model Negotiation                      |              |
-| DM-008   | Data Origin                                 |              |
-| DM-009   | Origination Time                            |              |
-| DM-010   | Data Generation                             |              |
-| DM-011   | Data Source                                 |              |
-| DM-012   | Data Updates                                |              |
-| DM-013   | Multiple Collectors                         |              |
-| DM-014   | Attribute Extensibility                     |              |
-| DM-015   | Solicited vs. Unsolicited Updates           |              |
-| DM-016   | Transfer Agnostic                           |              |
+| ARCH-009 | Time Synchronization                        | Operational  |
+| IM-001   | Extensible Attribute Vocabulary             | N/A          |
+| IM-002   | Posture Data Publication                    | N/A          |
+| IM-003   | Data Model Negotiation                      | N/A          |
+| IM-004   | Data Model Identification                   | N/A          |
+| IM-005   | Data Lifetime Management                    | N/A          |
+| IM-006   | Singularity and Modularity                  | N/A          |
+| DM-001   | Element Association                         | N/A          |
+| DM-002   | Data Model Structure                        | N/A          |
+| DM-003   | Search Flexibility                          | N/A          |
+| DM-004   | Full vs. Partial Updates                    | N/A          |
+| DM-005   | Loose Coupling                              | N/A          |
+| DM-006   | Data Cardinality                            | N/A          |
+| DM-007   | Data Model Negotiation                      | N/A          |
+| DM-008   | Data Origin                                 | N/A          |
+| DM-009   | Origination Time                            | N/A          |
+| DM-010   | Data Generation                             | N/A          |
+| DM-011   | Data Source                                 | N/A          |
+| DM-012   | Data Updates                                | N/A          |
+| DM-013   | Multiple Collectors                         | N/A          |
+| DM-014   | Attribute Extensibility                     | N/A          |
+| DM-015   | Solicited vs. Unsolicited Updates           | N/A          |
+| DM-016   | Transfer Agnostic                           | N/A          |
 | OP-001   | Time Synchronization                        |              |
 | OP-002   | Collection Abstraction                      |              |
 | OP-003   | Collection Composition                      |              |
@@ -351,10 +363,10 @@ If there is no entry in the Supported By column, then there is a gap that must b
 | OP-006   | Operation Scalability                       |              |
 | OP-007   | Data Abstraction                            |              |
 | OP-008   | Provider Restriction                        |              |
-| T-001    | Multiple Transfer Protocol Support          |              |
-| T-002    | Data Integrity                              |              |
-| T-003    | Data Confidentiality                        |              |
+| T-001    | Multiple Transfer Protocol Support          | Architecture |
+| T-002    | Data Integrity                              | Operational  |
+| T-003    | Data Confidentiality                        | Operational  |
 | T-004    | Transfer Protection                         |              |
 | T-005    | Transfer Reliability                        |              |
 | T-006    | Transfer-Layer Requirements                 |              |
-| T-007    | Transfer Protocol Adoption                  |              |
+| T-007    | Transfer Protocol Adoption                  | Architecture |

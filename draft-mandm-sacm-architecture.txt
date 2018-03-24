@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: September 24, 2018                               March 23, 2018
+Expires: September 25, 2018                               March 24, 2018
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -13,11 +13,11 @@ Expires: September 24, 2018                               March 23, 2018
 
 Abstract
 
-   This memo documents the Security Automation and Continuous Monitoring
-   (SACM) architecture and begins to explore a potential solution based
-   on [I-D.ietf-mile-xmpp-grid].  The SACM architecture is predicated
-   upon information gleaned from SACM Use Cases and Requirements
-   ([RFC7632] and [RFC8248] respectively) and terminology as found in
+   This memo documents an exploration of a notional Security Automation
+   and Continuous Monitoring (SACM) architecture.  This work is built
+   upon [I-D.ietf-mile-xmpp-grid], and is predicated upon information
+   gleaned from SACM Use Cases and Requirements ([RFC7632] and [RFC8248]
+   respectively), and terminology as found in
    [I-D.ietf-sacm-terminology].
 
 Status of This Memo
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 24, 2018.
+   This Internet-Draft will expire on September 25, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan     Expires September 24, 2018               [Page 1]
+Montville & Munyan     Expires September 25, 2018               [Page 1]
 
 Internet-Draft              SACM Architecture                 March 2018
 
@@ -68,54 +68,61 @@ Table of Contents
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   3
    3.  The Basic Architecture  . . . . . . . . . . . . . . . . . . .   3
      3.1.  SACM Roles, Capabilities, and Functions . . . . . . . . .   4
-     3.2.  XMPP-based Solution . . . . . . . . . . . . . . . . . . .   4
+     3.2.  XMPP-based Solution . . . . . . . . . . . . . . . . . . .   5
    4.  SACM Components, Capabilities, and Interfaces . . . . . . . .   6
      4.1.  Components  . . . . . . . . . . . . . . . . . . . . . . .   6
        4.1.1.  Policy Services . . . . . . . . . . . . . . . . . . .   7
-       4.1.2.  Software Inventory  . . . . . . . . . . . . . . . . .   7
-       4.1.3.  Datastream Collection . . . . . . . . . . . . . . . .   8
+       4.1.2.  Software Inventory  . . . . . . . . . . . . . . . . .   8
+       4.1.3.  Datastream Collection . . . . . . . . . . . . . . . .   9
        4.1.4.  Network Configuration Collection  . . . . . . . . . .   9
-     4.2.  Capabilities  . . . . . . . . . . . . . . . . . . . . . .   9
-     4.3.  Interfaces  . . . . . . . . . . . . . . . . . . . . . . .   9
+     4.2.  Capabilities  . . . . . . . . . . . . . . . . . . . . . .  10
+     4.3.  Interfaces  . . . . . . . . . . . . . . . . . . . . . . .  10
    5.  Open Questions  . . . . . . . . . . . . . . . . . . . . . . .  10
    6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  10
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  10
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  11
    Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 1.  Introduction
 
-   The SACM working group has experienced some difficulty gaining
-   consensus around a single architectural vision.  Our hope is that
-   this document begins to alleviate this.  We have recognized viability
-   in approaches sometimes thought to be at odds with each other -
-   specifically [I-D.ietf-sacm-ecp] and [I-D.ietf-mile-xmpp-grid].  We
-   believe that these approaches complement each other to more
-   completely meet the spirit of [RFC7632] and [RFC8248].
+   The purpose of this draft is to document and track the outcome of
+   solution discovery, with the intent of eventually describing an
+   emerged architecture.  We have initially built our solution upon
+   [I-D.ietf-mile-xmpp-grid] and [I-D.ietf-sacm-ecp], and believe these
+   approaches complement each other to more completely meet the spirit
+   of [RFC7632] and requirements found in [RFC8248].
 
-   The authors recognize that some state collection mechanisms exist
-   today, some do not, and of those that do, some may need to be
-   improved.  In other words, we can gain the most advantage by
-   supporting a variety of collection mechanisms, including those that
-   exist today.  The authors further recognize that SACM ideally intends
+   This solution gains the most advantage by supporting a variety of
+   collection mechanisms.  In this sense, our solution ideally intends
    to enable a cooperative ecosystem of tools from disparate sources
-   with minimal operator configuration.  The architecture described in
-   this document seeks to accommodate these recognitions by first
+   with minimal operator configuration.  The solution described in this
+   document seeks to accommodate these recognitions by first defining a
+   generic abstract architecture, then making that solution somewhat
+   more concrete.
 
 
 
 
-Montville & Munyan     Expires September 24, 2018               [Page 2]
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 2]
 
 Internet-Draft              SACM Architecture                 March 2018
 
 
-   defining a generic abstract architecture, then making that
-   architecture somewhat more concrete.
+   Keep in mind that, at this point, the draft is tracking ongoing work
+   being performed primarily around IETF hackathons.  The list of
+   hackathon efforts follows:
+
+   o  [HACK99]
+
+   o  [HACK100]
+
+   o  [HACK101]
 
 1.1.  Requirements notation
 
@@ -134,6 +141,34 @@ Internet-Draft              SACM Architecture                 March 2018
    The architectural approach proposed herein recognizes existing state
    collection mechanisms and makes every attempt to respect [RFC7632]
    and [RFC8248].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 3]
+
+Internet-Draft              SACM Architecture                 March 2018
+
 
    +----------+      +------+   +------------+
    |Repository|      |Policy|   |Orchestrator|
@@ -162,14 +197,6 @@ Internet-Draft              SACM Architecture                 March 2018
    As shown in Figure 1, the notional SACM architecture consists of some
    basic SACM Components using a message transfer system to communicate.
    While not depicted, the message transfer system is expected to
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 3]
-
-Internet-Draft              SACM Architecture                 March 2018
-
-
    maximally align with the requirements described in [RFC8248], which
    means that the message transfer system will support brokered (i.e.
    point-to-point) and proxied data exchange.
@@ -188,7 +215,16 @@ Internet-Draft              SACM Architecture                 March 2018
    Consumer, Provider.  Each SACM Component, depending on its
    specialized role, will be endowed with one or more capabilities.
    These capabilities are realized by functions exposing specific
-   interfaces.
+   interfaces.  It is important to reiterate that each component in the
+   ecosystem can be a composite of various roles and capabilities.
+
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 4]
+
+Internet-Draft              SACM Architecture                 March 2018
+
 
 3.2.  XMPP-based Solution
 
@@ -205,26 +241,6 @@ Internet-Draft              SACM Architecture                 March 2018
    update to that draft or a new, extending draft is needed).
    Additionally, each of the SACM Components depicted in Figure 2 may be
    a Provider, a Consumer, or both, depending on the circumstance.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 4]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
   +----------+      +------+   +------------+
   |Repository|      |Policy|   |Orchestrator|
@@ -257,6 +273,15 @@ Internet-Draft              SACM Architecture                 March 2018
    propose work to extend (or modify) [I-D.ietf-mile-xmpp-grid] to
    include additional XEPs, possibly the following:
 
+
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 5]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
    o  Entity Capabilities (XEP-0115): May be used to express the
       specific capabilities that a particular client embodies.
 
@@ -272,15 +297,6 @@ Internet-Draft              SACM Architecture                 March 2018
 
    o  Publishing Stream Initiation Requests (XEP-0137): Provides ability
       to stream information between two XMPP entities.
-
-
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 5]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
    o  PubSub Collection Nodes (XEP-0248): Nested topics for
       specialization to the leaf node level.
@@ -314,6 +330,14 @@ Internet-Draft              SACM Architecture                 March 2018
    start somewhere.  The following is a list of suggested SACM Component
    classes and specializations.
 
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 6]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
    o  Repository
 
       *  Vulnerability Information Repository
@@ -329,14 +353,6 @@ Internet-Draft              SACM Architecture                 March 2018
       *  Software Inventory Collector
 
       *  Vulnerability State Collector
-
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 6]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
       *  Configuration State Collector
 
@@ -371,6 +387,13 @@ Internet-Draft              SACM Architecture                 March 2018
    GET workspace, GET collection, SET entry, and so on) to a specific
    mechanism (namely an ATOM Publication Protocol extension).
 
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 7]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
    It is not inconceivable to believe there could be a different
    interface mechanism, or a connector, providing these same operations
    using XMPP-Grid as the transfer mechanism.
@@ -381,18 +404,6 @@ Internet-Draft              SACM Architecture                 March 2018
    Profile [I-D.ietf-sacm-ecp], which describes a collection
    architecture and may be viewed as a collector coupled with a
    collection-specific repository.
-
-
-
-
-
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 7]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
                                  Posture Manager              Endpoint
                 Orchestrator    +---------------+        +---------------+
@@ -430,6 +441,15 @@ Evaluator       Repository      |      |        |        |      |        |
    Our assertion is that the Evaluator, Repository, Orchestrator, and
    Posture Manager all have the potential to represent SACM Components
    with specific capability interfaces that can be logically specified,
+
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 8]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
    then bound to one or more specific transfer mechanisms (i.e.  RESTful
    API, [I-D.ietf-mile-rolie], [I-D.ietf-mile-xmpp-grid], and so on).
 
@@ -442,14 +462,6 @@ Evaluator       Repository      |      |        |        |      |        |
    encapsulation of the SCAP source components required to, for example,
    perform configuration assessment on a given endpoint.  These source
    components include XCCDF checklists, OVAL Definitions, and CPE
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 8]
-
-Internet-Draft              SACM Architecture                 March 2018
-
-
    Dictionary information.  A single "datastream collection" may
    encapsulate multiple "datastreams", and reference any number of SCAP
    components.  Datastream collections were intended to provide an
@@ -482,6 +494,18 @@ Internet-Draft              SACM Architecture                 March 2018
    This is a specific example of an existing collection mechanism being
    adapted to the XMPP-Grid message transfer system.
 
+
+
+
+
+
+
+
+Montville & Munyan     Expires September 25, 2018               [Page 9]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
 4.2.  Capabilities
 
    Repositories will have a need for fairly standard CRUD operations and
@@ -496,15 +520,6 @@ Internet-Draft              SACM Architecture                 March 2018
 4.3.  Interfaces
 
    TBD
-
-
-
-
-
-Montville & Munyan     Expires September 24, 2018               [Page 9]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
 5.  Open Questions
 
@@ -536,6 +551,17 @@ Internet-Draft              SACM Architecture                 March 2018
 
 9.1.  Normative References
 
+
+
+
+
+
+
+Montville & Munyan     Expires September 25, 2018              [Page 10]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
@@ -549,18 +575,21 @@ Internet-Draft              SACM Architecture                 March 2018
               <https://tools.ietf.org/html/draft-birkholz-sacm-yang-
               content-01>.
 
+   [HACK100]  "IETF 100 Hackathon - Vulnerability Scenario ECP+XMPP",
+              n.d., <https://www.github.com/sacmwg/vulnerability-
+              scenario/ietf-hackathon>.
+
+   [HACK101]  "IETF 101 Hackathon - Configuration Assessment XMPP",
+              n.d., <https://www.github.com/CISecurity/Integration>.
+
+   [HACK99]   "IETF 99 Hackathon - Vulnerability Scenario ECP", n.d.,
+              <https://www.github.com/sacmwg/vulnerability-scenario/
+              ietf-hackathon>.
+
    [I-D.ietf-mile-rolie]
               Field, J., Banghart, S., and D. Waltermire, "Resource-
               Oriented Lightweight Information Exchange", draft-ietf-
               mile-rolie-16 (work in progress), December 2017.
-
-
-
-
-Montville & Munyan     Expires September 24, 2018              [Page 10]
-
-Internet-Draft              SACM Architecture                 March 2018
-
 
    [I-D.ietf-mile-xmpp-grid]
               Cam-Winget, N., Appala, S., Pope, S., and P. Saint-Andre,
@@ -577,6 +606,17 @@ Internet-Draft              SACM Architecture                 March 2018
               J. Fitzgerald-McKay, "Software Inventory Message and
               Attributes (SWIMA) for PA-TNC", draft-ietf-sacm-nea-swid-
               patnc-01 (work in progress), March 2017.
+
+
+
+
+
+
+
+Montville & Munyan     Expires September 25, 2018              [Page 11]
+
+Internet-Draft              SACM Architecture                 March 2018
+
 
    [I-D.ietf-sacm-terminology]
               Birkholz, H., Lu, J., Strassner, J., Cam-Winget, N., and
@@ -607,17 +647,6 @@ Internet-Draft              SACM Architecture                 March 2018
               DOI 10.17487/RFC7632, September 2015, <https://www.rfc-
               editor.org/info/rfc7632>.
 
-
-
-
-
-
-
-Montville & Munyan     Expires September 24, 2018              [Page 11]
-
-Internet-Draft              SACM Architecture                 March 2018
-
-
    [RFC8248]  Cam-Winget, N. and L. Lorenzin, "Security Automation and
               Continuous Monitoring (SACM) Requirements", RFC 8248,
               DOI 10.17487/RFC8248, September 2017, <https://www.rfc-
@@ -636,6 +665,21 @@ Appendix A.  Mapping to RFC8248
    o  N/A: The requirement is not applicable to this architectural
       exploration
 
+
+
+
+
+Montville & Munyan     Expires September 25, 2018              [Page 12]
+
+Internet-Draft              SACM Architecture                 March 2018
+
+
+   o  Architecture: This architecture (possibly assuming some
+      components) should meet the requirement
+
+   o  XMPP: The set of XMPP Core specifications and the collection of
+      applicable extensions, deployment, and operational considerations.
+
    o  XMPP-Core: The requirement is satisfied by a core XMPP feature
 
    o  XEP-nnnn: The requirement is satisfied by a numbered XMPP
@@ -649,156 +693,156 @@ Appendix A.  Mapping to RFC8248
    If there is no entry in the Supported By column, then there is a gap
    that must be filled.
 
-   +----------+-----------------------------------------+--------------+
-   | ID       | Name                                    | Supported By |
-   +----------+-----------------------------------------+--------------+
-   | G-001    | Solution Extensibility                  |              |
-   |          |                                         |              |
-   | G-002    | Interoperability                        |              |
-   |          |                                         |              |
-   | G-003    | Scalability                             |              |
-   |          |                                         |              |
-   | G-004    | Versatility                             |              |
-   |          |                                         |              |
-   | G-005    | Information Extensibility               |              |
-   |          |                                         |              |
-   | G-006    | Data Protection                         |              |
-   |          |                                         |              |
-   | G-007    | Data Partitioning                       |              |
-   |          |                                         |              |
+   +----------+----------------------------------------+---------------+
+   | ID       | Name                                   |  Supported By |
+   +----------+----------------------------------------+---------------+
+   | G-001    | Solution Extensibility                 |   XMPP-Core   |
+   |          |                                        |               |
+   | G-002    | Interoperability                       |      XMPP     |
+   |          |                                        |               |
+   | G-003    | Scalability                            |      XMPP     |
+   |          |                                        |               |
+   | G-004    | Versatility                            |   XMPP-Core   |
+   |          |                                        |               |
+   | G-005    | Information Extensibility              |   XMPP-Core   |
+   |          |                                        |               |
+   | G-006    | Data Protection                        |  Operational  |
+   |          |                                        |               |
+   | G-007    | Data Partitioning                      |  Operational  |
+   |          |                                        |               |
+   | G-008    | Versioning and Backward Compatibility  |    XEP-0115   |
+   |          |                                        |               |
+   | G-009    | Information Discovery                  |    XEP-0030   |
+   |          |                                        |               |
+   | G-010    | Target Endpoint Discovery              |   XMPP-Core   |
+   |          |                                        |               |
+   | G-011    | Push and Pull Access                   | XEP-0060/0312 |
+   |          |                                        |               |
+   | G-012    | SACM Component Interface               |      N/A      |
+   |          |                                        |               |
+   | G-013    | Endpoint Location and Network Topology |               |
+   |          |                                        |               |
 
 
 
-Montville & Munyan     Expires September 24, 2018              [Page 12]
+Montville & Munyan     Expires September 25, 2018              [Page 13]
 
 Internet-Draft              SACM Architecture                 March 2018
 
 
-   | G-008    | Versioning and Backward Compatibility   |              |
-   |          |                                         |              |
-   | G-009    | Information Discovery                   |              |
-   |          |                                         |              |
-   | G-010    | Target Endpoint Discovery               |              |
-   |          |                                         |              |
-   | G-011    | Push and Pull Access                    |              |
-   |          |                                         |              |
-   | G-012    | SACM Component Interface                |              |
-   |          |                                         |              |
-   | G-013    | Endpoint Location and Network Topology  |              |
-   |          |                                         |              |
-   | G-014    | Target Endpoint Identity                |              |
-   |          |                                         |              |
-   | G-015    | Data Access Control                     |              |
-   |          |                                         |              |
-   | ARCH-001 | Component Functions                     |              |
-   |          |                                         |              |
-   | ARCH-002 | Scalability                             |              |
-   |          |                                         |              |
-   | ARCH-003 | Flexibility                             |              |
-   |          |                                         |              |
-   | ARCH-004 | Separation of Data and Management       |              |
-   |          | Functions                               |              |
-   |          |                                         |              |
-   | ARCH-005 | Topology Flexibility                    |              |
-   |          |                                         |              |
-   | ARCH-006 | Capability Negotiation                  |              |
-   |          |                                         |              |
-   | ARCH-007 | Role-Based Authorization                |              |
-   |          |                                         |              |
-   | ARCH-008 | Context-Based Authorization             |              |
-   |          |                                         |              |
-   | ARCH-009 | Time Synchronization                    |              |
-   |          |                                         |              |
-   | IM-001   | Extensible Attribute Vocabulary         |              |
-   |          |                                         |              |
-   | IM-002   | Posture Data Publication                |              |
-   |          |                                         |              |
-   | IM-003   | Data Model Negotiation                  |              |
-   |          |                                         |              |
-   | IM-004   | Data Model Identification               |              |
-   |          |                                         |              |
-   | IM-005   | Data Lifetime Management                |              |
-   |          |                                         |              |
-   | IM-006   | Singularity and Modularity              |              |
-   |          |                                         |              |
-   | DM-001   | Element Association                     |              |
+   | G-014    | Target Endpoint Identity               |   XMPP-Core   |
+   |          |                                        |               |
+   | G-015    | Data Access Control                    |               |
+   |          |                                        |               |
+   | ARCH-001 | Component Functions                    |      XMPP     |
+   |          |                                        |               |
+   | ARCH-002 | Scalability                            |   XMPP-Core   |
+   |          |                                        |               |
+   | ARCH-003 | Flexibility                            |   XMPP-Core   |
+   |          |                                        |               |
+   | ARCH-004 | Separation of Data and Management      |               |
+   |          | Functions                              |               |
+   |          |                                        |               |
+   | ARCH-005 | Topology Flexibility                   |   XMPP-Core   |
+   |          |                                        |               |
+   | ARCH-006 | Capability Negotiation                 |    XEP-0115   |
+   |          |                                        |               |
+   | ARCH-007 | Role-Based Authorization               |   XMPP-Core   |
+   |          |                                        |               |
+   | ARCH-008 | Context-Based Authorization            |               |
+   |          |                                        |               |
+   | ARCH-009 | Time Synchronization                   |  Operational  |
+   |          |                                        |               |
+   | IM-001   | Extensible Attribute Vocabulary        |      N/A      |
+   |          |                                        |               |
+   | IM-002   | Posture Data Publication               |      N/A      |
+   |          |                                        |               |
+   | IM-003   | Data Model Negotiation                 |      N/A      |
+   |          |                                        |               |
+   | IM-004   | Data Model Identification              |      N/A      |
+   |          |                                        |               |
+   | IM-005   | Data Lifetime Management               |      N/A      |
+   |          |                                        |               |
+   | IM-006   | Singularity and Modularity             |      N/A      |
+   |          |                                        |               |
+   | DM-001   | Element Association                    |      N/A      |
+   |          |                                        |               |
+   | DM-002   | Data Model Structure                   |      N/A      |
+   |          |                                        |               |
+   | DM-003   | Search Flexibility                     |      N/A      |
+   |          |                                        |               |
+   | DM-004   | Full vs. Partial Updates               |      N/A      |
+   |          |                                        |               |
+   | DM-005   | Loose Coupling                         |      N/A      |
+   |          |                                        |               |
+   | DM-006   | Data Cardinality                       |      N/A      |
+   |          |                                        |               |
+   | DM-007   | Data Model Negotiation                 |      N/A      |
 
 
 
-Montville & Munyan     Expires September 24, 2018              [Page 13]
+Montville & Munyan     Expires September 25, 2018              [Page 14]
 
 Internet-Draft              SACM Architecture                 March 2018
 
 
-   |          |                                         |              |
-   | DM-002   | Data Model Structure                    |              |
-   |          |                                         |              |
-   | DM-003   | Search Flexibility                      |              |
-   |          |                                         |              |
-   | DM-004   | Full vs. Partial Updates                |              |
-   |          |                                         |              |
-   | DM-005   | Loose Coupling                          |              |
-   |          |                                         |              |
-   | DM-006   | Data Cardinality                        |              |
-   |          |                                         |              |
-   | DM-007   | Data Model Negotiation                  |              |
-   |          |                                         |              |
-   | DM-008   | Data Origin                             |              |
-   |          |                                         |              |
-   | DM-009   | Origination Time                        |              |
-   |          |                                         |              |
-   | DM-010   | Data Generation                         |              |
-   |          |                                         |              |
-   | DM-011   | Data Source                             |              |
-   |          |                                         |              |
-   | DM-012   | Data Updates                            |              |
-   |          |                                         |              |
-   | DM-013   | Multiple Collectors                     |              |
-   |          |                                         |              |
-   | DM-014   | Attribute Extensibility                 |              |
-   |          |                                         |              |
-   | DM-015   | Solicited vs. Unsolicited Updates       |              |
-   |          |                                         |              |
-   | DM-016   | Transfer Agnostic                       |              |
-   |          |                                         |              |
-   | OP-001   | Time Synchronization                    |              |
-   |          |                                         |              |
-   | OP-002   | Collection Abstraction                  |              |
-   |          |                                         |              |
-   | OP-003   | Collection Composition                  |              |
-   |          |                                         |              |
-   | OP-004   | Attribute-Based Query                   |              |
-   |          |                                         |              |
-   | OP-005   | Information-Based Query with Filtering  |              |
-   |          |                                         |              |
-   | OP-006   | Operation Scalability                   |              |
-   |          |                                         |              |
-   | OP-007   | Data Abstraction                        |              |
-   |          |                                         |              |
-   | OP-008   | Provider Restriction                    |              |
-   |          |                                         |              |
-   | T-001    | Multiple Transfer Protocol Support      |              |
+   |          |                                        |               |
+   | DM-008   | Data Origin                            |      N/A      |
+   |          |                                        |               |
+   | DM-009   | Origination Time                       |      N/A      |
+   |          |                                        |               |
+   | DM-010   | Data Generation                        |      N/A      |
+   |          |                                        |               |
+   | DM-011   | Data Source                            |      N/A      |
+   |          |                                        |               |
+   | DM-012   | Data Updates                           |      N/A      |
+   |          |                                        |               |
+   | DM-013   | Multiple Collectors                    |      N/A      |
+   |          |                                        |               |
+   | DM-014   | Attribute Extensibility                |      N/A      |
+   |          |                                        |               |
+   | DM-015   | Solicited vs. Unsolicited Updates      |      N/A      |
+   |          |                                        |               |
+   | DM-016   | Transfer Agnostic                      |      N/A      |
+   |          |                                        |               |
+   | OP-001   | Time Synchronization                   |               |
+   |          |                                        |               |
+   | OP-002   | Collection Abstraction                 |               |
+   |          |                                        |               |
+   | OP-003   | Collection Composition                 |               |
+   |          |                                        |               |
+   | OP-004   | Attribute-Based Query                  |               |
+   |          |                                        |               |
+   | OP-005   | Information-Based Query with Filtering |               |
+   |          |                                        |               |
+   | OP-006   | Operation Scalability                  |               |
+   |          |                                        |               |
+   | OP-007   | Data Abstraction                       |               |
+   |          |                                        |               |
+   | OP-008   | Provider Restriction                   |               |
+   |          |                                        |               |
+   | T-001    | Multiple Transfer Protocol Support     |  Architecture |
+   |          |                                        |               |
+   | T-002    | Data Integrity                         |  Operational  |
+   |          |                                        |               |
+   | T-003    | Data Confidentiality                   |  Operational  |
+   |          |                                        |               |
+   | T-004    | Transfer Protection                    |               |
+   |          |                                        |               |
+   | T-005    | Transfer Reliability                   |               |
+   |          |                                        |               |
+   | T-006    | Transfer-Layer Requirements            |               |
+   |          |                                        |               |
+   | T-007    | Transfer Protocol Adoption             |  Architecture |
 
 
 
-Montville & Munyan     Expires September 24, 2018              [Page 14]
+Montville & Munyan     Expires September 25, 2018              [Page 15]
 
 Internet-Draft              SACM Architecture                 March 2018
 
 
-   |          |                                         |              |
-   | T-002    | Data Integrity                          |              |
-   |          |                                         |              |
-   | T-003    | Data Confidentiality                    |              |
-   |          |                                         |              |
-   | T-004    | Transfer Protection                     |              |
-   |          |                                         |              |
-   | T-005    | Transfer Reliability                    |              |
-   |          |                                         |              |
-   | T-006    | Transfer-Layer Requirements             |              |
-   |          |                                         |              |
-   | T-007    | Transfer Protocol Adoption              |              |
-   +----------+-----------------------------------------+--------------+
+   +----------+----------------------------------------+---------------+
 
 Authors' Addresses
 
@@ -837,4 +881,16 @@ Authors' Addresses
 
 
 
-Montville & Munyan     Expires September 24, 2018              [Page 15]
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan     Expires September 25, 2018              [Page 16]
