@@ -311,8 +311,8 @@ address {
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-01" />
   <meta name="dct.issued" scheme="ISO8601" content="2018-3-24" />
-  <meta name="dct.abstract" content="This memo documents an exploration of a notional Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
-  <meta name="description" content="This memo documents an exploration of a notional Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
+  <meta name="dct.abstract" content="This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
+  <meta name="description" content="This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
 
 </head>
 
@@ -348,7 +348,7 @@ address {
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
-<p>This memo documents an exploration of a notional Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a>, and is predicated upon information gleaned from SACM Use Cases and Requirements (<a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a> respectively), and terminology as found in <a href="#I-D.ietf-sacm-terminology">[I-D.ietf-sacm-terminology]</a>.</p>
+<p>This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a>, and is predicated upon information gleaned from SACM Use Cases and Requirements (<a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a> respectively), and terminology as found in <a href="#I-D.ietf-sacm-terminology">[I-D.ietf-sacm-terminology]</a>.</p>
 <h1 id="rfc.status">
   <a href="#rfc.status">Status of This Memo</a>
 </h1>
@@ -400,21 +400,15 @@ address {
   </ul>
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
-<p id="rfc.section.1.p.1">The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our solution upon <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> and <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, and believe these approaches complement each other to more completely meet the spirit of <a href="#RFC7632">[RFC7632]</a> and requirements found in <a href="#RFC8248">[RFC8248]</a>.</p>
+<p id="rfc.section.1.p.1">The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our partial solution upon <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> and <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, and believe these approaches complement each other to more completely meet the spirit of <a href="#RFC7632">[RFC7632]</a> and requirements found in <a href="#RFC8248">[RFC8248]</a>.</p>
 <p id="rfc.section.1.p.2">This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, our solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.</p>
-<p id="rfc.section.1.p.3">Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around IETF hackathon. The list of hackathon efforts follows:</p>
+<p id="rfc.section.1.p.3">Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around and during IETF hackathons. The list of hackathon efforts follows:</p>
 <p/>
 
 <ul>
-  <li>
-    <a href="#HACK99">[HACK99]</a>
-  </li>
-  <li>
-    <a href="#HACK100">[HACK100]</a>
-  </li>
-  <li>
-    <a href="#HACK101">[HACK101]</a>
-  </li>
+  <li><a href="#HACK99">[HACK99]</a>: TODO: Provide description.</li>
+  <li><a href="#HACK100">[HACK100]</a>: TODO: Provide description.</li>
+  <li><a href="#HACK101">[HACK101]</a>: TODO: Provide description.</li>
 </ul>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#open-questions" id="open-questions">Open Questions</a></h1>
 <p id="rfc.section.1.1.p.1">The following is a list of open questions we still have about the path forward with this exploration:</p>
@@ -432,7 +426,7 @@ address {
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#terms-and-definitions" id="terms-and-definitions">Terms and Definitions</a></h1>
 <p id="rfc.section.2.p.1">This draft defers to <a href="#I-D.ietf-sacm-terminology">[I-D.ietf-sacm-terminology]</a> for terms and definitions.</p>
 <h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#architectural-discovery" id="architectural-discovery">Architectural Discovery</a></h1>
-<p id="rfc.section.3.p.1">The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one ore more components are consumers and one or more components are providers of information.</p>
+<p id="rfc.section.3.p.1">The generic approach proposed herein recognizes the need to pull information from existing state collection mechanisms, and makes every attempt to respect <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.</p>
 <div id="rfc.figure.1"/>
 <div id="fig-notional"/>
 <pre>
@@ -462,9 +456,10 @@ address {
 <p id="rfc.section.3.p.2">As shown in <a href="#fig-notional">Figure 1</a>, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. While not depicted, the message transfer system is expected to maximally align with the requirements described in <a href="#RFC8248">[RFC8248]</a>, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.</p>
 <p id="rfc.section.3.p.3">Additionally, component-specific interfaces (i.e. such as A, B, C, and D in <a href="#fig-notional">Figure 1</a>) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.</p>
 <h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#sacm-roles" id="sacm-roles">SACM Roles</a></h1>
-<p id="rfc.section.3.1.p.1">This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem, but generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about the components that play these types of roles. It is important to reiterate that each component in the ecosystem can be a composite of various roles and capabilities.</p>
+<p id="rfc.section.3.1.p.1">This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.</p>
 <h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> <a href="#exploring-an-xmpp-based-solution" id="exploring-an-xmpp-based-solution">Exploring An XMPP-based Solution</a></h1>
-<p id="rfc.section.3.2.p.1">In <a href="#fig-detailed">Figure 2</a>, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in <a href="#fig-detailed">Figure 2</a>, this architecture does not preclude point-to-point interfaces. In fact, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> provides brokering capabilities to facilitate such point-to-point data transfers, though <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in <a href="#fig-detailed">Figure 2</a> may be a Provider, a Consumer, or both, depending on the circumstance.</p>
+<p id="rfc.section.3.2.p.1">In <a href="#fig-detailed">Figure 2</a>, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</p>
+<p id="rfc.section.3.2.p.2">Additionally, while not directly depicted in <a href="#fig-detailed">Figure 2</a>, this architecture does allows point-to-point interfaces. In fact, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in <a href="#fig-detailed">Figure 2</a> may be a provider, a consumer, or both, depending on the workflow in context.</p>
 <div id="rfc.figure.2"/>
 <div id="fig-detailed"/>
 <pre>
@@ -490,7 +485,7 @@ address {
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
 <p class="figure">Figure 2: Detailed Architecture</p>
-<p id="rfc.section.3.2.p.2">At this point, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. In <a href="#fig-detailed">Figure 2</a> we therefore use "XMPP-Grid+" to indicate something more than <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> to include additional XEPs, possibly the following:</p>
+<p id="rfc.section.3.2.p.3">At this point, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <a href="#RFC7632">[RFC7632]</a> and <a href="#RFC8248">[RFC8248]</a>. In <a href="#fig-detailed">Figure 2</a> we therefore use "XMPP-Grid+" to indicate something more than <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> to include additional XEPs - possibly the following:</p>
 <p/>
 
 <ul>
@@ -501,7 +496,7 @@ address {
   <li>Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.</li>
   <li>PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.</li>
   <li>Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.</li>
-  <li>PubSub Since (XEP-0312): Persists published items, which may be useful</li>
+  <li>PubSub Since (XEP-0312): Persists published items, which may be useful in intermittent connection scenarios</li>
   <li>PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server</li>
   <li>Easy User Onboarding (XEP-401): Simplified client registration</li>
 </ul>
@@ -520,6 +515,7 @@ address {
 </ul>
 <h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#capabilities" id="capabilities">Capabilities</a></h1>
 <p id="rfc.section.4.2.p.1">Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.</p>
+<p id="rfc.section.4.2.p.2">Not to be overlooked, whatever solution at which we arrive must, per <a href="#RFC8248">[RFC8248]</a>, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.</p>
 <h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#interfaces" id="interfaces">Interfaces</a></h1>
 <p id="rfc.section.4.3.p.1">Interfaces should be derived directly from identified workflows, several of which are described in this document.</p>
 <h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#candidate-workflows" id="candidate-workflows">(Candidate) Workflows</a></h1>

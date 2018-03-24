@@ -96,20 +96,20 @@ informative:
 
 --- abstract
 
-This memo documents an exploration of a notional Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{I-D.ietf-mile-xmpp-grid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
+This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
 
 --- middle
 
 # Introduction
-The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our solution upon {{-xmppgrid}} and {{-ecp}}, and believe these approaches complement each other to more completely meet the spirit of {{RFC7632}} and requirements found in {{RFC8248}}.
+The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our partial solution upon {{-xmppgrid}} and {{-ecp}}, and believe these approaches complement each other to more completely meet the spirit of {{RFC7632}} and requirements found in {{RFC8248}}.
 
 This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, our solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.
 
-Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around IETF hackathon. The list of hackathon efforts follows:
+Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around and during IETF hackathons. The list of hackathon efforts follows:
 
-* {{HACK99}}
-* {{HACK100}}
-* {{HACK101}}
+* {{HACK99}}: TODO: Provide description.
+* {{HACK100}}: TODO: Provide description.
+* {{HACK101}}: TODO: Provide description.
 
 ## Open Questions
 The following is a list of open questions we still have about the path forward with this exploration:
@@ -136,7 +136,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 This draft defers to {{-sacmt}} for terms and definitions.
 
 # Architectural Discovery
-The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one ore more components are consumers and one or more components are providers of information.
+The generic approach proposed herein recognizes the need to pull information from existing state collection mechanisms, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.
 
 ~~~~~~~~~~
 +----------+      +------+   +------------+
@@ -168,10 +168,12 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
 ## SACM Roles
-This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem, but generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about the components that play these types of roles. It is important to reiterate that each component in the ecosystem can be a composite of various roles and capabilities.
+This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.
 
 ## Exploring An XMPP-based Solution
-In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers, though {{-xmppgrid}} does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
+In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
+
+Additionally, while not directly depicted in {{fig-detailed}}, this architecture does allows point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a provider, a consumer, or both, depending on the workflow in context.
 
 ~~~~~~~~~~
   +----------+      +------+   +------------+
@@ -197,7 +199,7 @@ In {{fig-detailed}}, we have a more detailed view of the architecture - one that
 ~~~~~~~~~~
 {: #fig-detailed title="Detailed Architecture"}
 
-At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs, possibly the following:
+At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs - possibly the following:
 
 * Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.
 * Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.
@@ -206,7 +208,7 @@ At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and th
 * Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.
 * PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
 * Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
-* PubSub Since (XEP-0312): Persists published items, which may be useful
+* PubSub Since (XEP-0312): Persists published items, which may be useful in intermittent connection scenarios
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
 * Easy User Onboarding (XEP-401): Simplified client registration
 
@@ -246,6 +248,8 @@ The following is a list of suggested SACM Component classes and specializations.
 
 ## Capabilities
 Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.
+
+Not to be overlooked, whatever solution at which we arrive must, per {{RFC8248}}, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.
 
 ## Interfaces
 Interfaces should be derived directly from identified workflows, several of which are described in this document.  
