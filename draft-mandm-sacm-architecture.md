@@ -111,6 +111,20 @@ Keep in mind that, at this point, the draft is tracking ongoing work being perfo
 * {{HACK100}}
 * {{HACK101}}
 
+## Open Questions
+The following is a list of open questions we still have about the path forward with this exploration:
+
+* What are the specific components participating in a SACM Domain?
+* What are the capabilities we can expect these components to contain?
+  * How can we classify these capabilities?
+  * How do we define an extensible capability taxonomy (perhaps using IANA tables)?
+* What are the present-day workflows we expect an operational enterprise to carry out?
+  * Can we prioritize these workflows in some way that helps us progress sensibly?
+  * How can these workflows be improved?
+  * Is it a straight path to improvement?
+* Should workflows be documented in this draft or separate drafts?
+* Should interfaces be documented in workflow drafts or separate drafts (or even this draft)?
+
 ## Requirements notation
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -121,7 +135,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 # Terms and Definitions
 This draft defers to {{-sacmt}} for terms and definitions.
 
-# The Approach
+# Architectural Discovery
 The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one ore more components are consumers and one or more components are providers of information.
 
 ~~~~~~~~~~
@@ -153,10 +167,10 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
 
-## SACM Roles, Capabilities, and Functions
-In this example architecture there are a variety of players in the cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem: Consumer, Provider. Each SACM Component, depending on its specialized role, will be endowed with one or more capabilities. These capabilities are realized by functions exposing specific interfaces. It is important to reiterate that each component in the ecosystem can be a composite of various roles and capabilities.
+## SACM Roles
+This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components and recognize that they may be implemented in a composite manner. SACM Components may play one of several roles relevant to the ecosystem, but generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about the components that play these types of roles. It is important to reiterate that each component in the ecosystem can be a composite of various roles and capabilities.
 
-## XMPP-based Solution
+## Exploring An XMPP-based Solution
 In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector. Additionally, while not directly depicted in {{fig-detailed}}, this architecture does not preclude point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers, though {{-xmppgrid}} does not provide everything SACM needs (an update to that draft or a new, extending draft is needed). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a Provider, a Consumer, or both, depending on the circumstance.
 
 ~~~~~~~~~~
@@ -196,7 +210,7 @@ At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and th
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
 * Easy User Onboarding (XEP-401): Simplified client registration
 
-# SACM Components, Capabilities, and Interfaces
+# Components, Capabilities, Interfaces, and Workflows
 The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. At this point, we have been experimenting with XMPP as a transfer mechanism.
 
 The following subsections describe some of the components, capabilities, and interfaces we may expect to see participating in a SACM Domain.
@@ -206,84 +220,55 @@ The following is a list of suggested SACM Component classes and specializations.
 
 * Repository
   * Vulnerability Information Repository
-  * Software Inventory Repository
+  * Asset Inventory Repository
+    * Software Inventory Repository
+    * Device Inventory Repository
   * Configuration Policy Repository
   * Configuration State Repository
 * Collector
-  * Software Inventory Collector
+  * Asset Inventory Collector
+    * Software Inventory Collector
+    * Device Inventory Collector
   * Vulnerability State Collector
   * Configuration State Collector
 * Evaluator
-  * Software Inventory Evaluator
+  * Asset Inventory Evaluator
+    * Software Inventory Evaluator
+    * Device Inventory Evaluator
   * Vulnerability State Evaluator
   * Configuration State Evaluator
 * Orchestrator
   * Vulnerability Management Orchestrator
   * Configuration Management Orchestrator
   * Asset Management Orchestrator
-
-### Policy Services
-TBD
-
-### Software Inventory
-The SACM working group has accepted work on the Endpoint Compliance Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
-
-~~~~~~~~~~
-                                 Posture Manager              Endpoint
-                Orchestrator    +---------------+        +---------------+
-                +--------+      |               |        |               |
-                |        |      | +-----------+ |        | +-----------+ |
-                |        |<---->| | Posture   | |        | | Posture   | |
-                |        | pub/ | | Validator | |        | | Collector | |
-                |        | sub  | +-----------+ |        | +-----------+ |
-                +--------+      |      |        |        |      |        |
-                                |      |        |        |      |        |
-Evaluator       Repository      |      |        |        |      |        |
-+------+        +--------+      | +-----------+ |<-------| +-----------+ |
-|      |        |        |      | | Posture   | | report | | Posture   | |
-|      |        |        |      | | Collection| |        | | Collection| |
-|      |<-----> |        |<-----| | Manager   | | query  | | Engine    | |
-|      |request/|        | store| +-----------+ |------->| +-----------+ |
-|      |respond |        |      |               |        |               |
-|      |        |        |      |               |        |               |
-+------+        +--------+      +---------------+        +---------------+
-
-~~~~~~~~~~
-{: #fig-ecp title="ECP Collection Architecture"}
-
-In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{-xmppgrid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
-
-Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{-rolie}}, {{-xmppgrid}}, and so on).
-
-### Datastream Collection
-{{NIST800126}}, also known as SCAP 1.3, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
-
-The {{NIST800126}} specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in {{NISTIR7694}}.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
-
-What {{NIST800126}}did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
-
-### Network Configuration Collection
-{{draft-birkholz-sacm-yang-content}} illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. {{draft-birkholz-sacm-yang-content}} further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
-
-This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.
+    * Software Inventory Evaluator
+    * Device Inventory Evaluator
 
 ## Capabilities
 Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.
 
 ## Interfaces
-TBD
+Interfaces should be derived directly from identified workflows, several of which are described in this document.  
 
-# Open Questions
-The following is a list of open questions we still have about the path forward with this exploration:
+## (Candidate) Workflows
+The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
-* What are the specific components participating in a SACM Domain?
-* What are the capabilities we can expect these components to contain?
-  * How can we classify these capabilities?
-  * How do we define an extensible capability taxonomy (perhaps using IANA tables)?
-* What are the present-day workflows we expect an operational enterprise to carry out?
-  * Can we prioritize these workflows in some way that helps us progress sensibly?
-  * How can these workflows be improved?
-  * Is it a straight path to improvement?
+### Vulnerability Management
+TODO: Pull in some vulnerability management scenario text.
+
+### Configuration Management
+TODO: Describe configuration management workflow (from policy creation to implementation to routine assessment).
+
+### IT Asset Management
+TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:
+
+* Agent-based devices
+* Non-agent based devices
+* Virtual/Cloud environments (public/private) including containers
+* Mobile devices
+* Devices that are intermittently connected
+
+Ideally, this would provide hardware identification as well.
 
 # Privacy Considerations
 TODO
@@ -379,3 +364,56 @@ If there is no entry in the Supported By column, then there is a gap that must b
 | T-005    | Transfer Reliability                        |              |
 | T-006    | Transfer-Layer Requirements                 |              |
 | T-007    | Transfer Protocol Adoption                  | Architecture |
+
+# Example Components
+
+## Policy Services
+Consider a policy server conforming to {{-rolie}}. {{-rolie}} describes a RESTful way based on the ATOM Publishing Protocol ({{RFC5023}}) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on {{RFC5023}}), there is a more abstract way to look at ROLIE.
+
+ROLIE provides notional workspaces and collections, and provides the concept of information categories and links. Strictly speaking, these are logical concepts independent of the RESTful binding ROLIE specifies. In other words, ROLIE binds a logical interface (i.e. GET workspace, GET collection, SET entry, and so on) to a specific mechanism (namely an ATOM Publication Protocol extension).
+
+It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.
+
+Even if a {{-rolie}} server were external to an organization, there would be a need for a policy source inside the organization as well, and it may be preferred for such a policy source to be connected directly to the ecosystem's communication infrastructure.
+
+## Software Inventory
+The SACM working group has accepted work on the Endpoint Compliance Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
+
+~~~~~~~~~~
+                                 Posture Manager              Endpoint
+                Orchestrator    +---------------+        +---------------+
+                +--------+      |               |        |               |
+                |        |      | +-----------+ |        | +-----------+ |
+                |        |<---->| | Posture   | |        | | Posture   | |
+                |        | pub/ | | Validator | |        | | Collector | |
+                |        | sub  | +-----------+ |        | +-----------+ |
+                +--------+      |      |        |        |      |        |
+                                |      |        |        |      |        |
+Evaluator       Repository      |      |        |        |      |        |
++------+        +--------+      | +-----------+ |<-------| +-----------+ |
+|      |        |        |      | | Posture   | | report | | Posture   | |
+|      |        |        |      | | Collection| |        | | Collection| |
+|      |<-----> |        |<-----| | Manager   | | query  | | Engine    | |
+|      |request/|        | store| +-----------+ |------->| +-----------+ |
+|      |respond |        |      |               |        |               |
+|      |        |        |      |               |        |               |
++------+        +--------+      +---------------+        +---------------+
+
+~~~~~~~~~~
+{: #fig-ecp title="ECP Collection Architecture"}
+
+In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{-xmppgrid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
+
+Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{-rolie}}, {{-xmppgrid}}, and so on).
+
+## Datastream Collection
+{{NIST800126}}, also known as SCAP 1.3, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.
+
+The {{NIST800126}} specification also defines the "SCAP result data stream" as being conformant to the Asset Reporting Format specification, defined in {{NISTIR7694}}.  The Asset Reporting Format provides an encapsulation of the SCAP source components, Asset Information, and SCAP result components, such as system characteristics and state evaluation results.
+
+What {{NIST800126}}did not do is specify the interface for finding or acquiring source datastream information, nor an interface for publishing result information.  Discovering the actual resources for this information could be done via ROLIE, as described in the Policy Services section above, but other repositories of SCAP data exist as well.
+
+## Network Configuration Collection
+{{draft-birkholz-sacm-yang-content}} illustrates a SACM Component incorporating a YANG Push client function and an XMPP-grid publisher function. {{draft-birkholz-sacm-yang-content}} further states "the output of the YANG Push client function is encapsulated in a SACM Content Element envelope, which is again encapsulated in a SACM statement envelope" which are published, essentially, via an XMPP-Grid Connector for SACM Components also part of the XMPP-Grid.
+
+This is a specific example of an existing collection mechanism being adapted to the XMPP-Grid message transfer system.
