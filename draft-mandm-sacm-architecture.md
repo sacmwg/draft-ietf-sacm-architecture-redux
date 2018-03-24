@@ -105,7 +105,7 @@ The purpose of this draft is to document and track the outcome of solution disco
 
 This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, our solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.
 
-Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around IETF hackathons. The list of hackathon efforts follows:
+Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around IETF hackathon. The list of hackathon efforts follows:
 
 * {{HACK99}}
 * {{HACK100}}
@@ -122,7 +122,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 This draft defers to {{-sacmt}} for terms and definitions.
 
 # The Approach
-The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}.
+The generic architectural approach proposed herein recognizes existing state collection mechanisms and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one ore more components are consumers and one or more components are providers of information.
 
 ~~~~~~~~~~
 +----------+      +------+   +------------+
@@ -192,7 +192,7 @@ At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and th
 * Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.
 * PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
 * Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
-* PubSub Since (XEP-nnnn): Persists published items, which may be useful
+* PubSub Since (XEP-0312): Persists published items, which may be useful
 * PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
 * Easy User Onboarding (XEP-401): Simplified client registration
 
@@ -274,7 +274,16 @@ Repositories will have a need for fairly standard CRUD operations and query by a
 TBD
 
 # Open Questions
-TBD
+The following is a list of open questions we still have about the path forward with this exploration:
+
+* What are the specific components participating in a SACM Domain?
+* What are the capabilities we can expect these components to contain?
+  * How can we classify these capabilities?
+  * How do we define an extensible capability taxonomy (perhaps using IANA tables)?
+* What are the present-day workflows we expect an operational enterprise to carry out?
+  * Can we prioritize these workflows in some way that helps us progress sensibly?
+  * How can these workflows be improved?
+  * Is it a straight path to improvement?
 
 # Privacy Considerations
 TODO
