@@ -310,7 +310,7 @@ address {
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-01" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-3-24" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-3-27" />
   <meta name="dct.abstract" content="This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
   <meta name="description" content="This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
 
@@ -334,8 +334,8 @@ address {
   <td class="right">CIS</td>
 </tr>
 <tr>
-  <td class="left">Expires: September 25, 2018</td>
-  <td class="right">March 24, 2018</td>
+  <td class="left">Expires: September 28, 2018</td>
+  <td class="right">March 27, 2018</td>
 </tr>
 
     	
@@ -355,7 +355,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on September 25, 2018.</p>
+<p>This Internet-Draft will expire on September 28, 2018.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -509,9 +509,9 @@ address {
 
 <ul>
   <li>Repository <ul><li>Vulnerability Information Repository</li><li>Asset Inventory Repository <ul><li>Software Inventory Repository</li><li>Device Inventory Repository</li></ul></li><li>Configuration Policy Repository</li><li>Configuration State Repository</li></ul></li>
-  <li>Collector <ul><li>Asset Inventory Collector <ul><li>Software Inventory Collector</li><li>Device Inventory Collector</li></ul></li><li>Vulnerability State Collector</li><li>Configuration State Collector</li></ul></li>
-  <li>Evaluator <ul><li>Asset Inventory Evaluator <ul><li>Software Inventory Evaluator</li><li>Device Inventory Evaluator</li></ul></li><li>Vulnerability State Evaluator</li><li>Configuration State Evaluator</li></ul></li>
-  <li>Orchestrator <ul><li>Vulnerability Management Orchestrator</li><li>Configuration Management Orchestrator</li><li>Asset Management Orchestrator <ul><li>Software Inventory Evaluator</li><li>Device Inventory Evaluator</li></ul></li></ul></li>
+  <li>Collector <ul><li>Vulnerability State Collector</li><li>Asset Inventory Collector <ul><li>Software Inventory Collector</li><li>Device Inventory Collector</li></ul></li><li>Configuration State Collector</li></ul></li>
+  <li>Evaluator <ul><li>Vulnerability State Evaluator</li><li>Asset Inventory Evaluator <ul><li>Software Inventory Evaluator</li><li>Device Inventory Evaluator</li></ul></li><li>Configuration State Evaluator</li></ul></li>
+  <li>Orchestrator <ul><li>Vulnerability Management Orchestrator</li><li>Asset Management Orchestrator <ul><li>Software Inventory Evaluator</li><li>Device Inventory Evaluator</li></ul></li><li>Configuration Management Orchestrator</li></ul></li>
 </ul>
 <h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#capabilities" id="capabilities">Capabilities</a></h1>
 <p id="rfc.section.4.2.p.1">Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.</p>
@@ -698,7 +698,7 @@ address {
     <tr>
       <td class="left">G-008</td>
       <td class="left">Versioning and Backward Compatibility</td>
-      <td class="center">XEP-0115</td>
+      <td class="center">XEP-0115/0030</td>
     </tr>
     <tr>
       <td class="left">G-009</td>
@@ -763,7 +763,7 @@ address {
     <tr>
       <td class="left">ARCH-006</td>
       <td class="left">Capability Negotiation</td>
-      <td class="center">XEP-0115</td>
+      <td class="center">XEP-0115/0030</td>
     </tr>
     <tr>
       <td class="left">ARCH-007</td>

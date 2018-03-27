@@ -228,23 +228,24 @@ The following is a list of suggested SACM Component classes and specializations.
   * Configuration Policy Repository
   * Configuration State Repository
 * Collector
+  * Vulnerability State Collector
   * Asset Inventory Collector
     * Software Inventory Collector
     * Device Inventory Collector
-  * Vulnerability State Collector
   * Configuration State Collector
 * Evaluator
+  * Vulnerability State Evaluator
   * Asset Inventory Evaluator
     * Software Inventory Evaluator
     * Device Inventory Evaluator
-  * Vulnerability State Evaluator
   * Configuration State Evaluator
 * Orchestrator
   * Vulnerability Management Orchestrator
-  * Configuration Management Orchestrator
   * Asset Management Orchestrator
     * Software Inventory Evaluator
     * Device Inventory Evaluator
+  * Configuration Management Orchestrator
+
 
 ## Capabilities
 Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.
@@ -314,7 +315,7 @@ If there is no entry in the Supported By column, then there is a gap that must b
 | G-005    | Information Extensibility                   | XMPP-Core    |
 | G-006    | Data Protection                             | Operational  |
 | G-007    | Data Partitioning                           | Operational  |
-| G-008    | Versioning and Backward Compatibility       | XEP-0115     |
+| G-008    | Versioning and Backward Compatibility       | XEP-0115/0030|
 | G-009    | Information Discovery                       | XEP-0030     |
 | G-010    | Target Endpoint Discovery                   | XMPP-Core    |
 | G-011    | Push and Pull Access                        | XEP-0060/0312|
@@ -327,7 +328,7 @@ If there is no entry in the Supported By column, then there is a gap that must b
 | ARCH-003 | Flexibility                                 | XMPP-Core    |
 | ARCH-004 | Separation of Data and Management Functions |              |
 | ARCH-005 | Topology Flexibility                        | XMPP-Core    |
-| ARCH-006 | Capability Negotiation                      | XEP-0115     |
+| ARCH-006 | Capability Negotiation                      | XEP-0115/0030|
 | ARCH-007 | Role-Based Authorization                    | XMPP-Core    |
 | ARCH-008 | Context-Based Authorization                 |              |
 | ARCH-009 | Time Synchronization                        | Operational  |
