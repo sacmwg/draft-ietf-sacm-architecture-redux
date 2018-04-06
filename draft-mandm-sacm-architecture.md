@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-mandm-sacm-architecture-01
+docname: draft-mandm-sacm-architecture-02
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -44,7 +44,7 @@ informative:
   I-D.ietf-sacm-nea-swid-patnc: swidtnc
   I-D.ietf-sacm-ecp: ecp
   I-D.ietf-mile-xmpp-grid: xmppgrid
-  I-D.ietf-mile-rolie: rolie
+  RFC8322: rolie
   draft-birkholz-sacm-yang-content:
     target: https://tools.ietf.org/html/draft-birkholz-sacm-yang-content-01
     title: YANG subscribed notifications via SACM Statements
@@ -96,7 +96,7 @@ informative:
 
 --- abstract
 
-This memo documents an exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
+This memo documents an ongoing exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
 
 --- middle
 
@@ -107,9 +107,9 @@ This solution gains the most advantage by supporting a variety of collection mec
 
 Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around and during IETF hackathons. The list of hackathon efforts follows:
 
-* {{HACK99}}: TODO: Provide description.
-* {{HACK100}}: TODO: Provide description.
-* {{HACK101}}: TODO: Provide description.
+* {{HACK99}}: A partial implementation of a vulnerability assessment scenario involving an {{-ecp}} implementation, a {{-rolie}} implementation, and a proprietary evaluator to pull the pieces together.
+* {{HACK100}}: Work to combine the vulnerability assessment scenario from {{HACK99}} with an XMPP-based YANG push model.
+* {{HACK101}}: A fully automated configuration assessment implementation using XMPP as a communication mechanism.
 
 ## Open Questions
 The following is a list of open questions we still have about the path forward with this exploration:
@@ -136,7 +136,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 This draft defers to {{-sacmt}} for terms and definitions.
 
 # Architectural Discovery
-The generic approach proposed herein recognizes the need to pull information from existing state collection mechanisms, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.
+The generic approach proposed herein recognizes the need to obtain information from existing state collection mechanisms, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.
 
 ~~~~~~~~~~
 +----------+      +------+   +------------+
@@ -165,7 +165,7 @@ The generic approach proposed herein recognizes the need to pull information fro
 
 As shown in {{fig-notional}}, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. While not depicted, the message transfer system is expected to maximally align with the requirements described in {{RFC8248}}, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.
 
-Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This should be done for each capability related to the given SACM Component.
+Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This SHOULD be done for each capability related to the given SACM Component.
 
 ## SACM Roles
 This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.
@@ -250,7 +250,7 @@ The following is a list of suggested SACM Component classes and specializations.
 ## Capabilities
 Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.
 
-Not to be overlooked, whatever solution at which we arrive must, per {{RFC8248}}, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.
+Not to be overlooked, whatever solution at which we arrive, per {{RFC8248}}, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.
 
 ## Interfaces
 Interfaces should be derived directly from identified workflows, several of which are described in this document.  
