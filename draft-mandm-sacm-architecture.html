@@ -287,7 +287,7 @@ address {
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Capabilities"/>
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Interfaces"/>
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 (Candidate) Workflows"/>
-<link href="#rfc.section.4.4.1" rel="Chapter" title="4.4.1 Vulnerability Management"/>
+<link href="#rfc.section.4.4.1" rel="Chapter" title="4.4.1 Vulnerability Assessment"/>
 <link href="#rfc.section.4.4.2" rel="Chapter" title="4.4.2 Configuration Management"/>
 <link href="#rfc.section.4.4.3" rel="Chapter" title="4.4.3 IT Asset Management"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Privacy Considerations"/>
@@ -380,7 +380,7 @@ address {
 <li>4.2.   <a href="#rfc.section.4.2">Capabilities</a></li>
 <li>4.3.   <a href="#rfc.section.4.3">Interfaces</a></li>
 <li>4.4.   <a href="#rfc.section.4.4">(Candidate) Workflows</a></li>
-<ul><li>4.4.1.   <a href="#rfc.section.4.4.1">Vulnerability Management</a></li>
+<ul><li>4.4.1.   <a href="#rfc.section.4.4.1">Vulnerability Assessment</a></li>
 <li>4.4.2.   <a href="#rfc.section.4.4.2">Configuration Management</a></li>
 <li>4.4.3.   <a href="#rfc.section.4.4.3">IT Asset Management</a></li>
 </ul></ul><li>5.   <a href="#rfc.section.5">Privacy Considerations</a></li>
@@ -417,9 +417,6 @@ address {
 <p/>
 
 <ul>
-  <li>What are the specific components participating in a SACM Domain?</li>
-  <li>What are the capabilities we can expect these components to contain? <ul><li>How can we classify these capabilities?</li><li>How do we define an extensible capability taxonomy (perhaps using IANA tables)?</li></ul></li>
-  <li>What are the present-day workflows we expect an operational enterprise to carry out? <ul><li>Can we prioritize these workflows in some way that helps us progress sensibly?</li><li>How can these workflows be improved?</li><li>Is it a straight path to improvement?</li></ul></li>
   <li>Should workflows be documented in this draft or separate drafts?</li>
   <li>Should interfaces be documented in workflow drafts or separate drafts (or even this draft)?</li>
 </ul>
@@ -523,8 +520,40 @@ address {
 <p id="rfc.section.4.3.p.1">Interfaces should be derived directly from identified workflows, several of which are described in this document.</p>
 <h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#candidate-workflows" id="candidate-workflows">(Candidate) Workflows</a></h1>
 <p id="rfc.section.4.4.p.1">The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.</p>
-<h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#vulnerability-management" id="vulnerability-management">Vulnerability Management</a></h1>
-<p id="rfc.section.4.4.1.p.1">TODO: Pull in some vulnerability management scenario text.</p>
+<h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#vulnerability-assessment" id="vulnerability-assessment">Vulnerability Assessment</a></h1>
+<p id="rfc.section.4.4.1.p.1">Vulnerability management is a relatively old process. According to the CIS Controls, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
+<h1 id="rfc.section.4.4.1.1"><a href="#rfc.section.4.4.1.1">4.4.1.1.</a> <a href="#vulnerability-assessment-workflow-assumptions" id="vulnerability-assessment-workflow-assumptions">Vulnerability Assessment Workflow Assumptions</a></h1>
+<p id="rfc.section.4.4.1.1.p.1">A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:</p>
+<p/>
+
+<ul>
+  <li>The enterprise has received vulnerability description information, and that the information has already been processed into vulnerability detection data that the enterprise's security software tools can understand and use.</li>
+  <li>The enterprise has a means of identifying enterprise endpoints through the execution of Target Endpoint Discovery Tasks</li>
+  <li>The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data</li>
+  <li>All information described in this scenario is available in the vulnerability description data and serves as the basis of assessments.</li>
+  <li>The enterprise can provide all relevant information about any endpoint needed to perform the described assessment.</li>
+  <li>The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.</li>
+  <li>The enterprise has a procedure for reassessment of endpoints at some point after initial assessment</li>
+</ul>
+<h1 id="rfc.section.4.4.1.2"><a href="#rfc.section.4.4.1.2">4.4.1.2.</a> <a href="#vulnerability-assessment-workflow" id="vulnerability-assessment-workflow">Vulnerability Assessment Workflow</a></h1>
+<p id="rfc.section.4.4.1.2.p.1">When new vulnerability description information is received by the enterprise, affected endpoints are identified and assessed. The vulnerability is said to apply to an endpoint if the endpoint satisfies the conditions expressed in the vulnerability detection data.</p>
+<p id="rfc.section.4.4.1.2.p.2">A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</p>
+<p/>
+
+<ul>
+  <li>Endpoint information collected by the endpoint management capabilities is examined by the vulnerability management capabilities through Evaluation Tasks.</li>
+  <li>If the data possessed by the endpoint management capabilities is insufficient, a Collection Task is triggered and the necessary data is collected from the target endpoint.</li>
+</ul>
+<p id="rfc.section.4.4.1.2.p.4">Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:</p>
+<p/>
+
+<ul>
+  <li>A specific software version is installed on the endpoint</li>
+  <li>File system attributes</li>
+  <li>Specific state attributes</li>
+</ul>
+<p id="rfc.section.4.4.1.2.p.6">In many cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to collect it from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection under certain circumstances, even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</p>
+<p id="rfc.section.4.4.1.2.p.7">The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.</p>
 <h1 id="rfc.section.4.4.2"><a href="#rfc.section.4.4.2">4.4.2.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a></h1>
 <p id="rfc.section.4.4.2.p.1">TODO: Describe configuration management workflow (from policy creation to implementation to routine assessment).</p>
 <h1 id="rfc.section.4.4.3"><a href="#rfc.section.4.4.3">4.4.3.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a></h1>

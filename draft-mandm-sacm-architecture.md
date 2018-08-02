@@ -263,8 +263,38 @@ Interfaces should be derived directly from identified workflows, several of whic
 ## (Candidate) Workflows
 The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
-### Vulnerability Management
-TODO: Pull in some vulnerability management scenario text.
+### Vulnerability Assessment
+Vulnerability management is a relatively old process. According to the CIS Controls, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
+
+#### Vulnerability Assessment Workflow Assumptions
+A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:
+
+* The enterprise has received vulnerability description information, and that the information has already been processed into vulnerability detection data that the enterprise's security software tools can understand and use.
+* The enterprise has a means of identifying enterprise endpoints through the execution of Target Endpoint Discovery Tasks
+* The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data
+* All information described in this scenario is available in the vulnerability description data and serves as the basis of assessments.
+* The enterprise can provide all relevant information about any endpoint needed to perform the described assessment.
+* The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.
+* The enterprise has a procedure for reassessment of endpoints at some point after initial assessment
+
+
+#### Vulnerability Assessment Workflow
+When new vulnerability description information is received by the enterprise, affected endpoints are identified and assessed. The vulnerability is said to apply to an endpoint if the endpoint satisfies the conditions expressed in the vulnerability detection data.
+
+A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:
+
+* Endpoint information collected by the endpoint management capabilities is examined by the vulnerability management capabilities through Evaluation Tasks.
+* If the data possessed by the endpoint management capabilities is insufficient, a Collection Task is triggered and the necessary data is collected from the target endpoint.
+
+Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:
+
+* A specific software version is installed on the endpoint
+* File system attributes
+* Specific state attributes
+
+In many cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to collect it from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection under certain circumstances, even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).
+
+The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.
 
 ### Configuration Management
 TODO: Describe configuration management workflow (from policy creation to implementation to routine assessment).
