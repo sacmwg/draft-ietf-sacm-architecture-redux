@@ -125,14 +125,6 @@ Keep in mind that, at this point, the draft is tracking ongoing work being perfo
 ## Open Questions
 The following is a list of open questions we still have about the path forward with this exploration:
 
-* What are the specific components participating in a SACM Domain?
-* What are the capabilities we can expect these components to contain?
-  * How can we classify these capabilities?
-  * How do we define an extensible capability taxonomy (perhaps using IANA tables)?
-* What are the present-day workflows we expect an operational enterprise to carry out?
-  * Can we prioritize these workflows in some way that helps us progress sensibly?
-  * How can these workflows be improved?
-  * Is it a straight path to improvement?
 * Should workflows be documented in this draft or separate drafts?
 * Should interfaces be documented in workflow drafts or separate drafts (or even this draft)?
 
