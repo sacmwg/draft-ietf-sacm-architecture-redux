@@ -38,12 +38,17 @@ author:
 
 normative:
   RFC2119:
+  RFC8412:
+  mandl-sacm-tool-capability-language:
+  mandm-sacm-assessment-model:
+  mandm-sacm-collection-model:
+  mandm-sacm-evaluation-model:
+  mandm-sacm-endpoint-attribute-data-model-registry:
+  I-D.ietf-sacm-ecp: ecp
+  I-D.ietf-mile-xmpp-grid: xmppgrid
 
 informative:
   I-D.ietf-sacm-terminology: sacmt
-  I-D.ietf-sacm-nea-swid-patnc: swidtnc
-  I-D.ietf-sacm-ecp: ecp
-  I-D.ietf-mile-xmpp-grid: xmppgrid
   RFC8322: rolie
   draft-birkholz-sacm-yang-content:
     target: https://tools.ietf.org/html/draft-birkholz-sacm-yang-content-01
@@ -97,6 +102,8 @@ informative:
 --- abstract
 
 This memo documents an ongoing exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
+
+WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/adammontville/ietf-mandm-sacm-architecture/.  Instructions are on that page as well.
 
 --- middle
 
