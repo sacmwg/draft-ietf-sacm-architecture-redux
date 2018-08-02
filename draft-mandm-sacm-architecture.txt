@@ -473,7 +473,7 @@ Internet-Draft              SACM Architecture                August 2018
 4.4.1.  Vulnerability Assessment
 
    Vulnerability management is a relatively old process.  According to
-   the CIS Controls, continuous vulnerability management the act of
+   the [CISCONTROLS], continuous vulnerability management the act of
    continuously acquiring, assessing, and taking subsequent action on
    new information in order to identify and remediate vulnerabilities,
    therefore minimizing the window of opportunity for attackers.
@@ -663,9 +663,9 @@ Internet-Draft              SACM Architecture                August 2018
 
 8.2.  Informative References
 
-
-
-
+   [CISCONTROLS]
+              "CIS Controls v7.0", n.d., <https://www.cisecurity.org/
+              controls/>.
 
 
 

@@ -61,6 +61,9 @@ informative:
   RFC7632:
   RFC8248:
   RFC5023:
+  CISCONTROLS:
+    target: https://www.cisecurity.org/controls/
+    title: CIS Controls v7.0
   NIST800126:
     target: https://csrc.nist.gov/publications/detail/sp/800-126/rev-3/final
     title: SP 800-126 Rev. 3 - The Technical Specification for the Security Content Automation Protocol (SCAP) - SCAP Version 1.3
@@ -264,7 +267,7 @@ Interfaces should be derived directly from identified workflows, several of whic
 The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
 ### Vulnerability Assessment
-Vulnerability management is a relatively old process. According to the CIS Controls, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
+Vulnerability management is a relatively old process. According to the {{CISCONTROLS}}, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
 
 #### Vulnerability Assessment Workflow Assumptions
 A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:
