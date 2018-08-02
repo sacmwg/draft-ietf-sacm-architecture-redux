@@ -98,6 +98,9 @@ informative:
   HACK101:
     target: https://www.github.com/CISecurity/Integration
     title: IETF 101 Hackathon - Configuration Assessment XMPP
+  HACK102:
+    target: https://www.github.com/CISecurity/YANG
+    title: IETF 102 Hackathon - YANG Collection on Traditional Endpoints
 
 --- abstract
 
@@ -117,6 +120,7 @@ Keep in mind that, at this point, the draft is tracking ongoing work being perfo
 * {{HACK99}}: A partial implementation of a vulnerability assessment scenario involving an {{-ecp}} implementation, a {{-rolie}} implementation, and a proprietary evaluator to pull the pieces together.
 * {{HACK100}}: Work to combine the vulnerability assessment scenario from {{HACK99}} with an XMPP-based YANG push model.
 * {{HACK101}}: A fully automated configuration assessment implementation using XMPP as a communication mechanism.
+* {{HACK102}}: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.
 
 ## Open Questions
 The following is a list of open questions we still have about the path forward with this exploration:
