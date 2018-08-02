@@ -410,6 +410,7 @@ address {
   <li><a href="#HACK99">[HACK99]</a>: A partial implementation of a vulnerability assessment scenario involving an <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a> implementation, a <a href="#RFC8322">[RFC8322]</a> implementation, and a proprietary evaluator to pull the pieces together.</li>
   <li><a href="#HACK100">[HACK100]</a>: Work to combine the vulnerability assessment scenario from <a href="#HACK99">[HACK99]</a> with an XMPP-based YANG push model.</li>
   <li><a href="#HACK101">[HACK101]</a>: A fully automated configuration assessment implementation using XMPP as a communication mechanism.</li>
+  <li><a href="#HACK102">[HACK102]</a>: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.</li>
 </ul>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#open-questions" id="open-questions">Open Questions</a></h1>
 <p id="rfc.section.1.1.p.1">The following is a list of open questions we still have about the path forward with this exploration:</p>
@@ -517,6 +518,7 @@ address {
 <h1 id="rfc.section.4.2"><a href="#rfc.section.4.2">4.2.</a> <a href="#capabilities" id="capabilities">Capabilities</a></h1>
 <p id="rfc.section.4.2.p.1">Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.</p>
 <p id="rfc.section.4.2.p.2">Not to be overlooked, whatever solution at which we arrive, per <a href="#RFC8248">[RFC8248]</a>, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.</p>
+<p id="rfc.section.4.2.p.3">A capability language is fully explored in mandl-sacm-tool-capability-language (to be submitted).</p>
 <h1 id="rfc.section.4.3"><a href="#rfc.section.4.3">4.3.</a> <a href="#interfaces" id="interfaces">Interfaces</a></h1>
 <p id="rfc.section.4.3.p.1">Interfaces should be derived directly from identified workflows, several of which are described in this document.</p>
 <h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#candidate-workflows" id="candidate-workflows">(Candidate) Workflows</a></h1>
@@ -592,6 +594,7 @@ address {
     </tr>
     <tr><td class="reference"><b id="HACK100">[HACK100]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 100 Hackathon - Vulnerability Scenario ECP+XMPP</a>", n.d..</td>, "</tr>
     <tr><td class="reference"><b id="HACK101">[HACK101]</b></td><td class="top"><a href="https://www.github.com/CISecurity/Integration">IETF 101 Hackathon - Configuration Assessment XMPP</a>", n.d..</td>, "</tr>
+    <tr><td class="reference"><b id="HACK102">[HACK102]</b></td><td class="top"><a href="https://www.github.com/CISecurity/YANG">IETF 102 Hackathon - YANG Collection on Traditional Endpoints</a>", n.d..</td>, "</tr>
     <tr><td class="reference"><b id="HACK99">[HACK99]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 99 Hackathon - Vulnerability Scenario ECP</a>", n.d..</td>, "</tr>
     <tr>
       <td class="reference">

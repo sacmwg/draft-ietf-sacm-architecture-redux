@@ -263,6 +263,8 @@ Repositories will have a need for fairly standard CRUD operations and query by a
 
 Not to be overlooked, whatever solution at which we arrive, per {{RFC8248}}, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.
 
+A capability language is fully explored in mandl-sacm-tool-capability-language (to be submitted).
+
 ## Interfaces
 Interfaces should be derived directly from identified workflows, several of which are described in this document.  
 
