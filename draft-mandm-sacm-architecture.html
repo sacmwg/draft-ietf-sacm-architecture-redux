@@ -287,9 +287,9 @@ address {
 <link href="#rfc.section.4.2" rel="Chapter" title="4.2 Capabilities"/>
 <link href="#rfc.section.4.3" rel="Chapter" title="4.3 Interfaces"/>
 <link href="#rfc.section.4.4" rel="Chapter" title="4.4 (Candidate) Workflows"/>
-<link href="#rfc.section.4.4.1" rel="Chapter" title="4.4.1 Vulnerability Assessment"/>
-<link href="#rfc.section.4.4.2" rel="Chapter" title="4.4.2 Configuration Management"/>
-<link href="#rfc.section.4.4.3" rel="Chapter" title="4.4.3 IT Asset Management"/>
+<link href="#rfc.section.4.4.1" rel="Chapter" title="4.4.1 IT Asset Management"/>
+<link href="#rfc.section.4.4.2" rel="Chapter" title="4.4.2 Vulnerability Management"/>
+<link href="#rfc.section.4.4.3" rel="Chapter" title="4.4.3 Configuration Management"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 Privacy Considerations"/>
 <link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations"/>
 <link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations"/>
@@ -310,7 +310,7 @@ address {
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-mandm-sacm-architecture-02" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-8-02" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-8-03" />
   <meta name="dct.abstract" content="This memo documents an ongoing exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
   <meta name="description" content="This memo documents an ongoing exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon " />
 
@@ -334,8 +334,8 @@ address {
   <td class="right">CIS</td>
 </tr>
 <tr>
-  <td class="left">Expires: February 3, 2019</td>
-  <td class="right">August 02, 2018</td>
+  <td class="left">Expires: February 4, 2019</td>
+  <td class="right">August 03, 2018</td>
 </tr>
 
     	
@@ -356,7 +356,7 @@ address {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on February 3, 2019.</p>
+<p>This Internet-Draft will expire on February 4, 2019.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -380,9 +380,9 @@ address {
 <li>4.2.   <a href="#rfc.section.4.2">Capabilities</a></li>
 <li>4.3.   <a href="#rfc.section.4.3">Interfaces</a></li>
 <li>4.4.   <a href="#rfc.section.4.4">(Candidate) Workflows</a></li>
-<ul><li>4.4.1.   <a href="#rfc.section.4.4.1">Vulnerability Assessment</a></li>
-<li>4.4.2.   <a href="#rfc.section.4.4.2">Configuration Management</a></li>
-<li>4.4.3.   <a href="#rfc.section.4.4.3">IT Asset Management</a></li>
+<ul><li>4.4.1.   <a href="#rfc.section.4.4.1">IT Asset Management</a></li>
+<li>4.4.2.   <a href="#rfc.section.4.4.2">Vulnerability Management</a></li>
+<li>4.4.3.   <a href="#rfc.section.4.4.3">Configuration Management</a></li>
 </ul></ul><li>5.   <a href="#rfc.section.5">Privacy Considerations</a></li>
 <li>6.   <a href="#rfc.section.6">Security Considerations</a></li>
 <li>7.   <a href="#rfc.section.7">IANA Considerations</a></li>
@@ -520,10 +520,22 @@ address {
 <p id="rfc.section.4.3.p.1">Interfaces should be derived directly from identified workflows, several of which are described in this document.</p>
 <h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#candidate-workflows" id="candidate-workflows">(Candidate) Workflows</a></h1>
 <p id="rfc.section.4.4.p.1">The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.</p>
-<h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#vulnerability-assessment" id="vulnerability-assessment">Vulnerability Assessment</a></h1>
-<p id="rfc.section.4.4.1.p.1">Vulnerability management is a relatively old process. According to the <a href="#CISCONTROLS">[CISCONTROLS]</a>, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
-<h1 id="rfc.section.4.4.1.1"><a href="#rfc.section.4.4.1.1">4.4.1.1.</a> <a href="#vulnerability-assessment-workflow-assumptions" id="vulnerability-assessment-workflow-assumptions">Vulnerability Assessment Workflow Assumptions</a></h1>
-<p id="rfc.section.4.4.1.1.p.1">A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:</p>
+<h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a></h1>
+<p id="rfc.section.4.4.1.p.1">TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:</p>
+<p/>
+
+<ul>
+  <li>Agent-based devices</li>
+  <li>Non-agent based devices</li>
+  <li>Virtual/Cloud environments (public/private) including containers</li>
+  <li>Mobile devices</li>
+  <li>Devices that are intermittently connected</li>
+</ul>
+<p id="rfc.section.4.4.1.p.3">Ideally, this would provide hardware identification as well.</p>
+<h1 id="rfc.section.4.4.2"><a href="#rfc.section.4.4.2">4.4.2.</a> <a href="#vulnerability-management" id="vulnerability-management">Vulnerability Management</a></h1>
+<p id="rfc.section.4.4.2.p.1">Vulnerability management is a relatively established process. According to the <a href="#CISCONTROLS">[CISCONTROLS]</a>, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
+<h1 id="rfc.section.4.4.2.1"><a href="#rfc.section.4.4.2.1">4.4.2.1.</a> <a href="#vulnerability-assessment-workflow-assumptions" id="vulnerability-assessment-workflow-assumptions">Vulnerability Assessment Workflow Assumptions</a></h1>
+<p id="rfc.section.4.4.2.1.p.1">A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:</p>
 <p/>
 
 <ul>
@@ -535,16 +547,16 @@ address {
   <li>The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.</li>
   <li>The enterprise has a procedure for reassessment of endpoints at some point after initial assessment</li>
 </ul>
-<h1 id="rfc.section.4.4.1.2"><a href="#rfc.section.4.4.1.2">4.4.1.2.</a> <a href="#vulnerability-assessment-workflow" id="vulnerability-assessment-workflow">Vulnerability Assessment Workflow</a></h1>
-<p id="rfc.section.4.4.1.2.p.1">When new vulnerability description information is received by the enterprise, affected endpoints are identified and assessed. The vulnerability is said to apply to an endpoint if the endpoint satisfies the conditions expressed in the vulnerability detection data.</p>
-<p id="rfc.section.4.4.1.2.p.2">A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</p>
+<h1 id="rfc.section.4.4.2.2"><a href="#rfc.section.4.4.2.2">4.4.2.2.</a> <a href="#vulnerability-assessment-workflow" id="vulnerability-assessment-workflow">Vulnerability Assessment Workflow</a></h1>
+<p id="rfc.section.4.4.2.2.p.1">When new vulnerability description information is received by the enterprise, affected endpoints are identified and assessed. The vulnerability is said to apply to an endpoint if the endpoint satisfies the conditions expressed in the vulnerability detection data.</p>
+<p id="rfc.section.4.4.2.2.p.2">A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</p>
 <p/>
 
 <ul>
   <li>Endpoint information collected by the endpoint management capabilities is examined by the vulnerability management capabilities through Evaluation Tasks.</li>
   <li>If the data possessed by the endpoint management capabilities is insufficient, a Collection Task is triggered and the necessary data is collected from the target endpoint.</li>
 </ul>
-<p id="rfc.section.4.4.1.2.p.4">Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:</p>
+<p id="rfc.section.4.4.2.2.p.4">Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:</p>
 <p/>
 
 <ul>
@@ -552,22 +564,10 @@ address {
   <li>File system attributes</li>
   <li>Specific state attributes</li>
 </ul>
-<p id="rfc.section.4.4.1.2.p.6">In many cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to collect it from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection under certain circumstances, even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</p>
-<p id="rfc.section.4.4.1.2.p.7">The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.</p>
-<h1 id="rfc.section.4.4.2"><a href="#rfc.section.4.4.2">4.4.2.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a></h1>
-<p id="rfc.section.4.4.2.p.1">TODO: Describe configuration management workflow (from policy creation to implementation to routine assessment).</p>
-<h1 id="rfc.section.4.4.3"><a href="#rfc.section.4.4.3">4.4.3.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a></h1>
-<p id="rfc.section.4.4.3.p.1">TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:</p>
-<p/>
-
-<ul>
-  <li>Agent-based devices</li>
-  <li>Non-agent based devices</li>
-  <li>Virtual/Cloud environments (public/private) including containers</li>
-  <li>Mobile devices</li>
-  <li>Devices that are intermittently connected</li>
-</ul>
-<p id="rfc.section.4.4.3.p.3">Ideally, this would provide hardware identification as well.</p>
+<p id="rfc.section.4.4.2.2.p.6">In many cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to collect it from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection under certain circumstances, even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</p>
+<p id="rfc.section.4.4.2.2.p.7">The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.</p>
+<h1 id="rfc.section.4.4.3"><a href="#rfc.section.4.4.3">4.4.3.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a></h1>
+<p id="rfc.section.4.4.3.p.1">Configuration management involves configuration assessment, which requires state assessment [TODO: Tie to SACM use cases]. The <a href="#CISCONTROLS">[CISCONTROLS]</a> specify two high-level controls conerning configuration managment (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of [endpoints] using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."</p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#privacy-considerations" id="privacy-considerations">Privacy Considerations</a></h1>
 <p id="rfc.section.5.p.1">TODO</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>

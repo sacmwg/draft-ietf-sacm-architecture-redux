@@ -266,8 +266,19 @@ Interfaces should be derived directly from identified workflows, several of whic
 ## (Candidate) Workflows
 The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
-### Vulnerability Assessment
-Vulnerability management is a relatively old process. According to the {{CISCONTROLS}}, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
+### IT Asset Management
+TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:
+
+* Agent-based devices
+* Non-agent based devices
+* Virtual/Cloud environments (public/private) including containers
+* Mobile devices
+* Devices that are intermittently connected
+
+Ideally, this would provide hardware identification as well.
+
+### Vulnerability Management
+Vulnerability management is a relatively established process. According to the {{CISCONTROLS}}, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
 
 #### Vulnerability Assessment Workflow Assumptions
 A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:
@@ -300,18 +311,7 @@ In many cases, the endpoint information needed to determine an endpoint's vulner
 The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.
 
 ### Configuration Management
-TODO: Describe configuration management workflow (from policy creation to implementation to routine assessment).
-
-### IT Asset Management
-TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:
-
-* Agent-based devices
-* Non-agent based devices
-* Virtual/Cloud environments (public/private) including containers
-* Mobile devices
-* Devices that are intermittently connected
-
-Ideally, this would provide hardware identification as well.
+Configuration management involves configuration assessment, which requires state assessment [TODO: Tie to SACM use cases]. The {{CISCONTROLS}} specify two high-level controls conerning configuration managment (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of [endpoints] using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."
 
 # Privacy Considerations
 TODO
