@@ -521,17 +521,17 @@ address {
 <h1 id="rfc.section.4.4"><a href="#rfc.section.4.4">4.4.</a> <a href="#candidate-workflows" id="candidate-workflows">(Candidate) Workflows</a></h1>
 <p id="rfc.section.4.4.p.1">The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.</p>
 <h1 id="rfc.section.4.4.1"><a href="#rfc.section.4.4.1">4.4.1.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a></h1>
-<p id="rfc.section.4.4.1.p.1">TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:</p>
+<p id="rfc.section.4.4.1.p.1">Information Technology asset management is easier said than done. The <a href="#CISCONTROLS">[CISCONTROLS]</a> have two controls dealing with IT asset management. Control 1, Inventory and Control of Hardware Assets, states, "Actively manage (inventory, track, and correct) all hardware devices on the network so that only authorized devices are given access, and unauthorized and unmanaged devices are found and prevented from gaining access." Control 2, Inventory and Control of Software Assets, states, "Actively manage (inventory, track, and correct) all software on the network so that only authorized software is installed and can execute, and that unauthorized and unmanaged software is found and prevented from installation or execution."</p>
+<p id="rfc.section.4.4.1.p.2">In spirit, this covers all of the processing entities on your network (as opposed to things like network cables, dongles, adapters, etc.), whether physical or virtual.</p>
+<p id="rfc.section.4.4.1.p.3">An IT asset management capability needs to be able to:</p>
 <p/>
 
 <ul>
-  <li>Agent-based devices</li>
-  <li>Non-agent based devices</li>
-  <li>Virtual/Cloud environments (public/private) including containers</li>
-  <li>Mobile devices</li>
-  <li>Devices that are intermittently connected</li>
+  <li>Identify and catalog new assets by executing Target Endpoint Discovery Tasks</li>
+  <li>Provide information about its managed assets, including uniquely identifying information (for that enterprise)</li>
+  <li>Handle software and/or hardware (including virtual assets)</li>
+  <li>Represent cloud hybrid environments</li>
 </ul>
-<p id="rfc.section.4.4.1.p.3">Ideally, this would provide hardware identification as well.</p>
 <h1 id="rfc.section.4.4.2"><a href="#rfc.section.4.4.2">4.4.2.</a> <a href="#vulnerability-management" id="vulnerability-management">Vulnerability Management</a></h1>
 <p id="rfc.section.4.4.2.p.1">Vulnerability management is a relatively established process. According to the <a href="#CISCONTROLS">[CISCONTROLS]</a>, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
 <h1 id="rfc.section.4.4.2.1"><a href="#rfc.section.4.4.2.1">4.4.2.1.</a> <a href="#vulnerability-assessment-workflow-assumptions" id="vulnerability-assessment-workflow-assumptions">Vulnerability Assessment Workflow Assumptions</a></h1>
@@ -540,10 +540,10 @@ address {
 
 <ul>
   <li>The enterprise has received vulnerability description information, and that the information has already been processed into vulnerability detection data that the enterprise's security software tools can understand and use.</li>
-  <li>The enterprise has a means of identifying enterprise endpoints through the execution of Target Endpoint Discovery Tasks</li>
-  <li>The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data</li>
+  <li>The enterprise has a suitable IT Asset Management capability</li>
+  <li>The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data (appropriate Collectors for their technologies)</li>
   <li>All information described in this scenario is available in the vulnerability description data and serves as the basis of assessments.</li>
-  <li>The enterprise can provide all relevant information about any endpoint needed to perform the described assessment.</li>
+  <li>The enterprise can provide all relevant information about any endpoint needed to perform the described assessment (the appropriate Repositories are available)</li>
   <li>The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.</li>
   <li>The enterprise has a procedure for reassessment of endpoints at some point after initial assessment</li>
 </ul>
@@ -568,6 +568,18 @@ address {
 <p id="rfc.section.4.4.2.2.p.7">The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.</p>
 <h1 id="rfc.section.4.4.3"><a href="#rfc.section.4.4.3">4.4.3.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a></h1>
 <p id="rfc.section.4.4.3.p.1">Configuration management involves configuration assessment, which requires state assessment [TODO: Tie to SACM use cases]. The <a href="#CISCONTROLS">[CISCONTROLS]</a> specify two high-level controls conerning configuration managment (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of [endpoints] using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."</p>
+<p id="rfc.section.4.4.3.p.2">Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information. A preferred flow follows:</p>
+<p/>
+
+<ul>
+  <li>Reputable source publishes new or updated configuration guidance</li>
+  <li>Enterprise configuration assessment capability retrieves configuration guidance from reputable source</li>
+  <li>Optional: Configuration guidance is tailored for enterprise-specific needs</li>
+  <li>Configuration assessment tool queries asset inventory repository to retrieve a list of affected endpoints</li>
+  <li>Configuration assessment tool queries configuration state repository to evaluate compliance</li>
+  <li>If information is stale or unavailable, configuration assessment tool triggers an ad hoc assessment</li>
+</ul>
+<p id="rfc.section.4.4.3.p.4">The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.</p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#privacy-considerations" id="privacy-considerations">Privacy Considerations</a></h1>
 <p id="rfc.section.5.p.1">TODO</p>
 <h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>

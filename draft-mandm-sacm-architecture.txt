@@ -80,21 +80,21 @@ Table of Contents
      4.3.  Interfaces  . . . . . . . . . . . . . . . . . . . . . . .   9
      4.4.  (Candidate) Workflows . . . . . . . . . . . . . . . . . .   9
        4.4.1.  IT Asset Management . . . . . . . . . . . . . . . . .   9
-       4.4.2.  Vulnerability Management  . . . . . . . . . . . . . .   9
-       4.4.3.  Configuration Management  . . . . . . . . . . . . . .  11
-   5.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  12
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
-   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
-     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
-     8.2.  Informative References  . . . . . . . . . . . . . . . . .  13
-   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  14
+       4.4.2.  Vulnerability Management  . . . . . . . . . . . . . .  10
+       4.4.3.  Configuration Management  . . . . . . . . . . . . . .  12
+   5.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  13
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
+   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .  13
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .  14
+   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  15
    Appendix B.  Example Components . . . . . . . . . . . . . . . . .  18
      B.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .  18
-     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  18
-     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  19
+     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  19
+     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  20
      B.4.  Network Configuration Collection  . . . . . . . . . . . .  20
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  21
 
 1.  Introduction
 
@@ -472,21 +472,41 @@ Internet-Draft              SACM Architecture                August 2018
 
 4.4.1.  IT Asset Management
 
-   TODO: Describe some ideas surrounding the notion of managing
-   technology assets.  For example, we may consider software inventory
-   for:
+   Information Technology asset management is easier said than done.
+   The [CISCONTROLS] have two controls dealing with IT asset management.
+   Control 1, Inventory and Control of Hardware Assets, states,
+   "Actively manage (inventory, track, and correct) all hardware devices
+   on the network so that only authorized devices are given access, and
+   unauthorized and unmanaged devices are found and prevented from
+   gaining access."  Control 2, Inventory and Control of Software
+   Assets, states, "Actively manage (inventory, track, and correct) all
+   software on the network so that only authorized software is installed
+   and can execute, and that unauthorized and unmanaged software is
+   found and prevented from installation or execution."
 
-   o  Agent-based devices
+   In spirit, this covers all of the processing entities on your network
+   (as opposed to things like network cables, dongles, adapters, etc.),
+   whether physical or virtual.
 
-   o  Non-agent based devices
+   An IT asset management capability needs to be able to:
 
-   o  Virtual/Cloud environments (public/private) including containers
+   o  Identify and catalog new assets by executing Target Endpoint
+      Discovery Tasks
 
-   o  Mobile devices
+   o  Provide information about its managed assets, including uniquely
+      identifying information (for that enterprise)
 
-   o  Devices that are intermittently connected
+   o  Handle software and/or hardware (including virtual assets)
 
-   Ideally, this would provide hardware identification as well.
+
+
+
+Montville & Munyan      Expires February 4, 2019                [Page 9]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
+   o  Represent cloud hybrid environments
 
 4.4.2.  Vulnerability Management
 
@@ -496,15 +516,6 @@ Internet-Draft              SACM Architecture                August 2018
    action on new information in order to identify and remediate
    vulnerabilities, therefore minimizing the window of opportunity for
    attackers.
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019                [Page 9]
-
-Internet-Draft              SACM Architecture                August 2018
-
 
 4.4.2.1.  Vulnerability Assessment Workflow Assumptions
 
@@ -516,19 +527,20 @@ Internet-Draft              SACM Architecture                August 2018
       vulnerability detection data that the enterprise's security
       software tools can understand and use.
 
-   o  The enterprise has a means of identifying enterprise endpoints
-      through the execution of Target Endpoint Discovery Tasks
+   o  The enterprise has a suitable IT Asset Management capability
 
    o  The enterprise has a means of extracting relevant information
       about enterprise endpoints in a form that is compatible with the
-      vulnerability description data
+      vulnerability description data (appropriate Collectors for their
+      technologies)
 
    o  All information described in this scenario is available in the
       vulnerability description data and serves as the basis of
       assessments.
 
    o  The enterprise can provide all relevant information about any
-      endpoint needed to perform the described assessment.
+      endpoint needed to perform the described assessment (the
+      appropriate Repositories are available)
 
    o  The enterprise has a mechanism for long-term storage of
       vulnerability description information, vulnerability detection
@@ -542,6 +554,14 @@ Internet-Draft              SACM Architecture                August 2018
    When new vulnerability description information is received by the
    enterprise, affected endpoints are identified and assessed.  The
    vulnerability is said to apply to an endpoint if the endpoint
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 10]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    satisfies the conditions expressed in the vulnerability detection
    data.
 
@@ -551,16 +571,6 @@ Internet-Draft              SACM Architecture                August 2018
    o  Endpoint information collected by the endpoint management
       capabilities is examined by the vulnerability management
       capabilities through Evaluation Tasks.
-
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 10]
-
-Internet-Draft              SACM Architecture                August 2018
-
 
    o  If the data possessed by the endpoint management capabilities is
       insufficient, a Collection Task is triggered and the necessary
@@ -600,6 +610,14 @@ Internet-Draft              SACM Architecture                August 2018
    process.  Likewise, it might be observed that certain information
    delivered by endpoint management capabilities is rarely used.  In
    this case, it might be useful to re-configure the endpoint management
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 11]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    capabilities to no longer collect this information to reduce network
    and processing overhead.  Instead, a new Collection Task can be
    triggered to gather this data on the rare occasions when it is
@@ -610,14 +628,6 @@ Internet-Draft              SACM Architecture                August 2018
    Configuration management involves configuration assessment, which
    requires state assessment [TODO: Tie to SACM use cases].  The
    [CISCONTROLS] specify two high-level controls conerning configuration
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 11]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    managment (Control 5 for non-network devices and Control 11 for
    network devices).  As an aside, these controls are listed separately
    because many enterprises have different organizations for managing
@@ -627,6 +637,42 @@ Internet-Draft              SACM Architecture                August 2018
    configuration of [endpoints] using a rigorous configuration
    management and change control process in order to prevent attackers
    from exploiting vulnerable services and settings."
+
+   Typically, an enterprise will use configuration guidance from a
+   reputable source, and from time to time they may tailor the guidance
+   from that source prior to adopting it as part of their enterprise
+   standard.  The enterprise standard is then provided to the
+   appropriate configuration assessment tools and they assess endpoints
+   and/or appropriate endpoint information.  A preferred flow follows:
+
+   o  Reputable source publishes new or updated configuration guidance
+
+   o  Enterprise configuration assessment capability retrieves
+      configuration guidance from reputable source
+
+   o  Optional: Configuration guidance is tailored for enterprise-
+      specific needs
+
+   o  Configuration assessment tool queries asset inventory repository
+      to retrieve a list of affected endpoints
+
+   o  Configuration assessment tool queries configuration state
+      repository to evaluate compliance
+
+   o  If information is stale or unavailable, configuration assessment
+      tool triggers an ad hoc assessment
+
+   The SACM architecture needs to support varying deployment models to
+   accommodate the current state of the industry, but should strongly
+   encourage event-driven approaches to monitoring configuration.
+
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 12]
+
+Internet-Draft              SACM Architecture                August 2018
+
 
 5.  Privacy Considerations
 
@@ -664,16 +710,6 @@ Internet-Draft              SACM Architecture                August 2018
               "Endpoint Posture Collection Profile", draft-ietf-sacm-
               ecp-02 (work in progress), July 2018.
 
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 12]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
@@ -684,6 +720,15 @@ Internet-Draft              SACM Architecture                August 2018
               Attributes (SWIMA) for PA-TNC", RFC 8412,
               DOI 10.17487/RFC8412, July 2018, <https://www.rfc-
               editor.org/info/rfc8412>.
+
+
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 13]
+
+Internet-Draft              SACM Architecture                August 2018
+
 
 8.2.  Informative References
 
@@ -718,18 +763,6 @@ Internet-Draft              SACM Architecture                August 2018
               Monitoring (SACM) Terminology", draft-ietf-sacm-
               terminology-15 (work in progress), June 2018.
 
-
-
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 13]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    [NIST800126]
               Waltermire, D., Quinn, S., Booth, H., Scarfone, K., and D.
               Prisaca, "SP 800-126 Rev. 3 - The Technical Specification
@@ -743,6 +776,15 @@ Internet-Draft              SACM Architecture                August 2018
               7694 Specification for Asset Reporting Format 1.1", n.d.,
               <https://csrc.nist.gov/publications/detail/nistir/7694/
               final>.
+
+
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 14]
+
+Internet-Draft              SACM Architecture                August 2018
+
 
    [RFC5023]  Gregorio, J., Ed. and B. de hOra, Ed., "The Atom
               Publishing Protocol", RFC 5023, DOI 10.17487/RFC5023,
@@ -779,13 +821,6 @@ Appendix A.  Mapping to RFC8248
    o  Architecture: This architecture (possibly assuming some
       components) should meet the requirement
 
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 14]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    o  XMPP: The set of XMPP Core specifications and the collection of
       applicable extensions, deployment, and operational considerations.
 
@@ -798,6 +833,14 @@ Internet-Draft              SACM Architecture                August 2018
       addressed by an operational deployment
 
    o  Implementation: The requirement is an implementation concern
+
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 15]
+
+Internet-Draft              SACM Architecture                August 2018
+
 
    If there is no entry in the Supported By column, then there is a gap
    that must be filled.
@@ -834,14 +877,6 @@ Internet-Draft              SACM Architecture                August 2018
    | G-014    | Target Endpoint Identity               |   XMPP-Core   |
    |          |                                        |               |
    | G-015    | Data Access Control                    |               |
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 15]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    |          |                                        |               |
    | ARCH-001 | Component Functions                    |      XMPP     |
    |          |                                        |               |
@@ -855,6 +890,14 @@ Internet-Draft              SACM Architecture                August 2018
    | ARCH-005 | Topology Flexibility                   |   XMPP-Core   |
    |          |                                        |               |
    | ARCH-006 | Capability Negotiation                 | XEP-0115/0030 |
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 16]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    |          |                                        |               |
    | ARCH-007 | Role-Based Authorization               |   XMPP-Core   |
    |          |                                        |               |
@@ -890,14 +933,6 @@ Internet-Draft              SACM Architecture                August 2018
    |          |                                        |               |
    | DM-008   | Data Origin                            |      N/A      |
    |          |                                        |               |
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 16]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    | DM-009   | Origination Time                       |      N/A      |
    |          |                                        |               |
    | DM-010   | Data Generation                        |      N/A      |
@@ -911,6 +946,14 @@ Internet-Draft              SACM Architecture                August 2018
    | DM-014   | Attribute Extensibility                |      N/A      |
    |          |                                        |               |
    | DM-015   | Solicited vs. Unsolicited Updates      |      N/A      |
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 17]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    |          |                                        |               |
    | DM-016   | Transfer Agnostic                      |      N/A      |
    |          |                                        |               |
@@ -945,15 +988,6 @@ Internet-Draft              SACM Architecture                August 2018
    | T-007    | Transfer Protocol Adoption             |  Architecture |
    +----------+----------------------------------------+---------------+
 
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 17]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
 Appendix B.  Example Components
 
 B.1.  Policy Services
@@ -968,6 +1002,14 @@ B.1.  Policy Services
    concept of information categories and links.  Strictly speaking,
    these are logical concepts independent of the RESTful binding ROLIE
    specifies.  In other words, ROLIE binds a logical interface (i.e.
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 18]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    GET workspace, GET collection, SET entry, and so on) to a specific
    mechanism (namely an ATOM Publication Protocol extension).
 
@@ -986,29 +1028,6 @@ B.2.  Software Inventory
    Profile [I-D.ietf-sacm-ecp], which describes a collection
    architecture and may be viewed as a collector coupled with a
    collection-specific repository.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 18]
-
-Internet-Draft              SACM Architecture                August 2018
-
 
                                  Posture Manager              Endpoint
                 Orchestrator    +---------------+        +---------------+
@@ -1039,6 +1058,14 @@ Evaluator       Repository      |      |        |        |      |        |
    Manager could be using a proprietary method or using
    [I-D.ietf-mile-xmpp-grid] or some other pub/sub mechanism.
    Similarly, the store connection from the Posture Manager to the
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 19]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    Repository could be performed internally to a given implementation,
    via a RESTful API invocation over HTTPS, or even over a pub/sub
    mechanism.
@@ -1058,14 +1085,6 @@ B.3.  Datastream Collection
    encapsulation of the SCAP source components required to, for example,
    perform configuration assessment on a given endpoint.  These source
    components include XCCDF checklists, OVAL Definitions, and CPE
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 19]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    Dictionary information.  A single "datastream collection" may
    encapsulate multiple "datastreams", and reference any number of SCAP
    components.  Datastream collections were intended to provide an
@@ -1095,6 +1114,14 @@ B.4.  Network Configuration Collection
    statement envelope" which are published, essentially, via an XMPP-
    Grid Connector for SACM Components also part of the XMPP-Grid.
 
+
+
+
+Montville & Munyan      Expires February 4, 2019               [Page 20]
+
+Internet-Draft              SACM Architecture                August 2018
+
+
    This is a specific example of an existing collection mechanism being
    adapted to the XMPP-Grid message transfer system.
 
@@ -1109,19 +1136,6 @@ Authors' Addresses
    Email: adam.w.montville@gmail.com
 
 
-
-
-
-
-
-
-
-
-Montville & Munyan      Expires February 4, 2019               [Page 20]
-
-Internet-Draft              SACM Architecture                August 2018
-
-
    Bill Munyan
    Center for Internet Security
    31 Tech Valley Drive
@@ -1129,20 +1143,6 @@ Internet-Draft              SACM Architecture                August 2018
    USA
 
    Email: bill.munyan.ietf@gmail.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

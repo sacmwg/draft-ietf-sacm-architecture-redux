@@ -267,15 +267,16 @@ Interfaces should be derived directly from identified workflows, several of whic
 The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
 ### IT Asset Management
-TODO: Describe some ideas surrounding the notion of managing technology assets. For example, we may consider software inventory for:
+Information Technology asset management is easier said than done. The {{CISCONTROLS}} have two controls dealing with IT asset management. Control 1, Inventory and Control of Hardware Assets, states, "Actively manage (inventory, track, and correct) all hardware devices on the network so that only authorized devices are given access, and unauthorized and unmanaged devices are found and prevented from gaining access." Control 2, Inventory and Control of Software Assets, states, "Actively manage (inventory, track, and correct) all software on the network so that only authorized software is installed and can execute, and that unauthorized and unmanaged software is found and prevented from installation or execution."
 
-* Agent-based devices
-* Non-agent based devices
-* Virtual/Cloud environments (public/private) including containers
-* Mobile devices
-* Devices that are intermittently connected
+In spirit, this covers all of the processing entities on your network (as opposed to things like network cables, dongles, adapters, etc.), whether physical or virtual.
 
-Ideally, this would provide hardware identification as well.
+An IT asset management capability needs to be able to:
+
+- Identify and catalog new assets by executing Target Endpoint Discovery Tasks
+- Provide information about its managed assets, including uniquely identifying information (for that enterprise)
+- Handle software and/or hardware (including virtual assets)
+- Represent cloud hybrid environments
 
 ### Vulnerability Management
 Vulnerability management is a relatively established process. According to the {{CISCONTROLS}}, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.
@@ -284,10 +285,10 @@ Vulnerability management is a relatively established process. According to the {
 A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:
 
 * The enterprise has received vulnerability description information, and that the information has already been processed into vulnerability detection data that the enterprise's security software tools can understand and use.
-* The enterprise has a means of identifying enterprise endpoints through the execution of Target Endpoint Discovery Tasks
-* The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data
+* The enterprise has a suitable IT Asset Management capability
+* The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data (appropriate Collectors for their technologies)
 * All information described in this scenario is available in the vulnerability description data and serves as the basis of assessments.
-* The enterprise can provide all relevant information about any endpoint needed to perform the described assessment.
+* The enterprise can provide all relevant information about any endpoint needed to perform the described assessment (the appropriate Repositories are available)
 * The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.
 * The enterprise has a procedure for reassessment of endpoints at some point after initial assessment
 
@@ -312,6 +313,18 @@ The collection of additional endpoint information for the purpose of vulnerabili
 
 ### Configuration Management
 Configuration management involves configuration assessment, which requires state assessment [TODO: Tie to SACM use cases]. The {{CISCONTROLS}} specify two high-level controls conerning configuration managment (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of [endpoints] using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."
+
+Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information. A preferred flow follows:
+
+- Reputable source publishes new or updated configuration guidance
+- Enterprise configuration assessment capability retrieves configuration guidance from reputable source
+- Optional: Configuration guidance is tailored for enterprise-specific needs
+- Configuration assessment tool queries asset inventory repository to retrieve a list of affected endpoints
+- Configuration assessment tool queries configuration state repository to evaluate compliance
+- If information is stale or unavailable, configuration assessment tool triggers an ad hoc assessment
+
+The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.
+
 
 # Privacy Considerations
 TODO
