@@ -62,7 +62,7 @@ informative:
   RFC8248:
   RFC5023:
   CISCONTROLS:
-    target: https://www.cisecurity.org/controls/
+    target: https://www.cisecurity.org/controls
     title: CIS Controls v7.0
   NIST800126:
     target: https://csrc.nist.gov/publications/detail/sp/800-126/rev-3/final

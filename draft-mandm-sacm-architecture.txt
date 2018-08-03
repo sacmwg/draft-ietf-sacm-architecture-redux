@@ -689,7 +689,7 @@ Internet-Draft              SACM Architecture                August 2018
 
    [CISCONTROLS]
               "CIS Controls v7.0", n.d., <https://www.cisecurity.org/
-              controls/>.
+              controls>.
 
    [draft-birkholz-sacm-yang-content]
               Birkholz, H. and N. Cam-Winget, "YANG subscribed
