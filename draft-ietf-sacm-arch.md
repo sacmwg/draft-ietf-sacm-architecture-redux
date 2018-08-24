@@ -109,7 +109,7 @@ informative:
 
 This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
 
-WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/adammontville/ietf-mandm-sacm-architecture/.  Instructions are on that page as well.
+WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well.
 
 --- middle
 
