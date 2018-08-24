@@ -9,75 +9,30 @@
 
   
 <style type="text/css">/*<![CDATA[*/
-@viewport {
-  zoom: 1.0;
-  width: extend-to-zoom;
-}
-@-ms-viewport {
-  width: extend-to-zoom;
-  zoom: 1.0;
-}
-
-@media screen and (min-width: 1024px) {
-  ul.toc, #rfc\.toc {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    right: calc(50vw - 525px);
-    width: 300px;
-    z-index: 1;
-  }
-  #rfc\.toc {
-    top: 15px;
-  }
-  ul.toc {
-    top: 80px;
-    overflow: auto;
-  }
-
-  body {
-    padding-right: 350px;
-  }
-}
 
 body {
-  font: 15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
   color: #333;
   font-size-adjust: 0.5;
-  line-height: 130%;
-  margin: 25px auto;
-  max-width: 724px;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
 }
 
-.title, .filename, h1, h2, h3, h4 {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
   font-size-adjust: 0.5;
-  font-weight: 500;
+  font-weight: bold;
   color: #333;
   line-height: 100%;
-  margin: 0.8em 0 0.3em;
+  margin: 1.2em 0 0.3em;
 }
-.title { font-size: 36px; }
-h1 { font-size: 30px; }
-h2 { font-size: 24px; }
-h3, h4 { font-size: 18px; }
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
 h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
   color: #333;
-}
-
-ul.toc li {
-  list-style: none;
-  text-indent: -2.5em;
-  padding-left: 2.5em;
-  padding-bottom: 5px;
-  margin: 0;
-}
-ul.toc ul {
-  margin: 0;
-}
-/* xml2rfc nests ul directly inside ul which messes with the style badly */
-ul.toc, ul.toc>ul, ul.toc ul>ul {
-  margin: 0 0 0 1.5em;
 }
 
 table {
@@ -106,29 +61,30 @@ td.reference {
 }
 
 
-table.header {
+table.header, table#rfc\.headerblock {
   width: 100%;
 }
-table.header td {
+table.header td, table#rfc\.headerblock td {
   border: none;
   background-color: transparent;
   color: black;
+  padding: 0;
 }
 .filename {
+  display: block;
   color: rgb(119, 119, 119);
-  font-size: 23px;
-  font-weight: normal;
-  height: auto;
-  line-height: 100%;
-}
-#rfc\.abstract+p {
   font-size: 20px;
-  font-weight: 300;
-  line-height: 130%;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract p {
+  font-size: 20px;
+  line-height: 28px;
 }
 
 samp, tt, code, pre {
-  font: 11pt consolas, monospace;
+  font: 15px Consolas, monospace;
   font-size-adjust: none;
 }
 pre {
@@ -138,13 +94,15 @@ pre {
   padding: 5px;
   margin: 5px;
 }
-.figure {
+.figure, caption {
   font-style: italic;
   margin: 0 1.5em;
+  text-align: left;
 }
 
 address {
-  margin: 10px 0 0;
+  margin: 16px 2px;
+  line-height: 20px;
 }
 .vcard {
   font-style: normal;
@@ -152,8 +110,8 @@ address {
 .vcardline {
   display: block;
 }
-.vcardline .fn {
-  font-weight: bold;
+.vcardline .fn, address b {
+  font-weight: normal;
 }
 .vcardline .hidden {
   display: none;
@@ -193,6 +151,9 @@ hr {
   border: 0;
   border-top: 1px solid #eee;
 }
+hr.noprint {
+  display: none;
+}
 
 a {
   text-decoration: none;
@@ -204,15 +165,59 @@ a[href]:hover {
   background-color: #eee;
 }
 
-ol, ul, li, p {
+p, ol, ul, li {
   padding: 0;
-  margin: 0.5em 0 0.5em 2em;
 }
-li, p {
-  margin-left: 0;
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
 }
 address {
   font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
 }
 
 .github-fork-ribbon-wrapper {
@@ -272,6 +277,7 @@ address {
     position: fixed;
   }
 /*]]>*/</style>
+<meta name="viewport" content="initial-scale=1.0">
 
 
   <link href="#rfc.toc" rel="Contents"/>
@@ -478,9 +484,9 @@ address {
 /~~|Connector|~~~|Connector|~~~|Connector|~~~|Connector|~~\
 |  +----^----+   +----^----+   +----^----+   +----^----+  |
 |       |             |             |             |       |
-|  +----v----+   +----v-----+  +----v----+   +----v----+  |
-|  |ECP/SWIMA|   |Datastream|  |YANG Push|   |  IPFIX  |  |
-|  +---------+   +----------+  +---------+   +---------+  |
+|  +----v-----+  +----v-----+  +----v----+   +----v----+  |
+|  |EPCP/SWIMA|  |Datastream|  |YANG Push|   |  IPFIX  |  |
+|  +----------+  +----------+  +---------+   +---------+  |
 |                      Collectors                         |
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 </pre>
@@ -501,7 +507,7 @@ address {
   <li>Easy User Onboarding (XEP-401): Simplified client registration</li>
 </ul>
 <h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#components-capabilities-interfaces-and-workflows" id="components-capabilities-interfaces-and-workflows">Components, Capabilities, Interfaces, and Workflows</a></h1>
-<p id="rfc.section.4.p.1">The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. At this point, we have been experimenting with XMPP as a transfer mechanism.</p>
+<p id="rfc.section.4.p.1">The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. An example transfer mechanism is XMPP-Grid+.</p>
 <p id="rfc.section.4.p.2">The following subsections describe some of the components, capabilities, and interfaces we may expect to see participating in a SACM Domain.</p>
 <h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#components" id="components">Components</a></h1>
 <p id="rfc.section.4.1.p.1">The following is a list of suggested SACM Component classes and specializations.</p>
@@ -635,10 +641,10 @@ address {
       </td>
       <td class="top"><a>Birkholz, H.</a> and <a>N. Cam-Winget</a>, "<a href="https://tools.ietf.org/html/draft-birkholz-sacm-yang-content-01">YANG subscribed notifications via SACM Statements</a>", n.d..</td>
     </tr>
-    <tr><td class="reference"><b id="HACK100">[HACK100]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 100 Hackathon - Vulnerability Scenario ECP+XMPP</a>", n.d..</td>, "</tr>
+    <tr><td class="reference"><b id="HACK100">[HACK100]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 100 Hackathon - Vulnerability Scenario EPCP+XMPP</a>", n.d..</td>, "</tr>
     <tr><td class="reference"><b id="HACK101">[HACK101]</b></td><td class="top"><a href="https://www.github.com/CISecurity/Integration">IETF 101 Hackathon - Configuration Assessment XMPP</a>", n.d..</td>, "</tr>
     <tr><td class="reference"><b id="HACK102">[HACK102]</b></td><td class="top"><a href="https://www.github.com/CISecurity/YANG">IETF 102 Hackathon - YANG Collection on Traditional Endpoints</a>", n.d..</td>, "</tr>
-    <tr><td class="reference"><b id="HACK99">[HACK99]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 99 Hackathon - Vulnerability Scenario ECP</a>", n.d..</td>, "</tr>
+    <tr><td class="reference"><b id="HACK99">[HACK99]</b></td><td class="top"><a href="https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon">IETF 99 Hackathon - Vulnerability Scenario EPCP</a>", n.d..</td>, "</tr>
     <tr>
       <td class="reference">
         <b id="I-D.ietf-sacm-terminology">[I-D.ietf-sacm-terminology]</b>
@@ -1021,7 +1027,7 @@ address {
 <p id="rfc.section.B.1.p.3">It is not inconceivable to believe there could be a different interface mechanism, or a connector, providing these same operations using XMPP-Grid as the transfer mechanism.</p>
 <p id="rfc.section.B.1.p.4">Even if a <a href="#RFC8322">[RFC8322]</a> server were external to an organization, there would be a need for a policy source inside the organization as well, and it may be preferred for such a policy source to be connected directly to the ecosystem's communication infrastructure.</p>
 <h1 id="rfc.appendix.B.2"><a href="#rfc.appendix.B.2">B.2.</a> <a href="#software-inventory" id="software-inventory">Software Inventory</a></h1>
-<p id="rfc.section.B.2.p.1">The SACM working group has accepted work on the Endpoint Compliance Profile <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.</p>
+<p id="rfc.section.B.2.p.1">The SACM working group has accepted work on the Endpoint Posture Collection Profile <a href="#I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</a>, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.</p>
 <div id="rfc.figure.3"/>
 <div id="fig-ecp"/>
 <pre>
@@ -1045,8 +1051,8 @@ Evaluator       Repository      |      |        |        |      |        |
 +------+        +--------+      +---------------+        +---------------+
 
 </pre>
-<p class="figure">Figure 3: ECP Collection Architecture</p>
-<p id="rfc.section.B.2.p.2">In <a href="#fig-ecp">Figure 3</a>, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
+<p class="figure">Figure 3: EPCP Collection Architecture</p>
+<p id="rfc.section.B.2.p.2">In <a href="#fig-ecp">Figure 3</a>, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
 <p id="rfc.section.B.2.p.3">Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <a href="#RFC8322">[RFC8322]</a>, <a href="#I-D.ietf-mile-xmpp-grid">[I-D.ietf-mile-xmpp-grid]</a>, and so on).</p>
 <h1 id="rfc.appendix.B.3"><a href="#rfc.appendix.B.3">B.3.</a> <a href="#datastream-collection" id="datastream-collection">Datastream Collection</a></h1>
 <p><a href="#NIST800126">[NIST800126]</a>, also known as SCAP 1.3, provides the technical specifications for a "datastream collection".  The specification describes the "datastream collection" as being "composed of SCAP data streams and SCAP source components".  A "datastream" provides an encapsulation of the SCAP source components required to, for example, perform configuration assessment on a given endpoint.  These source components include XCCDF checklists, OVAL Definitions, and CPE Dictionary information.  A single "datastream collection" may encapsulate multiple "datastreams", and reference any number of SCAP components.  Datastream collections were intended to provide an envelope enabling transfer of SCAP data more easily.</p>
