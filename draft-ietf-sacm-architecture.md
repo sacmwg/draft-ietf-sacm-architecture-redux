@@ -94,10 +94,10 @@ informative:
     title: XMPP Extensions
   HACK99:
     target: https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon
-    title: IETF 99 Hackathon - Vulnerability Scenario ECP
+    title: IETF 99 Hackathon - Vulnerability Scenario EPCP
   HACK100:
     target: https://www.github.com/sacmwg/vulnerability-scenario/ietf-hackathon
-    title: IETF 100 Hackathon - Vulnerability Scenario ECP+XMPP
+    title: IETF 100 Hackathon - Vulnerability Scenario EPCP+XMPP
   HACK101:
     target: https://www.github.com/CISecurity/Integration
     title: IETF 101 Hackathon - Configuration Assessment XMPP
@@ -199,9 +199,9 @@ Additionally, while not directly depicted in {{fig-detailed}}, this architecture
 /~~|Connector|~~~|Connector|~~~|Connector|~~~|Connector|~~\
 |  +----^----+   +----^----+   +----^----+   +----^----+  |
 |       |             |             |             |       |
-|  +----v----+   +----v-----+  +----v----+   +----v----+  |
-|  |ECP/SWIMA|   |Datastream|  |YANG Push|   |  IPFIX  |  |
-|  +---------+   +----------+  +---------+   +---------+  |
+|  +----v-----+  +----v-----+  +----v----+   +----v----+  |
+|  |EPCP/SWIMA|  |Datastream|  |YANG Push|   |  IPFIX  |  |
+|  +----------+  +----------+  +---------+   +---------+  |
 |                      Collectors                         |
 \~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
 ~~~~~~~~~~
@@ -221,7 +221,7 @@ At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and th
 * Easy User Onboarding (XEP-401): Simplified client registration
 
 # Components, Capabilities, Interfaces, and Workflows
-The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. At this point, we have been experimenting with XMPP as a transfer mechanism.
+The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. An example transfer mechanism is XMPP-Grid+.
 
 The following subsections describe some of the components, capabilities, and interfaces we may expect to see participating in a SACM Domain.
 
@@ -435,7 +435,7 @@ It is not inconceivable to believe there could be a different interface mechanis
 Even if a {{-rolie}} server were external to an organization, there would be a need for a policy source inside the organization as well, and it may be preferred for such a policy source to be connected directly to the ecosystem's communication infrastructure.
 
 ## Software Inventory
-The SACM working group has accepted work on the Endpoint Compliance Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
+The SACM working group has accepted work on the Endpoint Posture Collection Profile {{-ecp}}, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.
 
 ~~~~~~~~~~
                                  Posture Manager              Endpoint
@@ -458,9 +458,9 @@ Evaluator       Repository      |      |        |        |      |        |
 +------+        +--------+      +---------------+        +---------------+
 
 ~~~~~~~~~~
-{: #fig-ecp title="ECP Collection Architecture"}
+{: #fig-ecp title="EPCP Collection Architecture"}
 
-In {{fig-ecp}}, any of the communications between the Posture Manager and ECP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{-xmppgrid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
+In {{fig-ecp}}, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using {{-xmppgrid}} or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.
 
 Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, {{-rolie}}, {{-xmppgrid}}, and so on).
 
