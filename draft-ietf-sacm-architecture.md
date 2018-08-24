@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-mandm-sacm-architecture-02
+docname: draft-ietf-sacm-architecture-00
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -107,16 +107,16 @@ informative:
 
 --- abstract
 
-This memo documents an ongoing exploration of a possible Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
+This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon {{-xmppgrid}}, and is predicated upon information gleaned from SACM Use Cases and Requirements ({{RFC7632}} and {{RFC8248}} respectively), and terminology as found in {{-sacmt}}.
 
 WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/adammontville/ietf-mandm-sacm-architecture/.  Instructions are on that page as well.
 
 --- middle
 
 # Introduction
-The purpose of this draft is to document and track the outcome of solution discovery, with the intent of eventually describing an emerged architecture. We have initially built our partial solution upon {{-xmppgrid}} and {{-ecp}}, and believe these approaches complement each other to more completely meet the spirit of {{RFC7632}} and requirements found in {{RFC8248}}.
+The purpose of this draft is to define an architectural solution for a SACM Domain. This draft also defines an implementation of the architecutre, built upon {{-xmppgrid}} and {{-ecp}}. These approaches complement each other to more completely meet the spirit of {{RFC7632}} and requirements found in {{RFC8248}}.
 
-This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, our solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.
+This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, the solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.
 
 Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around and during IETF hackathons. The list of hackathon efforts follows:
 
@@ -126,6 +126,8 @@ Keep in mind that, at this point, the draft is tracking ongoing work being perfo
 * {{HACK102}}: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.
 
 ## Open Questions
+[NOTE: This section will eventually be removed.]
+
 The following is a list of open questions we still have about the path forward with this exploration:
 
 * Should workflows be documented in this draft or separate drafts?
@@ -141,7 +143,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 # Terms and Definitions
 This draft defers to {{-sacmt}} for terms and definitions.
 
-# Architectural Discovery
+# Architectural Overview
 The generic approach proposed herein recognizes the need to obtain information from existing state collection mechanisms, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.
 
 ~~~~~~~~~~
@@ -174,12 +176,12 @@ As shown in {{fig-notional}}, the notional SACM architecture consists of some ba
 Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This SHOULD be done for each capability related to the given SACM Component.
 
 ## SACM Roles
-This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.
+This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.
 
 ## Exploring An XMPP-based Solution
-In {{fig-detailed}}, we have a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms (ECP/SWIMA included) can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
+{{fig-detailed}} depicts a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
 
-Additionally, while not directly depicted in {{fig-detailed}}, this architecture does allows point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a provider, a consumer, or both, depending on the workflow in context.
+Additionally, while not directly depicted in {{fig-detailed}}, this architecture does allow point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a provider, a consumer, or both, depending on the workflow in context.
 
 ~~~~~~~~~~
   +----------+      +------+   +------------+
@@ -263,7 +265,7 @@ A capability language is fully explored in mandl-sacm-tool-capability-language (
 ## Interfaces
 Interfaces should be derived directly from identified workflows, several of which are described in this document.  
 
-## (Candidate) Workflows
+## Workflows
 The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.
 
 ### IT Asset Management

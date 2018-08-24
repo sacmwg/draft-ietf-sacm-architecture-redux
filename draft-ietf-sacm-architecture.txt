@@ -5,19 +5,19 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: February 4, 2019                                August 03, 2018
+Expires: February 25, 2019                               August 24, 2018
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
-                    draft-mandm-sacm-architecture-02
+                    draft-ietf-sacm-architecture-00
 
 Abstract
 
-   This memo documents an ongoing exploration of a possible Security
-   Automation and Continuous Monitoring (SACM) architecture.  This work
-   is built upon [I-D.ietf-mile-xmpp-grid], and is predicated upon
-   information gleaned from SACM Use Cases and Requirements ([RFC7632]
-   and [RFC8248] respectively), and terminology as found in
+   This memo defines a Security Automation and Continuous Monitoring
+   (SACM) architecture.  This work is built upon
+   [I-D.ietf-mile-xmpp-grid], and is predicated upon information gleaned
+   from SACM Use Cases and Requirements ([RFC7632] and [RFC8248]
+   respectively), and terminology as found in
    [I-D.ietf-sacm-terminology].
 
    WORKING GROUP: The source for this draft is maintained in GitHub.
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on February 4, 2019.
+   This Internet-Draft will expire on February 25, 2019.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 1]
+Montville & Munyan      Expires February 25, 2019               [Page 1]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -71,14 +71,14 @@ Table of Contents
      1.1.  Open Questions  . . . . . . . . . . . . . . . . . . . . .   3
      1.2.  Requirements notation . . . . . . . . . . . . . . . . . .   3
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   4
-   3.  Architectural Discovery . . . . . . . . . . . . . . . . . . .   4
+   3.  Architectural Overview  . . . . . . . . . . . . . . . . . . .   4
      3.1.  SACM Roles  . . . . . . . . . . . . . . . . . . . . . . .   5
      3.2.  Exploring An XMPP-based Solution  . . . . . . . . . . . .   5
    4.  Components, Capabilities, Interfaces, and Workflows . . . . .   7
      4.1.  Components  . . . . . . . . . . . . . . . . . . . . . . .   7
      4.2.  Capabilities  . . . . . . . . . . . . . . . . . . . . . .   8
      4.3.  Interfaces  . . . . . . . . . . . . . . . . . . . . . . .   9
-     4.4.  (Candidate) Workflows . . . . . . . . . . . . . . . . . .   9
+     4.4.  Workflows . . . . . . . . . . . . . . . . . . . . . . . .   9
        4.4.1.  IT Asset Management . . . . . . . . . . . . . . . . .   9
        4.4.2.  Vulnerability Management  . . . . . . . . . . . . . .  10
        4.4.3.  Configuration Management  . . . . . . . . . . . . . .  12
@@ -98,24 +98,24 @@ Table of Contents
 
 1.  Introduction
 
-   The purpose of this draft is to document and track the outcome of
-   solution discovery, with the intent of eventually describing an
-   emerged architecture.  We have initially built our partial solution
-   upon [I-D.ietf-mile-xmpp-grid] and [I-D.ietf-sacm-ecp], and believe
-   these approaches complement each other to more completely meet the
-   spirit of [RFC7632] and requirements found in [RFC8248].
+   The purpose of this draft is to define an architectural solution for
+   a SACM Domain.  This draft also defines an implementation of the
+   architecutre, built upon [I-D.ietf-mile-xmpp-grid] and
+   [I-D.ietf-sacm-ecp].  These approaches complement each other to more
+   completely meet the spirit of [RFC7632] and requirements found in
+   [RFC8248].
 
 
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 2]
+Montville & Munyan      Expires February 25, 2019               [Page 2]
 
 Internet-Draft              SACM Architecture                August 2018
 
 
    This solution gains the most advantage by supporting a variety of
-   collection mechanisms.  In this sense, our solution ideally intends
+   collection mechanisms.  In this sense, the solution ideally intends
    to enable a cooperative ecosystem of tools from disparate sources
    with minimal operator configuration.  The solution described in this
    document seeks to accommodate these recognitions by first defining a
@@ -143,6 +143,8 @@ Internet-Draft              SACM Architecture                August 2018
 
 1.1.  Open Questions
 
+   [NOTE: This section will eventually be removed.]
+
    The following is a list of open questions we still have about the
    path forward with this exploration:
 
@@ -163,9 +165,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-
-
-Montville & Munyan      Expires February 4, 2019                [Page 3]
+Montville & Munyan      Expires February 25, 2019               [Page 3]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -175,7 +175,7 @@ Internet-Draft              SACM Architecture                August 2018
    This draft defers to [I-D.ietf-sacm-terminology] for terms and
    definitions.
 
-3.  Architectural Discovery
+3.  Architectural Overview
 
    The generic approach proposed herein recognizes the need to obtain
    information from existing state collection mechanisms, and makes
@@ -221,7 +221,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 4]
+Montville & Munyan      Expires February 25, 2019               [Page 4]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -234,23 +234,22 @@ Internet-Draft              SACM Architecture                August 2018
    This document suggests a variety of players in a cooperative
    ecosystem - we call these players SACM Components.  SACM Components
    may be composed of other SACM Components, and each SACM Component
-   plays one of several roles relevant to the ecosystem.  Generally each
-   role is either a consumer of information or a provider of
-   information.  The "Components, Capabilities, Interfaces, and
+   plays one, or more, of several roles relevant to the ecosystem.
+   Generally each role is either a consumer of information or a provider
+   of information.  The "Components, Capabilities, Interfaces, and
    Workflows" section provides more details about SACM Components that
    play these types of roles.
 
 3.2.  Exploring An XMPP-based Solution
 
-   In Figure 2, we have a more detailed view of the architecture - one
-   that fosters the development of a pluggable ecosystem of cooperative
-   tools.  Existing collection mechanisms (ECP/SWIMA included) can be
-   brought into this architecture by specifying the interface of the
-   collector and creating the XMPP-Grid Connector binding for that
-   interface.
+   Figure 2 depicts a more detailed view of the architecture - one that
+   fosters the development of a pluggable ecosystem of cooperative
+   tools.  Existing collection mechanisms can be brought into this
+   architecture by specifying the interface of the collector and
+   creating the XMPP-Grid Connector binding for that interface.
 
    Additionally, while not directly depicted in Figure 2, this
-   architecture does allows point-to-point interfaces.  In fact,
+   architecture does allow point-to-point interfaces.  In fact,
    [I-D.ietf-mile-xmpp-grid] provides brokering capabilities to
    facilitate such point-to-point data transfers).  Additionally, each
    of the SACM Components depicted in Figure 2 may be a provider, a
@@ -277,7 +276,8 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 5]
+
+Montville & Munyan      Expires February 25, 2019               [Page 5]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -333,7 +333,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 6]
+Montville & Munyan      Expires February 25, 2019               [Page 6]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -389,7 +389,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 7]
+Montville & Munyan      Expires February 25, 2019               [Page 7]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -445,7 +445,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 8]
+Montville & Munyan      Expires February 25, 2019               [Page 8]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -464,7 +464,7 @@ Internet-Draft              SACM Architecture                August 2018
    Interfaces should be derived directly from identified workflows,
    several of which are described in this document.
 
-4.4.  (Candidate) Workflows
+4.4.  Workflows
 
    The workflows described in this document should be considered as
    candidate workflows - informational for the purpose of discovering
@@ -501,7 +501,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019                [Page 9]
+Montville & Munyan      Expires February 25, 2019               [Page 9]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -557,7 +557,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 10]
+Montville & Munyan      Expires February 25, 2019              [Page 10]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -613,7 +613,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 11]
+Montville & Munyan      Expires February 25, 2019              [Page 11]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -626,7 +626,7 @@ Internet-Draft              SACM Architecture                August 2018
 4.4.3.  Configuration Management
 
    Configuration management involves configuration assessment, which
-   requires state assessment [TODO: Tie to SACM use cases].  The
+   requires state assessment (TODO: Tie to SACM use cases).  The
    [CISCONTROLS] specify two high-level controls conerning configuration
    managment (Control 5 for non-network devices and Control 11 for
    network devices).  As an aside, these controls are listed separately
@@ -634,7 +634,7 @@ Internet-Draft              SACM Architecture                August 2018
    network infrastructure and workload endpoints.  Merging the two
    controls results in a requirement to: "Establish, implement, and
    actively manage (track, report on, correct) the security
-   configuration of [endpoints] using a rigorous configuration
+   configuration of (endpoints) using a rigorous configuration
    management and change control process in order to prevent attackers
    from exploiting vulnerable services and settings."
 
@@ -669,7 +669,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 12]
+Montville & Munyan      Expires February 25, 2019              [Page 12]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -725,7 +725,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 13]
+Montville & Munyan      Expires February 25, 2019              [Page 13]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -781,7 +781,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 14]
+Montville & Munyan      Expires February 25, 2019              [Page 14]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -837,7 +837,7 @@ Appendix A.  Mapping to RFC8248
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 15]
+Montville & Munyan      Expires February 25, 2019              [Page 15]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -893,7 +893,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 16]
+Montville & Munyan      Expires February 25, 2019              [Page 16]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -949,7 +949,7 @@ Internet-Draft              SACM Architecture                August 2018
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 17]
+Montville & Munyan      Expires February 25, 2019              [Page 17]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -1005,7 +1005,7 @@ B.1.  Policy Services
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 18]
+Montville & Munyan      Expires February 25, 2019              [Page 18]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -1061,7 +1061,7 @@ Evaluator       Repository      |      |        |        |      |        |
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 19]
+Montville & Munyan      Expires February 25, 2019              [Page 19]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -1117,7 +1117,7 @@ B.4.  Network Configuration Collection
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 20]
+Montville & Munyan      Expires February 25, 2019              [Page 20]
 
 Internet-Draft              SACM Architecture                August 2018
 
@@ -1173,4 +1173,4 @@ Authors' Addresses
 
 
 
-Montville & Munyan      Expires February 4, 2019               [Page 21]
+Montville & Munyan      Expires February 25, 2019              [Page 21]
