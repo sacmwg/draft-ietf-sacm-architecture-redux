@@ -147,78 +147,136 @@ This draft defers to {{-sacmt}} for terms and definitions.
 The generic approach proposed herein recognizes the need to obtain information from existing state collection mechanisms, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.
 
 ~~~~~~~~~~
-+----------+      +------+   +------------+
-|Repository|      |Policy|   |Orchestrator|
-+----^-----+      +--^---+   +----^-------+       +----------------+
-  A  |            B  |          C |               | Downstream Uses|
-     |               |            |               | +-----------+  |
-+----v---------------v------------v-------+       | |Evaluations|  |
-|             Message Transfer            <-------> +-----------+  |
-+----------------^------------------------+     D | +---------+    |
-                 |                                | |Analytics|    |
-                 |                                | +---------+    |
-         +-------v---------                       | +---------+    |
-         | Transfer System |                      | |Reporting|    |
-         |    Connector    |                      | +---------+    |
-         +-------^---------+                      +----------------+
-                 |
-                 |
-         +-------v-------+       
-         |   Collection  |        
-         |     System    |          
-         +---------------+
+                  +--------------------+
+                  | Feeds/Repositories |
+                  |  of External Data  |
+                  +--------------------+
+                             |
+                             |
+*****************************v**************** Enterprise Boundary ************
+*                            |                                                *
+*  +--------------+          |     +--------------+                           *
+*  | Orchestrator |          |     | Repositories |                           *
+*  +------^-------+          |     +----^---------+                           *
+*         |                  |          |              +----------------+     *
+*      A  |                B |        C |              | Downstream Uses|     *
+*         |                  |          |              | +-----------+  |     *
+*  +------v------------------v----------v------+       | |Evaluations|  |     *
+*  |           Message Transfer System         <-------> +-----------+  |     *
+*  +----------------------^--------------------+     D | +-----------+  |     *
+*                       E |                            | | Analytics |  |     *
+*                         |                            | +-----------+  |     *
+*           +-------------v---------+                  | +-----------+  |     *
+*           | Collection Subsystems |                  | | Reporting |  |     *
+*           +-----------------------+                  | +-----------+  |     *
+*                                                      +----------------+     *
+*******************************************************************************
 
 ~~~~~~~~~~
 {: #fig-notional title="Notional Architecture"}
 
 As shown in {{fig-notional}}, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. While not depicted, the message transfer system is expected to maximally align with the requirements described in {{RFC8248}}, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.
 
-Additionally, component-specific interfaces (i.e. such as A, B, C, and D in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This SHOULD be done for each capability related to the given SACM Component.
+Additionally, component-specific interfaces (i.e. such as A, B, C, D, and E in {{fig-notional}}) are expected to be specified logically then bound to one or more specific implementations. This SHOULD be done for each capability related to the given SACM Component.
 
 ## SACM Roles
 This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.
 
 ## Exploring An XMPP-based Solution
-{{fig-detailed}} depicts a more detailed view of the architecture - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
+{{fig-xmpp}} depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
 
-Additionally, while not directly depicted in {{fig-detailed}}, this architecture does allow point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in {{fig-detailed}} may be a provider, a consumer, or both, depending on the workflow in context.
+Additionally, while not directly depicted in {{fig-xmpp}}, this architecture does allow point-to-point interfaces. In fact, {{-xmppgrid}} provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in {{fig-xmpp}} may be a provider, a consumer, or both, depending on the workflow in context.
 
 ~~~~~~~~~~
-  +----------+      +------+   +------------+
-  |Repository|      |Policy|   |Orchestrator|
-  +----^-----+      +--^---+   +----^-------+       
-       |               |            |               
-       |               |            |               
-  +----v---------------v------------v-----------------+     +-----------------+
-  |                     XMPP-Grid+                    <-----> Downstream Uses |
-  +-----^-------------^-------------^-------------^---+     +-----------------+
-        |             |             |             |
-        |             |             |             |
-   +----v----+   +----v----+   +----v----+   +----v----+  
-   |XMPP-Grid|   |XMPP-Grid|   |XMPP-Grid|   |XMPP-Grid|  
-/~~|Connector|~~~|Connector|~~~|Connector|~~~|Connector|~~\
-|  +----^----+   +----^----+   +----^----+   +----^----+  |
-|       |             |             |             |       |
-|  +----v-----+  +----v-----+  +----v----+   +----v----+  |
-|  |EPCP/SWIMA|  |Datastream|  |YANG Push|   |  IPFIX  |  |
-|  +----------+  +----------+  +---------+   +---------+  |
-|                      Collectors                         |
-\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/
+ +--------------+           +--------------+
+ | Orchestrator |           | Repositories |
+ +------^-------+           +------^-------+       
+        |                          |
+        |                          |
++-------v--------------------------v--------+     +-----------------+
+|                XMPP-Grid+                 <-----> Downstream Uses |
++------------------------^------------------+     +-----------------+
+                         |
+                         |
+                 +-------v------+   
+                 |  XMPP-Grid   |   
+                 | Connector(s) |
+                 +------^-------+
+                        |
+                 +------v-------+
+                 | Collector(s) |
+                 +--------------+
 ~~~~~~~~~~
-{: #fig-detailed title="Detailed Architecture"}
+{: #fig-xmpp title="XMPP-based Architecture"}
 
-At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-detailed}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs - possibly the following:
+{{-xmppgrid}} details a number of XMPP extensions (XEPs) that MUST be utilized to meet the needs of {{RFC7632}} and {{RFC8248}}:
 
-* Entity Capabilities (XEP-0115): May be used to express the specific capabilities that a particular client embodies.
-* Form Discovery and Publishing (XEP-0346): May be used for datastream examples requiring some expression of a request followed by an expected response.
-* Ad Hoc Commands (XEP-0050): May be usable for simple orchestration (i.e. "do assessment").
-* File Repository and Sharing (XEP-0214): Appears to be needed for handling large amounts of data (if not fragmenting).
-* Publishing Stream Initiation Requests (XEP-0137): Provides ability to stream information between two XMPP entities.
-* PubSub Collection Nodes (XEP-0248): Nested topics for specialization to the leaf node level.
-* Security Labels In Pub/Sub (XEP-0314): Enables tagging data with classification categories.
-* PubSub Since (XEP-0312): Persists published items, which may be useful in intermittent connection scenarios
-* PubSub Chaining (XEP-0253): Federation of publishing nodes enabling a publish node of one server to be a subscriber to a publishing node of another server
-* Easy User Onboarding (XEP-401): Simplified client registration
+* Service Discovery (XEP-0030): Service Discovery allows XMPP entities to discover information about other XMPP entities.  Two kinds of information can be discovered: the identity and capabilities of an entity, such as supported features, and items associated with an entity.
+* Publish-Subscribe (XEP-0060): The PubSub extension enables entities to create nodes (topics) at a PubSub service and publish information at those nodes.  Once published, an event notification is broadcast to all entities that have subscribed to that node.
+
+At this point, {{-xmppgrid}} specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of {{RFC7632}} and {{RFC8248}}. In {{fig-xmpp}} we therefore use "XMPP-Grid+" to indicate something more than {{-xmppgrid}} alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) {{-xmppgrid}} to include additional XEPs - possibly the following:
+
+* Entity Capabilities (XEP-0115): This extension defines the methods for broadcasting and dynamically discovering an entities' capabilities.  This information is transported via standard XMPP presence.  Example capabilities that could be discovered could include support for posture attribute collection, support for specific types of posture attribute collection such as EPCP, SWIMA, OVAL, or YANG.  Other capabilities are still to be determined.
+* Ad Hoc Commands (XEP-0050): This extension allows an XMPP entity to advertise and execute application-specific commands.  Typically the commands contain data forms (XEP-0004) in order to structure the information exchange.  This extension may be usable for simple orchestration (i.e. "do assessment").
+* HTTP File Upload (XEP-0363): The HTTP File Upload extension allows for large data sets to be published to a specific path on an HTTP server, and receive a URL from which that file can later be downloaded again.  XMPP messages and IQs are meant to be compact, and large data sets, such as collected posture attributes, may exceed a message size threshold.  Usage of this XEP allows those larger data sets to be persisted, thus necessitating only the download URL to be passed via XMPP messages.
+* Personal Eventing Protocol (XEP-0163): The Personal Eventing Protocol can be thought of as a virtual PubSub service, allowing an XMPP account to publish events only to their roster instead of a generic PubSub topic.  This XEP may be useful in the cases when collection requests or queries are only intended for a subset of endpoints and not an entire subscriber set.
+* File Repository and Sharing (XEP-0214): This extension defines a method for XMPP entities to designate a set of file available for retrieval by other users of their choosing, and is based on PubSub Collections.
+* Easy User Onboarding (XEP-401): The goal of this extension is simplified client registration, and may be useful when adding new endpoints or SACM components to the ecosystem.
+* Bidirectional-streams Over Synchronous HTTP (BOSH) (XEP-0124): BOSH emulates the semantics of a long-lived, bidirectional TCP connection between two entities (aka "long polling").  Consider a SACM component that is updated dynamically, i.e. an internal vulnerability definition repository ingesting data from a Feed/Repository of External Data, and a second SACM component such as an Orchestrator.  Using BOSH, the Orchestrator can effectively continuously poll the vulnerability definition repository for changes/updates.
+* PubSub Collection Nodes (XEP-0248): Effectively an extension to XEP-0060 (Publish-Subscribe), PubSub Collections aim to simplify an entities' subscription to multiple related topics, and establishes a "node graph" relating parent nodes to its descendents.  An example "node graph" could be rooted in a "vulnerability definitions" topic, and contain descendent topics for OS family-level vulnerability definitions (i.e. Windows), and further for OS family version-level definitions (i.e. Windows 10 or Windows Server 2016).
+* PubSub Since (XEP-0312): This extension enables a subscriber to automatically receive PubSub and Personal Eventing Protocol (PEP) notifications since its last logout time.  This extension may be useful in intermittent connection scenarios, or when entities disconnect and reconnect to the ecosystem.
+* PubSub Chaining (XEP-0253): This extension describes the federation of publishing nodes, enabling a publish node of one server to be a subscriber to a publishing node of another server.
+
+## Example Architecture using XMPP-Grid and Endpoint Posture Collection Protocol
+
+{{fig-xmpp-epcp}} depicts a further detailed view of the architecture including the Endpoint Posture Collection Protocol as the collection subsystem, illustrating the idea of a pluggable ecosystem of cooperative tools.
+
+~~~~~~~~~~
+          +--------------------+
+          | Feeds/Repositories |
+          |  of External Data  |
+          +--------------------+
+                    |
+********************v************************* Enterprise Boundary ************
+*                   |                                                         *
+*  +--------------+ | +-------------------+ +-------------+                   *
+*  | Orchestrator | | | Posture Attr Repo | | Policy Repo |                   *
+*  +------^-------+ | +---------^---------+ +---^---------+                   *
+*         |         |           |               |          +----------------+ *
+*         |         |           |               |          | Downstream Uses| *
+*         |         |           |               |          | +-----------+  | *
+*  +------v---------v-----------v---------------v--+       | |Evaluations|  | *
+*  |                    XMPP-Grid                  <-------> +-----------+  | *
+*  +----------------^-------------------^----------+       | +-----------+  | *
+*                   |                   |                  | | Analytics |  | *
+*                   |                   |                  | +-----------+  | *
+*                   |             +-----v--------+         | +-----------+  | *
+*                   |             | Results Repo |         | | Reporting |  | *
+*                   |             +--------------+         | +-----------+  | *
+*                   |                                      +----------------+ *
+*         +---------v-----------+                                             *
+*         | XMPP-Grid Connector |                                             *
+*         +---------^-----------+                                             *
+*                   |                                                         *
+* +-----------------v-------------------------------------------------------+ *
+* |                                                                         | *
+* | +--Posture Collection Manager------------------------------------------+| *
+* | |+-----------------------+ +----------------+ +----------------------+ || *
+* | || Communications Server | | Posture Server | | Posture Validator(s) | || *
+* | |+----------^------------+ +----------------+ +----------------------+ || *
+* | +-----------|----------------------------------------------------------+| *
+* |             |                                                           | *
+* | +-----------|-------------------------Endpoint or Endpoint Proxy-------+| *
+* | |+----------v------------+ +----------------+ +----------------------+ || *
+* | || Communications Client | | Posture Client | | Posture Collector(s) | || *
+* | |+-----------------------+ +----------------+ +----------------------+ || *
+* | +----------------------------------------------------------------------+| *
+* +-----------------Endpoint Posture Collection Profile---------------------+ *
+*                                                                             *
+*******************************************************************************
+~~~~~~~~~~
+{: #fig-xmpp-epcp title="XMPP-based Architecture including EPCP"}
+
 
 # Components, Capabilities, Interfaces, and Workflows
 The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. An example transfer mechanism is XMPP-Grid+.
@@ -314,7 +372,7 @@ In many cases, the endpoint information needed to determine an endpoint's vulner
 The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.
 
 ### Configuration Management
-Configuration management involves configuration assessment, which requires state assessment (TODO: Tie to SACM use cases). The {{CISCONTROLS}} specify two high-level controls conerning configuration managment (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of (endpoints) using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."
+Configuration management involves configuration assessment, which requires state assessment (TODO: Tie to SACM use cases). The {{CISCONTROLS}} specify two high-level controls concerning configuration management (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of (endpoints) using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."
 
 Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information. A preferred flow follows:
 
@@ -344,6 +402,7 @@ IANA tables can probably be used to make life a little easier. We would like a p
 
 
 --- back
+
 
 
 # Mapping to RFC8248

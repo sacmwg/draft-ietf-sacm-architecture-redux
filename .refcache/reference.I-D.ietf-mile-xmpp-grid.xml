@@ -20,13 +20,13 @@
     <organization />
 </author>
 
-<date month='June' day='26' year='2018' />
+<date month='December' day='29' year='2018' />
 
 <abstract><t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) to collect and distribute security-relevant information between network-connected devices.  To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-mile-xmpp-grid-06' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-mile-xmpp-grid-09' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-mile-xmpp-grid-06.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-mile-xmpp-grid-09.txt' />
 </reference>

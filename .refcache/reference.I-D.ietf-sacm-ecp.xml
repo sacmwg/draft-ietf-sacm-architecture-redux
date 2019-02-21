@@ -16,15 +16,15 @@
     <organization />
 </author>
 
-<date month='July' day='2' year='2018' />
+<date month='February' day='15' year='2019' />
 
-<abstract><t>This document specifies the Endpoint Posture Collection Profile, which describes the best practices for the application of IETF and TNC protocols and interfaces to support the on-going collection, communication, and assessment of endpoint posture, as well as the controlled exposure of endpoint posture to other tools.  This document is an extension of the Trusted Computing Group's Endpoint Compliance Profile Version 1.0 specification.</t></abstract>
+<abstract><t>This document specifies the Endpoint Posture Collection Profile, which describes the best practices for the application of IETF, TNC, and ISO/IEC data models, protocols, and interfaces to support the on- going collection and communication of endpoint posture to a centralized server where it can be stored and made available to other tools.  This document is an extension of the Trusted Computing Group's Endpoint Compliance Profile Version 1.0 specification [ECP].</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-02' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-04' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-02.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-04.txt' />
 <format type='PDF'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-02.pdf' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-04.pdf' />
 </reference>
