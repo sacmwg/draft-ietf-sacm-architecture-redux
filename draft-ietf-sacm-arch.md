@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-00
+docname: draft-ietf-sacm-arch-01
 stand_alone: true
 ipr: trust200902
 area: Security
