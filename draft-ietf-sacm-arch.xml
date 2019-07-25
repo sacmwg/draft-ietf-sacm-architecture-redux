@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-ietf-sacm-arch-01" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-sacm-arch-02" category="std">
 
   <front>
     <title abbrev="SACM Architecture">Security Automation and Continuous Monitoring (SACM) Architecture</title>
@@ -24,7 +24,7 @@
           <code>12061</code>
           <country>USA</country>
         </postal>
-        <email>adam.w.montville@gmail.com</email>
+        <email>adam.montville.sdo@gmail.com</email>
       </address>
     </author>
     <author initials="B." surname="Munyan" fullname="Bill Munyan">
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date year="2019" month="February" day="22"/>
+    <date year="2019" month="July" day="24"/>
 
     <area>Security</area>
     <workgroup>SACM Working Group</workgroup>
@@ -50,7 +50,7 @@
     <abstract>
 
 
-<t>This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon <xref target="I-D.ietf-mile-xmpp-grid"/>, and is predicated upon information gleaned from SACM Use Cases and Requirements (<xref target="RFC7632"/> and <xref target="RFC8248"/> respectively), and terminology as found in <xref target="I-D.ietf-sacm-terminology"/>.</t>
+<t>This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon <xref target="RFC8600"/>, and is predicated upon information gleaned from SACM Use Cases and Requirements (<xref target="RFC7632"/> and <xref target="RFC8248"/> respectively), and terminology as found in <xref target="I-D.ietf-sacm-terminology"/>.</t>
 
 <t>WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well.</t>
 
@@ -65,32 +65,9 @@
 
 
 <section anchor="introduction" title="Introduction">
-<t>The purpose of this draft is to define an architectural solution for a SACM Domain. This draft also defines an implementation of the architecutre, built upon <xref target="I-D.ietf-mile-xmpp-grid"/> and <xref target="I-D.ietf-sacm-ecp"/>. These approaches complement each other to more completely meet the spirit of <xref target="RFC7632"/> and requirements found in <xref target="RFC8248"/>.</t>
+<t>The purpose of this draft is to define an architectural approach for a SACM Domain, based on the spirit of use cases found in <xref target="RFC7632"/> and requirements found in <xref target="RFC8248"/>. This approach gains the most advantage by supporting a variety of collection systems, and intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration.</t>
 
-<t>This solution gains the most advantage by supporting a variety of collection mechanisms. In this sense, the solution ideally intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration. The solution described in this document seeks to accommodate these recognitions by first defining a generic abstract architecture, then making that solution somewhat more concrete.</t>
-
-<t>Keep in mind that, at this point, the draft is tracking ongoing work being performed primarily around and during IETF hackathons. The list of hackathon efforts follows:</t>
-
-<t><list style="symbols">
-  <t><xref target="HACK99"/>: A partial implementation of a vulnerability assessment scenario involving an <xref target="I-D.ietf-sacm-ecp"/> implementation, a <xref target="RFC8322"/> implementation, and a proprietary evaluator to pull the pieces together.</t>
-  <t><xref target="HACK100"/>: Work to combine the vulnerability assessment scenario from <xref target="HACK99"/> with an XMPP-based YANG push model.</t>
-  <t><xref target="HACK101"/>: A fully automated configuration assessment implementation using XMPP as a communication mechanism.</t>
-  <t><xref target="HACK102"/>: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.</t>
-</list></t>
-
-<section anchor="open-questions" title="Open Questions">
-<t>[NOTE: This section will eventually be removed.]</t>
-
-<t>The following is a list of open questions we still have about the path forward with this exploration:</t>
-
-<t><list style="symbols">
-  <t>Should workflows be documented in this draft or separate drafts?</t>
-  <t>Should interfaces be documented in workflow drafts or separate drafts (or even this draft)?</t>
-</list></t>
-
-</section>
 <section anchor="requirements-notation" title="Requirements notation">
-
 <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
 "OPTIONAL" in this document are to be interpreted as described in RFC
@@ -103,7 +80,7 @@
 
 </section>
 <section anchor="architectural-overview" title="Architectural Overview">
-<t>The generic approach proposed herein recognizes the need to obtain information from existing state collection mechanisms, and makes every attempt to respect <xref target="RFC7632"/> and <xref target="RFC8248"/>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow one or more components are consumers of information and one or more components are providers of information.</t>
+<t>The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect <xref target="RFC7632"/> and <xref target="RFC8248"/>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.</t>
 
 <figure title="Notional Architecture" anchor="fig-notional"><artwork><![CDATA[
                   +--------------------+
@@ -114,200 +91,34 @@
                              |
 *****************************v**************** Enterprise Boundary ************
 *                            |                                                *
-*  +--------------+          |     +--------------+                           *
-*  | Orchestrator |          |     | Repositories |                           *
-*  +------^-------+          |     +----^---------+                           *
+*  +---------------+         |     +--------------+                           *
+*  | Orchestrators |         |     | Repositories |                           *
+*  +------^--------+         |     +----^---------+                           *
 *         |                  |          |              +----------------+     *
-*      A  |                B |        C |              | Downstream Uses|     *
+*         |                  |          |              | Downstream Uses|     *
 *         |                  |          |              | +-----------+  |     *
 *  +------v------------------v----------v------+       | |Evaluations|  |     *
 *  |           Message Transfer System         <-------> +-----------+  |     *
-*  +----------------------^--------------------+     D | +-----------+  |     *
-*                       E |                            | | Analytics |  |     *
+*  +----------------------^--------------------+       | +-----------+  |     *
+*                         |                            | | Analytics |  |     *
 *                         |                            | +-----------+  |     *
-*           +-------------v---------+                  | +-----------+  |     *
-*           | Collection Subsystems |                  | | Reporting |  |     *
-*           +-----------------------+                  | +-----------+  |     *
+*           +-------------v------+                     | +-----------+  |     *
+*           | Collection Systems |                     | | Reporting |  |     *
+*           +--------------------+                     | +-----------+  |     *
 *                                                      +----------------+     *
 *******************************************************************************
 
 ]]></artwork></figure>
 
-<t>As shown in <xref target="fig-notional"/>, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. While not depicted, the message transfer system is expected to maximally align with the requirements described in <xref target="RFC8248"/>, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.</t>
+<t>As shown in <xref target="fig-notional"/>, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. The message transfer system is expected to maximally align with the requirements described in <xref target="RFC8248"/>, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.</t>
 
-<t>Additionally, component-specific interfaces (i.e. such as A, B, C, D, and E in <xref target="fig-notional"/>) are expected to be specified logically then bound to one or more specific implementations. This SHOULD be done for each capability related to the given SACM Component.</t>
+<t>The enterprise boundary is not intended to imply a physical boundary. Rather, the enterprise boundary is intended to be inclusive of various cloud environments and vendor-provided services in addition to any physical systems the enterprise operates.</t>
 
-<section anchor="sacm-roles" title="SACM Roles">
-<t>This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information. The "Components, Capabilities, Interfaces, and Workflows" section provides more details about SACM Components that play these types of roles.</t>
-
-</section>
-<section anchor="exploring-an-xmpp-based-solution" title="Exploring An XMPP-based Solution">
-<t><xref target="fig-xmpp"/> depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</t>
-
-<t>Additionally, while not directly depicted in <xref target="fig-xmpp"/>, this architecture does allow point-to-point interfaces. In fact, <xref target="I-D.ietf-mile-xmpp-grid"/> provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in <xref target="fig-xmpp"/> may be a provider, a consumer, or both, depending on the workflow in context.</t>
-
-<figure title="XMPP-based Architecture" anchor="fig-xmpp"><artwork><![CDATA[
- +--------------+           +--------------+
- | Orchestrator |           | Repositories |
- +------^-------+           +------^-------+       
-        |                          |
-        |                          |
-+-------v--------------------------v--------+     +-----------------+
-|                XMPP-Grid+                 <-----> Downstream Uses |
-+------------------------^------------------+     +-----------------+
-                         |
-                         |
-                 +-------v------+   
-                 |  XMPP-Grid   |   
-                 | Connector(s) |
-                 +------^-------+
-                        |
-                 +------v-------+
-                 | Collector(s) |
-                 +--------------+
-]]></artwork></figure>
-
-<t><xref target="I-D.ietf-mile-xmpp-grid"/> details a number of XMPP extensions (XEPs) that MUST be utilized to meet the needs of <xref target="RFC7632"/> and <xref target="RFC8248"/>:</t>
-
-<t><list style="symbols">
-  <t>Service Discovery (XEP-0030): Service Discovery allows XMPP entities to discover information about other XMPP entities.  Two kinds of information can be discovered: the identity and capabilities of an entity, such as supported features, and items associated with an entity.</t>
-  <t>Publish-Subscribe (XEP-0060): The PubSub extension enables entities to create nodes (topics) at a PubSub service and publish information at those nodes.  Once published, an event notification is broadcast to all entities that have subscribed to that node.</t>
-</list></t>
-
-<t>At this point, <xref target="I-D.ietf-mile-xmpp-grid"/> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <xref target="RFC7632"/> and <xref target="RFC8248"/>. In <xref target="fig-xmpp"/> we therefore use "XMPP-Grid+" to indicate something more than <xref target="I-D.ietf-mile-xmpp-grid"/> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <xref target="I-D.ietf-mile-xmpp-grid"/> to include additional XEPs - possibly the following:</t>
-
-<t><list style="symbols">
-  <t>Entity Capabilities (XEP-0115): This extension defines the methods for broadcasting and dynamically discovering an entities' capabilities.  This information is transported via standard XMPP presence.  Example capabilities that could be discovered could include support for posture attribute collection, support for specific types of posture attribute collection such as EPCP, SWIMA, OVAL, or YANG.  Other capabilities are still to be determined.</t>
-  <t>Ad Hoc Commands (XEP-0050): This extension allows an XMPP entity to advertise and execute application-specific commands.  Typically the commands contain data forms (XEP-0004) in order to structure the information exchange.  This extension may be usable for simple orchestration (i.e. "do assessment").</t>
-  <t>HTTP File Upload (XEP-0363): The HTTP File Upload extension allows for large data sets to be published to a specific path on an HTTP server, and receive a URL from which that file can later be downloaded again.  XMPP messages and IQs are meant to be compact, and large data sets, such as collected posture attributes, may exceed a message size threshold.  Usage of this XEP allows those larger data sets to be persisted, thus necessitating only the download URL to be passed via XMPP messages.</t>
-  <t>Personal Eventing Protocol (XEP-0163): The Personal Eventing Protocol can be thought of as a virtual PubSub service, allowing an XMPP account to publish events only to their roster instead of a generic PubSub topic.  This XEP may be useful in the cases when collection requests or queries are only intended for a subset of endpoints and not an entire subscriber set.</t>
-  <t>File Repository and Sharing (XEP-0214): This extension defines a method for XMPP entities to designate a set of file available for retrieval by other users of their choosing, and is based on PubSub Collections.</t>
-  <t>Easy User Onboarding (XEP-401): The goal of this extension is simplified client registration, and may be useful when adding new endpoints or SACM components to the ecosystem.</t>
-  <t>Bidirectional-streams Over Synchronous HTTP (BOSH) (XEP-0124): BOSH emulates the semantics of a long-lived, bidirectional TCP connection between two entities (aka "long polling").  Consider a SACM component that is updated dynamically, i.e. an internal vulnerability definition repository ingesting data from a Feed/Repository of External Data, and a second SACM component such as an Orchestrator.  Using BOSH, the Orchestrator can effectively continuously poll the vulnerability definition repository for changes/updates.</t>
-  <t>PubSub Collection Nodes (XEP-0248): Effectively an extension to XEP-0060 (Publish-Subscribe), PubSub Collections aim to simplify an entities' subscription to multiple related topics, and establishes a "node graph" relating parent nodes to its descendents.  An example "node graph" could be rooted in a "vulnerability definitions" topic, and contain descendent topics for OS family-level vulnerability definitions (i.e. Windows), and further for OS family version-level definitions (i.e. Windows 10 or Windows Server 2016).</t>
-  <t>PubSub Since (XEP-0312): This extension enables a subscriber to automatically receive PubSub and Personal Eventing Protocol (PEP) notifications since its last logout time.  This extension may be useful in intermittent connection scenarios, or when entities disconnect and reconnect to the ecosystem.</t>
-  <t>PubSub Chaining (XEP-0253): This extension describes the federation of publishing nodes, enabling a publish node of one server to be a subscriber to a publishing node of another server.</t>
-</list></t>
+<t>This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.</t>
 
 </section>
-<section anchor="example-architecture-using-xmpp-grid-and-endpoint-posture-collection-protocol" title="Example Architecture using XMPP-Grid and Endpoint Posture Collection Protocol">
-
-<t><xref target="fig-xmpp-epcp"/> depicts a further detailed view of the architecture including the Endpoint Posture Collection Protocol as the collection subsystem, illustrating the idea of a pluggable ecosystem of cooperative tools.</t>
-
-<figure title="XMPP-based Architecture including EPCP" anchor="fig-xmpp-epcp"><artwork><![CDATA[
-          +--------------------+
-          | Feeds/Repositories |
-          |  of External Data  |
-          +--------------------+
-                    |
-********************v************************* Enterprise Boundary ************
-*                   |                                                         *
-*  +--------------+ | +-------------------+ +-------------+                   *
-*  | Orchestrator | | | Posture Attr Repo | | Policy Repo |                   *
-*  +------^-------+ | +---------^---------+ +---^---------+                   *
-*         |         |           |               |          +----------------+ *
-*         |         |           |               |          | Downstream Uses| *
-*         |         |           |               |          | +-----------+  | *
-*  +------v---------v-----------v---------------v--+       | |Evaluations|  | *
-*  |                    XMPP-Grid                  <-------> +-----------+  | *
-*  +----------------^-------------------^----------+       | +-----------+  | *
-*                   |                   |                  | | Analytics |  | *
-*                   |                   |                  | +-----------+  | *
-*                   |             +-----v--------+         | +-----------+  | *
-*                   |             | Results Repo |         | | Reporting |  | *
-*                   |             +--------------+         | +-----------+  | *
-*                   |                                      +----------------+ *
-*         +---------v-----------+                                             *
-*         | XMPP-Grid Connector |                                             *
-*         +---------^-----------+                                             *
-*                   |                                                         *
-* +-----------------v-------------------------------------------------------+ *
-* |                                                                         | *
-* | +--Posture Collection Manager------------------------------------------+| *
-* | |+-----------------------+ +----------------+ +----------------------+ || *
-* | || Communications Server | | Posture Server | | Posture Validator(s) | || *
-* | |+----------^------------+ +----------------+ +----------------------+ || *
-* | +-----------|----------------------------------------------------------+| *
-* |             |                                                           | *
-* | +-----------|-------------------------Endpoint or Endpoint Proxy-------+| *
-* | |+----------v------------+ +----------------+ +----------------------+ || *
-* | || Communications Client | | Posture Client | | Posture Collector(s) | || *
-* | |+-----------------------+ +----------------+ +----------------------+ || *
-* | +----------------------------------------------------------------------+| *
-* +-----------------Endpoint Posture Collection Profile---------------------+ *
-*                                                                             *
-*******************************************************************************
-]]></artwork></figure>
-
-</section>
-</section>
-<section anchor="components-capabilities-interfaces-and-workflows" title="Components, Capabilities, Interfaces, and Workflows">
-<t>The SACM Architecture consists of a variety of SACM Components, and named components are intended to embody one or more specific capabilities. Interacting with these capabilities will require at least two levels of interface specification. The first is a logical interface specification, and the second is at least one binding to a specific transfer mechanism. An example transfer mechanism is XMPP-Grid+.</t>
-
-<t>The following subsections describe some of the components, capabilities, and interfaces we may expect to see participating in a SACM Domain.</t>
-
-<section anchor="components" title="Components">
-<t>The following is a list of suggested SACM Component classes and specializations.</t>
-
-<t><list style="symbols">
-  <t>Repository
-  <list style="symbols">
-      <t>Vulnerability Information Repository</t>
-      <t>Asset Inventory Repository
-      <list style="symbols">
-          <t>Software Inventory Repository</t>
-          <t>Device Inventory Repository</t>
-        </list></t>
-      <t>Configuration Policy Repository</t>
-      <t>Configuration State Repository</t>
-    </list></t>
-  <t>Collector
-  <list style="symbols">
-      <t>Vulnerability State Collector</t>
-      <t>Asset Inventory Collector
-      <list style="symbols">
-          <t>Software Inventory Collector</t>
-          <t>Device Inventory Collector</t>
-        </list></t>
-      <t>Configuration State Collector</t>
-    </list></t>
-  <t>Evaluator
-  <list style="symbols">
-      <t>Vulnerability State Evaluator</t>
-      <t>Asset Inventory Evaluator
-      <list style="symbols">
-          <t>Software Inventory Evaluator</t>
-          <t>Device Inventory Evaluator</t>
-        </list></t>
-      <t>Configuration State Evaluator</t>
-    </list></t>
-  <t>Orchestrator
-  <list style="symbols">
-      <t>Vulnerability Management Orchestrator</t>
-      <t>Asset Management Orchestrator
-      <list style="symbols">
-          <t>Software Inventory Evaluator</t>
-          <t>Device Inventory Evaluator</t>
-        </list></t>
-      <t>Configuration Management Orchestrator</t>
-    </list></t>
-</list></t>
-
-</section>
-<section anchor="capabilities" title="Capabilities">
-<t>Repositories will have a need for fairly standard CRUD operations and query by attribute operations. Collector interfaces may enable ad hoc assessment (on-demand processing), state item watch actions (i.e. watch a particular item for particular change), persisting other behaviors (i.e. setting some mandatory reporting period). Evaluators may have their own set of interfaces, and an Assessor would represent both Collector and Evaluation interfaces, and may have additional concerns added to an Assessor Interface.</t>
-
-<t>Not to be overlooked, whatever solution at which we arrive, per <xref target="RFC8248"/>, MUST support capability negotiation. While not explicitly treated here, each interface will understand specific serializations, and other component needs to express those serializations to other components.</t>
-
-<t>A capability language is fully explored in mandl-sacm-tool-capability-language (to be submitted).</t>
-
-</section>
-<section anchor="interfaces" title="Interfaces">
-<t>Interfaces should be derived directly from identified workflows, several of which are described in this document.</t>
-
-</section>
-<section anchor="workflows" title="Workflows">
-<t>The workflows described in this document should be considered as candidate workflows - informational for the purpose of discovering the necessary components and specifying their interfaces.</t>
+<section anchor="relevant-workflows" title="Relevant Workflows">
+<t>This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.</t>
 
 <section anchor="it-asset-management" title="IT Asset Management">
 <t>Information Technology asset management is easier said than done. The <xref target="CISCONTROLS"/> have two controls dealing with IT asset management. Control 1, Inventory and Control of Hardware Assets, states, "Actively manage (inventory, track, and correct) all hardware devices on the network so that only authorized devices are given access, and unauthorized and unmanaged devices are found and prevented from gaining access." Control 2, Inventory and Control of Software Assets, states, "Actively manage (inventory, track, and correct) all software on the network so that only authorized software is installed and can execute, and that unauthorized and unmanaged software is found and prevented from installation or execution."</t>
@@ -325,24 +136,7 @@
 
 </section>
 <section anchor="vulnerability-management" title="Vulnerability Management">
-<t>Vulnerability management is a relatively established process. According to the <xref target="CISCONTROLS"/>, continuous vulnerability management the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</t>
-
-<section anchor="vulnerability-assessment-workflow-assumptions" title="Vulnerability Assessment Workflow Assumptions">
-<t>A number of assumptions must be stated to clarify the scope of a vulnerability assessment workflow:</t>
-
-<t><list style="symbols">
-  <t>The enterprise has received vulnerability description information, and that the information has already been processed into vulnerability detection data that the enterprise's security software tools can understand and use.</t>
-  <t>The enterprise has a suitable IT Asset Management capability</t>
-  <t>The enterprise has a means of extracting relevant information about enterprise endpoints in a form that is compatible with the vulnerability description data (appropriate Collectors for their technologies)</t>
-  <t>All information described in this scenario is available in the vulnerability description data and serves as the basis of assessments.</t>
-  <t>The enterprise can provide all relevant information about any endpoint needed to perform the described assessment (the appropriate Repositories are available)</t>
-  <t>The enterprise has a mechanism for long-term storage of vulnerability description information, vulnerability detection data, and vulnerability assessment results.</t>
-  <t>The enterprise has a procedure for reassessment of endpoints at some point after initial assessment</t>
-</list></t>
-
-</section>
-<section anchor="vulnerability-assessment-workflow" title="Vulnerability Assessment Workflow">
-<t>When new vulnerability description information is received by the enterprise, affected endpoints are identified and assessed. The vulnerability is said to apply to an endpoint if the endpoint satisfies the conditions expressed in the vulnerability detection data.</t>
+<t>Vulnerability management is a relatively established process. To paraphrase the <xref target="CISCONTROLS"/>, continuous vulnerability management is the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</t>
 
 <t>A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</t>
 
@@ -359,16 +153,15 @@
   <t>Specific state attributes</t>
 </list></t>
 
-<t>In many cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to collect it from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection under certain circumstances, even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</t>
+<t>In some cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to perform collection from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</t>
 
-<t>The collection of additional endpoint information for the purpose of vulnerability assessment does not necessarily need to be a pull by the vulnerability assessment capabilities. Over time, some new pieces of information that are needed during common types of assessments might be identified. Endpoint management capabilities can be reconfigured to have this information delivered automatically. This avoids the need to trigger additional Collection Tasks to gather this information during assessments, streamlining the assessment process. Likewise, it might be observed that certain information delivered by endpoint management capabilities is rarely used. In this case, it might be useful to re-configure the endpoint management capabilities to no longer collect this information to reduce network and processing overhead. Instead, a new Collection Task can be triggered to gather this data on the rare occasions when it is needed.</t>
-
-</section>
 </section>
 <section anchor="configuration-management" title="Configuration Management">
-<t>Configuration management involves configuration assessment, which requires state assessment (TODO: Tie to SACM use cases). The <xref target="CISCONTROLS"/> specify two high-level controls concerning configuration management (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in a requirement to: "Establish, implement, and actively manage (track, report on, correct) the security configuration of (endpoints) using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings."</t>
+<t>Configuration management involves configuration assessment, which requires state assessment. The <xref target="CISCONTROLS"/> specify two high-level controls concerning configuration management (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in the following paraphrasing: Establish, implement, and actively manage (track, report on, correct) the security configuration of systems using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings.</t>
 
-<t>Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information. A preferred flow follows:</t>
+<t>Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information.</t>
+
+<t>A preferred flow follows:</t>
 
 <t><list style="symbols">
   <t>Reputable source publishes new or updated configuration guidance</t>
@@ -383,6 +176,43 @@
 
 </section>
 </section>
+<section anchor="configuration-management-components-interactions-and-capabilities" title="Configuration Management Components, Interactions, and Capabilities">
+<t>This section provides more detail about the components, interactions, and capabilities required when considering the aforementioned configuration management workflow.</t>
+
+<section anchor="components" title="Components">
+<t>The following is a minimal list of SACM Components required to implement the aforementioned configuration assessment workflow.</t>
+
+<t><list style="symbols">
+  <t>Configuration Policy Feed: An external source of authoritative configuration recommendations.</t>
+  <t>Configuration Policy Repository: An internal repository of enterprise standard configurations.</t>
+  <t>Configuration Assessment Orchestrator: A component responsible for orchestrating assessments.</t>
+  <t>Posture Attribute Collection Subsystem: A component responsible for collection of posture attributes from systems.</t>
+  <t>Posture Attribute Repository: A component used for storing system posture attribute values.</t>
+  <t>Configuration Assessment Evaluator: A component responsible for evaluating system posture attribute values against expected posture attribute values.</t>
+  <t>Configuration Assessment Results Repository: A component used for storing evaluation results.</t>
+</list></t>
+
+</section>
+<section anchor="interactions" title="Interactions">
+<t>SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.</t>
+
+<t><list style="symbols">
+  <t>Store: One component stores information in another.</t>
+  <t>Ask: A component requests information from another.</t>
+  <t>Notify/Ask: A component notifies another component, which then asks the notifying component (or another component) for information.</t>
+  <t>Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.</t>
+  <t>Tell: A component instructs another.</t>
+</list></t>
+
+</section>
+<section anchor="capabilities" title="Capabilities">
+<t>Per <xref target="RFC8248"/>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem. We need for components to be able to express, for example, something like the following: As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL.</t>
+
+</section>
+</section>
+<section anchor="configuration-assessment-workflow" title="Configuration Assessment Workflow">
+<t>TODO: This is where the diagram and interaction descriptions can be written.</t>
+
 </section>
 <section anchor="privacy-considerations" title="Privacy Considerations">
 <t>TODO</t>
@@ -393,6 +223,8 @@
 
 </section>
 <section anchor="iana-considerations" title="IANA Considerations">
+<t>TODO: Revamp this section after the configuration assessment workflow is fleshed out.</t>
+
 <t>IANA tables can probably be used to make life a little easier. We would like a place to enumerate:</t>
 
 <t><list style="symbols">
@@ -462,50 +294,33 @@
     <organization />
 </author>
 
-<date month='February' day='15' year='2019' />
+<date month='June' day='21' year='2019' />
 
 <abstract><t>This document specifies the Endpoint Posture Collection Profile, which describes the best practices for the application of IETF, TNC, and ISO/IEC data models, protocols, and interfaces to support the on- going collection and communication of endpoint posture to a centralized server where it can be stored and made available to other tools.  This document is an extension of the Trusted Computing Group's Endpoint Compliance Profile Version 1.0 specification [ECP].</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-04' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-sacm-ecp-05' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-04.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-05.txt' />
 <format type='PDF'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-04.pdf' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-sacm-ecp-05.pdf' />
 </reference>
 
 
 
-<reference anchor="I-D.ietf-mile-xmpp-grid">
+<reference  anchor="RFC8600" target='https://www.rfc-editor.org/info/rfc8600'>
 <front>
-<title>Using XMPP for Security Information Exchange</title>
-
-<author initials='N' surname='Cam-Winget' fullname='Nancy Cam-Winget'>
-    <organization />
-</author>
-
-<author initials='S' surname='Appala' fullname='Syam Appala'>
-    <organization />
-</author>
-
-<author initials='S' surname='Pope' fullname='Scott Pope'>
-    <organization />
-</author>
-
-<author initials='P' surname='Saint-Andre' fullname='Peter Saint-Andre'>
-    <organization />
-</author>
-
-<date month='December' day='29' year='2018' />
-
-<abstract><t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) to collect and distribute security-relevant information between network-connected devices.  To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t></abstract>
-
+<title>Using Extensible Messaging and Presence Protocol (XMPP) for Security Information Exchange</title>
+<author initials='N.' surname='Cam-Winget' fullname='N. Cam-Winget' role='editor'><organization /></author>
+<author initials='S.' surname='Appala' fullname='S. Appala'><organization /></author>
+<author initials='S.' surname='Pope' fullname='S. Pope'><organization /></author>
+<author initials='P.' surname='Saint-Andre' fullname='P. Saint-Andre'><organization /></author>
+<date year='2019' month='June' />
+<abstract><t>This document describes how to use the Extensible Messaging and Presence Protocol (XMPP) to collect and distribute security incident reports and other security-relevant information between network- connected devices, primarily for the purpose of communication among Computer Security Incident Response Teams and associated entities. To illustrate the principles involved, this document describes such a usage for the Incident Object Description Exchange Format (IODEF).</t></abstract>
 </front>
-
-<seriesInfo name='Internet-Draft' value='draft-ietf-mile-xmpp-grid-09' />
-<format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-mile-xmpp-grid-09.txt' />
+<seriesInfo name='RFC' value='8600'/>
+<seriesInfo name='DOI' value='10.17487/RFC8600'/>
 </reference>
 
 
@@ -723,6 +538,8 @@
 
 
 <section anchor="mapping-to-rfc8248" title="Mapping to RFC8248">
+<t>TODO: Consider removing or placing in a separate solution draft.</t>
+
 <t>This section provides a mapping of XMPP and XMPP Extensions to the relevant requirements from <xref target="RFC8248"/>. In the table below, the ID and Name columns provide the ID and Name of the requirement directly out of <xref target="RFC8248"/>. The Supported By column may contain one of several values:</t>
 
 <t><list style="symbols">
@@ -928,6 +745,7 @@
 
 </section>
 <section anchor="example-components" title="Example Components">
+<t>TODO: Consider removing.</t>
 
 <section anchor="policy-services" title="Policy Services">
 <t>Consider a policy server conforming to <xref target="RFC8322"/>. <xref target="RFC8322"/> describes a RESTful way based on the ATOM Publishing Protocol (<xref target="RFC5023"/>) to find specific data collections. While this represents a specific binding (i.e. RESTful API based on <xref target="RFC5023"/>), there is a more abstract way to look at ROLIE.</t>
@@ -964,9 +782,9 @@ Evaluator       Repository      |      |        |        |      |        |
 
 ]]></artwork></figure>
 
-<t>In <xref target="fig-ecp"/>, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <xref target="I-D.ietf-mile-xmpp-grid"/> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</t>
+<t>In <xref target="fig-ecp"/>, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <xref target="RFC8600"/> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</t>
 
-<t>Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <xref target="RFC8322"/>, <xref target="I-D.ietf-mile-xmpp-grid"/>, and so on).</t>
+<t>Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <xref target="RFC8322"/>, <xref target="RFC8600"/>, and so on).</t>
 
 </section>
 <section anchor="datastream-collection" title="Datastream Collection">
@@ -984,277 +802,365 @@ Evaluator       Repository      |      |        |        |      |        |
 
 </section>
 </section>
+<section anchor="exploring-an-xmpp-based-solution" title="Exploring An XMPP-based Solution">
+<t>TODO: Consider removing or placing in a separate draft.</t>
+
+<t>Ongoing work has been taking place around and during IETF hackathons. The list of hackathon efforts follows:</t>
+
+<t><list style="symbols">
+  <t><xref target="HACK99"/>: A partial implementation of a vulnerability assessment scenario involving an <xref target="I-D.ietf-sacm-ecp"/> implementation, a <xref target="RFC8322"/> implementation, and a proprietary evaluator to pull the pieces together.</t>
+  <t><xref target="HACK100"/>: Work to combine the vulnerability assessment scenario from <xref target="HACK99"/> with an XMPP-based YANG push model.</t>
+  <t><xref target="HACK101"/>: A fully automated configuration assessment implementation using XMPP as a communication mechanism.</t>
+  <t><xref target="HACK102"/>: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.</t>
+</list></t>
+
+<t><xref target="fig-xmpp"/> depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</t>
+
+<t>Additionally, while not directly depicted in <xref target="fig-xmpp"/>, this architecture does allow point-to-point interfaces. In fact, <xref target="RFC8600"/> provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in <xref target="fig-xmpp"/> may be a provider, a consumer, or both, depending on the workflow in context.</t>
+
+<figure title="XMPP-based Architecture" anchor="fig-xmpp"><artwork><![CDATA[
+ +--------------+           +--------------+
+ | Orchestrator |           | Repositories |
+ +------^-------+           +------^-------+       
+        |                          |
+        |                          |
++-------v--------------------------v--------+     +-----------------+
+|                XMPP-Grid+                 <-----> Downstream Uses |
++------------------------^------------------+     +-----------------+
+                         |
+                         |
+                 +-------v------+   
+                 |  XMPP-Grid   |   
+                 | Connector(s) |
+                 +------^-------+
+                        |
+                 +------v-------+
+                 | Collector(s) |
+                 +--------------+
+]]></artwork></figure>
+
+<t><xref target="RFC8600"/> details a number of XMPP extensions (XEPs) that MUST be utilized to meet the needs of <xref target="RFC7632"/> and <xref target="RFC8248"/>:</t>
+
+<t><list style="symbols">
+  <t>Service Discovery (XEP-0030): Service Discovery allows XMPP entities to discover information about other XMPP entities.  Two kinds of information can be discovered: the identity and capabilities of an entity, such as supported features, and items associated with an entity.</t>
+  <t>Publish-Subscribe (XEP-0060): The PubSub extension enables entities to create nodes (topics) at a PubSub service and publish information at those nodes.  Once published, an event notification is broadcast to all entities that have subscribed to that node.</t>
+</list></t>
+
+<t>At this point, <xref target="RFC8600"/> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <xref target="RFC7632"/> and <xref target="RFC8248"/>. In <xref target="fig-xmpp"/> we therefore use "XMPP-Grid+" to indicate something more than <xref target="RFC8600"/> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <xref target="RFC8600"/> to include additional XEPs - possibly the following:</t>
+
+<t><list style="symbols">
+  <t>Entity Capabilities (XEP-0115): This extension defines the methods for broadcasting and dynamically discovering an entities' capabilities.  This information is transported via standard XMPP presence.  Example capabilities that could be discovered could include support for posture attribute collection, support for specific types of posture attribute collection such as EPCP, SWIMA, OVAL, or YANG.  Other capabilities are still to be determined.</t>
+  <t>Ad Hoc Commands (XEP-0050): This extension allows an XMPP entity to advertise and execute application-specific commands.  Typically the commands contain data forms (XEP-0004) in order to structure the information exchange.  This extension may be usable for simple orchestration (i.e. "do assessment").</t>
+  <t>HTTP File Upload (XEP-0363): The HTTP File Upload extension allows for large data sets to be published to a specific path on an HTTP server, and receive a URL from which that file can later be downloaded again.  XMPP messages and IQs are meant to be compact, and large data sets, such as collected posture attributes, may exceed a message size threshold.  Usage of this XEP allows those larger data sets to be persisted, thus necessitating only the download URL to be passed via XMPP messages.</t>
+  <t>Personal Eventing Protocol (XEP-0163): The Personal Eventing Protocol can be thought of as a virtual PubSub service, allowing an XMPP account to publish events only to their roster instead of a generic PubSub topic.  This XEP may be useful in the cases when collection requests or queries are only intended for a subset of endpoints and not an entire subscriber set.</t>
+  <t>File Repository and Sharing (XEP-0214): This extension defines a method for XMPP entities to designate a set of file available for retrieval by other users of their choosing, and is based on PubSub Collections.</t>
+  <t>Easy User Onboarding (XEP-401): The goal of this extension is simplified client registration, and may be useful when adding new endpoints or SACM components to the ecosystem.</t>
+  <t>Bidirectional-streams Over Synchronous HTTP (BOSH) (XEP-0124): BOSH emulates the semantics of a long-lived, bidirectional TCP connection between two entities (aka "long polling").  Consider a SACM component that is updated dynamically, i.e. an internal vulnerability definition repository ingesting data from a Feed/Repository of External Data, and a second SACM component such as an Orchestrator.  Using BOSH, the Orchestrator can effectively continuously poll the vulnerability definition repository for changes/updates.</t>
+  <t>PubSub Collection Nodes (XEP-0248): Effectively an extension to XEP-0060 (Publish-Subscribe), PubSub Collections aim to simplify an entities' subscription to multiple related topics, and establishes a "node graph" relating parent nodes to its descendents.  An example "node graph" could be rooted in a "vulnerability definitions" topic, and contain descendent topics for OS family-level vulnerability definitions (i.e. Windows), and further for OS family version-level definitions (i.e. Windows 10 or Windows Server 2016).</t>
+  <t>PubSub Since (XEP-0312): This extension enables a subscriber to automatically receive PubSub and Personal Eventing Protocol (PEP) notifications since its last logout time.  This extension may be useful in intermittent connection scenarios, or when entities disconnect and reconnect to the ecosystem.</t>
+  <t>PubSub Chaining (XEP-0253): This extension describes the federation of publishing nodes, enabling a publish node of one server to be a subscriber to a publishing node of another server.</t>
+</list></t>
+
+<section anchor="example-architecture-using-xmpp-grid-and-endpoint-posture-collection-protocol" title="Example Architecture using XMPP-Grid and Endpoint Posture Collection Protocol">
+
+<t><xref target="fig-xmpp-epcp"/> depicts a further detailed view of the architecture including the Endpoint Posture Collection Protocol as the collection subsystem, illustrating the idea of a pluggable ecosystem of cooperative tools.</t>
+
+<figure title="XMPP-based Architecture including EPCP" anchor="fig-xmpp-epcp"><artwork><![CDATA[
+          +--------------------+
+          | Feeds/Repositories |
+          |  of External Data  |
+          +--------------------+
+                    |
+********************v************************* Enterprise Boundary ************
+*                   |                                                         *
+*  +--------------+ | +-------------------+ +-------------+                   *
+*  | Orchestrator | | | Posture Attr Repo | | Policy Repo |                   *
+*  +------^-------+ | +---------^---------+ +---^---------+                   *
+*         |         |           |               |          +----------------+ *
+*         |         |           |               |          | Downstream Uses| *
+*         |         |           |               |          | +-----------+  | *
+*  +------v---------v-----------v---------------v--+       | |Evaluations|  | *
+*  |                    XMPP-Grid                  <-------> +-----------+  | *
+*  +----------------^-------------------^----------+       | +-----------+  | *
+*                   |                   |                  | | Analytics |  | *
+*                   |                   |                  | +-----------+  | *
+*                   |             +-----v--------+         | +-----------+  | *
+*                   |             | Results Repo |         | | Reporting |  | *
+*                   |             +--------------+         | +-----------+  | *
+*                   |                                      +----------------+ *
+*         +---------v-----------+                                             *
+*         | XMPP-Grid Connector |                                             *
+*         +---------^-----------+                                             *
+*                   |                                                         *
+* +-----------------v-------------------------------------------------------+ *
+* |                                                                         | *
+* | +--Posture Collection Manager------------------------------------------+| *
+* | |+-----------------------+ +----------------+ +----------------------+ || *
+* | || Communications Server | | Posture Server | | Posture Validator(s) | || *
+* | |+----------^------------+ +----------------+ +----------------------+ || *
+* | +-----------|----------------------------------------------------------+| *
+* |             |                                                           | *
+* | +-----------|-------------------------Endpoint or Endpoint Proxy-------+| *
+* | |+----------v------------+ +----------------+ +----------------------+ || *
+* | || Communications Client | | Posture Client | | Posture Collector(s) | || *
+* | |+-----------------------+ +----------------+ +----------------------+ || *
+* | +----------------------------------------------------------------------+| *
+* +-----------------Endpoint Posture Collection Profile---------------------+ *
+*                                                                             *
+*******************************************************************************
+]]></artwork></figure>
+
+</section>
+</section>
 
 
   </back>
 
 <!-- ##markdown-source:
-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
+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
+pcU10fKSAAA=
 
 -->
 
