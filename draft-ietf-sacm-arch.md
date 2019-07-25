@@ -104,6 +104,15 @@ informative:
   HACK102:
     target: https://www.github.com/CISecurity/YANG
     title: IETF 102 Hackathon - YANG Collection on Traditional Endpoints
+  HACK103:
+    target: https://www.ietf.org/how/meetings/103/
+    title: IETF 103 Hackathon - N/A
+  HACK104:
+    target: https://github.com/CISecurity/IETF104-Client
+    title: IETF 104 Hackathon - A simple XMPP client
+  HACK105:
+    target: https://github.com/CISecurity/IETF104-Client
+    title: IETF 105 Hackathon - A more robust XMPP client including collection extensions
 
 --- abstract
 
@@ -234,12 +243,12 @@ SACM Components are intended to interact with other SACM Components. These inter
 * Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.
 * Tell: A component instructs another.
 
-TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaning the necessary combinations relevant to the configuration assessment workflow below.
+TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaining the necessary combinations relevant to the configuration assessment workflow below.
 
 Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.
 
 ## Capabilities
-Per {{RFC8248}}, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem. We need for components to be able to express, for example, something like the following: As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL.
+Per {{RFC8248}}, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".
 
 # Configuration Assessment Workflow
 This section describes the components and interactions in a basic configuration assessment workflow. For simplicity, error conditions are recognized as being necessary and are not depicted. When one component messages another component, the message is expected to be handled appropriately unless there is an error condition, or other notification, messaged in return.
@@ -445,8 +454,11 @@ Ongoing work has been taking place around and during IETF hackathons. The list o
 
 * {{HACK99}}: A partial implementation of a vulnerability assessment scenario involving an {{-ecp}} implementation, a {{-rolie}} implementation, and a proprietary evaluator to pull the pieces together.
 * {{HACK100}}: Work to combine the vulnerability assessment scenario from {{HACK99}} with an XMPP-based YANG push model.
-* {{HACK101}}: A fully automated configuration assessment implementation using XMPP as a communication mechanism.
+* {{HACK101}}: A fully automated configuration assessment implementation using XMPP (specifically Publish/Subscribe capabilities) as a communication mechanism.
 * {{HACK102}}: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.
+* {{HACK103}}: No SACM participation at the Bangkok hackathon.
+* {{HACK104}}: Basic XMPP-to-Concise MAP - Created an XMPP adapter that can accept basic posture attributes and translate them to Concise MAP.  This hackathon only proved the concept that system characteristics information can be transported via XMPP and translated to a (very basic) concise MAP implementation.
+* {{HACK105}}: Advanced XMPP-to-Concise MAP:  Full orchestration of collection capabilities using XMPP.  Collector implementations extend the core XMPP structure to allow OVAL collection instructions (OVAL objects) to inform posture attribute collection.  Collected system characteristics can be provided to the Concise MAP XMPP adapter using all 3 available XMPP capabilities: Publish/Subscribe, Information Query (iq - request/response) stanzas, or direct Message stanzas.  CDDL was created to map collected posture attributes to Concise MAP structure.  The XMPP adapter translates the incoming system characteristics and stores the information in the MAP.
 
 {{fig-xmpp}} depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.
 
