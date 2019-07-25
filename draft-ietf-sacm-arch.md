@@ -234,12 +234,54 @@ SACM Components are intended to interact with other SACM Components. These inter
 * Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.
 * Tell: A component instructs another.
 
+TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaning the necessary combinations relevant to the configuration assessment workflow below.
+
+Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.
+
 ## Capabilities
 Per {{RFC8248}}, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem. We need for components to be able to express, for example, something like the following: As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL.
 
 # Configuration Assessment Workflow
-TODO: This is where the diagram and interaction descriptions can be written.
+This section describes the components and interactions in a basic configuration assessment workflow. For simplicity, error conditions are recognized as being necessary and are not depicted. When one component messages another component, the message is expected to be handled appropriately unless there is an error condition, or other notification, messaged in return.
 
+~~~~~~~~~~
++-------------+
+| Policy Feed |
++-----+-------+
+      |                     5.1
+  1   |   +----------------------------------------+
+      |   |                                        |            
++-----v------+  2   +----------------+  5  +-----v-----+  6   +------------+
+|   Policy   +------>  Orchestrator  +-----> Evaluator +------> Evaluation |
+| Repository |      +-------+--------+     +-----^-----+      |   Results  |
++------------+              |                    |            | Repository |
+                            | 3                  |            +------------+
+                            |                    | 5.2
+                 +----------|--------+           |
+                 | +--------v------+ |           |
+                 | |   Collector   | |           |
+                 | +-------+-------+ |   4   +------------+
+                 |         |         +-------> Posture    |
+                 | +-------+-------+ |       | Attribute  |
+                 | | Target System | |       | Repository |
+                 | +---------------+ |       +------------+
+                 +-------------------+
+              Collection Sub-Architecture
+~~~~~~~~~~
+{: #fig-configassess title="Configuration Assessment Component Interactions"}
+
+{{fig-configassess}} depicts configuration assessment components and their interactions, which are further described below.
+
+1. Policy is stored in the Policy Repository: TODO - add specific interaction options here.
+2. The Orchestrator obtains collection information from the Policy Repository: TODO - add specific interaction options here.
+3. The Orchestrator initiates collection to be performed by the Collection Sub-Architecture: TODO - add specific interaction options here.
+4. Collected posture attributes are stored n the Posture Attribute Repository: TODO - add specific interaction options here.
+5. The Orchestrator initiates the Evaluator (optionally with evaluation information gathered from the Policy Repository): TODO - add specific interaction options here
+    1. The Evaluator obtains evaluation information from the Policy Repository (optionally): TODO - add specific interaction options here
+    2. The Evaluator obtains relevant posture attributes from the Posture Attribute Repository: TODO - add specific interaction options here
+6. Evaluation results are stored in the Evaluation Results Repository: TODO - add specific interaction options here
+
+In the above flow, the payload information is expected to convey the context required by the receiving component for the action being taken under different circumstances. For example, the Tell message sent from an Orchestrator to a Collection sub-architecture might be telling that Collector to watch a specific posture attribute and report only specific detected changes to the Posture Attribute Repository, or it might be telling the Collector to gather that posture attribute immediately. Such details are expected to be handled as part of that payload, not as part of the architecture described herein.
 
 # Privacy Considerations
 TODO
@@ -256,6 +298,7 @@ IANA tables can probably be used to make life a little easier. We would like a p
 * SACM Component implementation identifiers
 * SACM Component versions
 * Associations of SACM Components (and versions) to specific Capabilities
+* Collection sub-architecture Identification
 
 
 --- back

@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: January 25, 2020                                  July 24, 2019
+Expires: January 26, 2020                                  July 25, 2019
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 25, 2020.
+   This Internet-Draft will expire on January 26, 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 1]
+Montville & Munyan      Expires January 26, 2020                [Page 1]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -80,22 +80,22 @@ Table of Contents
      5.2.  Interactions  . . . . . . . . . . . . . . . . . . . . . .   8
      5.3.  Capabilities  . . . . . . . . . . . . . . . . . . . . . .   8
    6.  Configuration Assessment Workflow . . . . . . . . . . . . . .   9
-   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .   9
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .   9
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  10
-   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  11
-   Appendix B.  Example Components . . . . . . . . . . . . . . . . .  15
-     B.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .  15
-     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  15
-     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  16
-     B.4.  Network Configuration Collection  . . . . . . . . . . . .  17
-   Appendix C.  Exploring An XMPP-based Solution . . . . . . . . . .  17
+   7.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  10
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  11
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  11
+   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  13
+   Appendix B.  Example Components . . . . . . . . . . . . . . . . .  16
+     B.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .  16
+     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  17
+     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  18
+     B.4.  Network Configuration Collection  . . . . . . . . . . . .  18
+   Appendix C.  Exploring An XMPP-based Solution . . . . . . . . . .  18
      C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
-           Collection Protocol . . . . . . . . . . . . . . . . . . .  20
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  22
+           Collection Protocol . . . . . . . . . . . . . . . . . . .  22
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  24
 
 1.  Introduction
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 2]
+Montville & Munyan      Expires January 26, 2020                [Page 2]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -165,7 +165,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 3]
+Montville & Munyan      Expires January 26, 2020                [Page 3]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -221,7 +221,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 4]
+Montville & Munyan      Expires January 26, 2020                [Page 4]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -277,7 +277,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 5]
+Montville & Munyan      Expires January 26, 2020                [Page 5]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -333,7 +333,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 6]
+Montville & Munyan      Expires January 26, 2020                [Page 6]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -389,7 +389,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020                [Page 7]
+Montville & Munyan      Expires January 26, 2020                [Page 7]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -428,32 +428,116 @@ Internet-Draft              SACM Architecture                  July 2019
 
    o  Tell: A component instructs another.
 
+   TODO: Consider breaking out Notify, Publish, and Subscribe into
+   separate line items, and adding Error (a type of Notify).  Then
+   consider explaning the necessary combinations relevant to the
+   configuration assessment workflow below.
+
+   Each interaction will convey a payload of information.  The payload
+   information is expected to contain sub-domain-specific
+   characteristics and instructions.
+
 5.3.  Capabilities
 
    Per [RFC8248], solutions MUST support capability negotiation.
    Components implementing specific interfaces and operations (i.e.
    interactions) will need a method of describing their capabilities to
+
+
+
+Montville & Munyan      Expires January 26, 2020                [Page 8]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    other components participating in the ecosystem.  We need for
    components to be able to express, for example, something like the
    following: As a component in the ecosystem, I can assess the
    configuration of Windows, MacOS, and AWS using OVAL.
 
+6.  Configuration Assessment Workflow
+
+   This section describes the components and interactions in a basic
+   configuration assessment workflow.  For simplicity, error conditions
+   are recognized as being necessary and are not depicted.  When one
+   component messages another component, the message is expected to be
+   handled appropriately unless there is an error condition, or other
+   notification, messaged in return.
+
++-------------+
+| Policy Feed |
++-----+-------+
+      |                     5.1
+  1   |   +----------------------------------------+
+      |   |                                        |
++-----v------+  2   +----------------+  5  +-----v-----+  6   +------------+
+|   Policy   +------>  Orchestrator  +-----> Evaluator +------> Evaluation |
+| Repository |      +-------+--------+     +-----^-----+      |   Results  |
++------------+              |                    |            | Repository |
+                            | 3                  |            +------------+
+                            |                    | 5.2
+                 +----------|--------+           |
+                 | +--------v------+ |           |
+                 | |   Collector   | |           |
+                 | +-------+-------+ |   4   +------------+
+                 |         |         +-------> Posture    |
+                 | +-------+-------+ |       | Attribute  |
+                 | | Target System | |       | Repository |
+                 | +---------------+ |       +------------+
+                 +-------------------+
+              Collection Sub-Architecture
+
+         Figure 2: Configuration Assessment Component Interactions
+
+   Figure 2 depicts configuration assessment components and their
+   interactions, which are further described below.
+
+   1.  Policy is stored in the Policy Repository: TODO - add specific
+       interaction options here.
+
+   2.  The Orchestrator obtains collection information from the Policy
+       Repository: TODO - add specific interaction options here.
 
 
 
 
-
-
-
-Montville & Munyan      Expires January 25, 2020                [Page 8]
+Montville & Munyan      Expires January 26, 2020                [Page 9]
 
 Internet-Draft              SACM Architecture                  July 2019
 
 
-6.  Configuration Assessment Workflow
+   3.  The Orchestrator initiates collection to be performed by the
+       Collection Sub-Architecture: TODO - add specific interaction
+       options here.
 
-   TODO: This is where the diagram and interaction descriptions can be
-   written.
+   4.  Collected posture attributes are stored n the Posture Attribute
+       Repository: TODO - add specific interaction options here.
+
+   5.  The Orchestrator initiates the Evaluator (optionally with
+       evaluation information gathered from the Policy Repository): TODO
+       - add specific interaction options here
+
+       1.  The Evaluator obtains evaluation information from the Policy
+           Repository (optionally): TODO - add specific interaction
+           options here
+
+       2.  The Evaluator obtains relevant posture attributes from the
+           Posture Attribute Repository: TODO - add specific interaction
+           options here
+
+   6.  Evaluation results are stored in the Evaluation Results
+       Repository: TODO - add specific interaction options here
+
+   In the above flow, the payload information is expected to convey the
+   context required by the receiving component for the action being
+   taken under different circumstances.  For example, the Tell message
+   sent from an Orchestrator to a Collection sub-architecture might be
+   telling that Collector to watch a specific posture attribute and
+   report only specific detected changes to the Posture Attribute
+   Repository, or it might be telling the Collector to gather that
+   posture attribute immediately.  Such details are expected to be
+   handled as part of that payload, not as part of the architecture
+   described herein.
 
 7.  Privacy Considerations
 
@@ -471,6 +555,13 @@ Internet-Draft              SACM Architecture                  July 2019
    IANA tables can probably be used to make life a little easier.  We
    would like a place to enumerate:
 
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 10]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    o  Capability/operation semantics
 
    o  SACM Component implementation identifiers
@@ -479,6 +570,8 @@ Internet-Draft              SACM Architecture                  July 2019
 
    o  Associations of SACM Components (and versions) to specific
       Capabilities
+
+   o  Collection sub-architecture Identification
 
 10.  References
 
@@ -493,18 +586,6 @@ Internet-Draft              SACM Architecture                  July 2019
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-
-
-
-
-Montville & Munyan      Expires January 25, 2020                [Page 9]
-
-Internet-Draft              SACM Architecture                  July 2019
-
 
    [RFC8412]  Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
               J. Fitzgerald-McKay, "Software Inventory Message and
@@ -530,6 +611,13 @@ Internet-Draft              SACM Architecture                  July 2019
               <https://tools.ietf.org/html/
               draft-birkholz-sacm-yang-content-01>.
 
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 11]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    [HACK100]  "IETF 100 Hackathon - Vulnerability Scenario EPCP+XMPP",
               n.d., <https://www.github.com/sacmwg/vulnerability-
               scenario/ietf-hackathon>.
@@ -550,17 +638,6 @@ Internet-Draft              SACM Architecture                  July 2019
               A. Montville, "Security Automation and Continuous
               Monitoring (SACM) Terminology", draft-ietf-sacm-
               terminology-16 (work in progress), December 2018.
-
-
-
-
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 10]
-
-Internet-Draft              SACM Architecture                  July 2019
-
 
    [NIST800126]
               Waltermire, D., Quinn, S., Booth, H., Scarfone, K., and D.
@@ -590,6 +667,13 @@ Internet-Draft              SACM Architecture                  July 2019
               DOI 10.17487/RFC8248, September 2017,
               <https://www.rfc-editor.org/info/rfc8248>.
 
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 12]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    [RFC8322]  Field, J., Banghart, S., and D. Waltermire, "Resource-
               Oriented Lightweight Information Exchange (ROLIE)",
               RFC 8322, DOI 10.17487/RFC8322, February 2018,
@@ -609,14 +693,6 @@ Appendix A.  Mapping to RFC8248
 
    o  N/A: The requirement is not applicable to this architectural
       exploration
-
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 11]
-
-Internet-Draft              SACM Architecture                  July 2019
-
 
    o  Architecture: This architecture (possibly assuming some
       components) should meet the requirement
@@ -646,6 +722,14 @@ Internet-Draft              SACM Architecture                  July 2019
    |          |                                        |               |
    | G-003    | Scalability                            |      XMPP     |
    |          |                                        |               |
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 13]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    | G-004    | Versatility                            |   XMPP-Core   |
    |          |                                        |               |
    | G-005    | Information Extensibility              |   XMPP-Core   |
@@ -666,14 +750,6 @@ Internet-Draft              SACM Architecture                  July 2019
    |          |                                        |               |
    | G-013    | Endpoint Location and Network Topology |               |
    |          |                                        |               |
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 12]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    | G-014    | Target Endpoint Identity               |   XMPP-Core   |
    |          |                                        |               |
    | G-015    | Data Access Control                    |               |
@@ -702,6 +778,14 @@ Internet-Draft              SACM Architecture                  July 2019
    | IM-002   | Posture Data Publication               |      N/A      |
    |          |                                        |               |
    | IM-003   | Data Model Negotiation                 |      N/A      |
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 14]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    |          |                                        |               |
    | IM-004   | Data Model Identification              |      N/A      |
    |          |                                        |               |
@@ -722,14 +806,6 @@ Internet-Draft              SACM Architecture                  July 2019
    | DM-006   | Data Cardinality                       |      N/A      |
    |          |                                        |               |
    | DM-007   | Data Model Negotiation                 |      N/A      |
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 13]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    |          |                                        |               |
    | DM-008   | Data Origin                            |      N/A      |
    |          |                                        |               |
@@ -758,6 +834,14 @@ Internet-Draft              SACM Architecture                  July 2019
    | OP-004   | Attribute-Based Query                  |               |
    |          |                                        |               |
    | OP-005   | Information-Based Query with Filtering |               |
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 15]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    |          |                                        |               |
    | OP-006   | Operation Scalability                  |               |
    |          |                                        |               |
@@ -778,14 +862,6 @@ Internet-Draft              SACM Architecture                  July 2019
    | T-006    | Transfer-Layer Requirements            |               |
    |          |                                        |               |
    | T-007    | Transfer Protocol Adoption             |  Architecture |
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 14]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    +----------+----------------------------------------+---------------+
 
 Appendix B.  Example Components
@@ -813,6 +889,15 @@ B.1.  Policy Services
 
    Even if a [RFC8322] server were external to an organization, there
    would be a need for a policy source inside the organization as well,
+
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 16]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    and it may be preferred for such a policy source to be connected
    directly to the ecosystem's communication infrastructure.
 
@@ -822,25 +907,6 @@ B.2.  Software Inventory
    Collection Profile [I-D.ietf-sacm-ecp], which describes a collection
    architecture and may be viewed as a collector coupled with a
    collection-specific repository.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 15]
-
-Internet-Draft              SACM Architecture                  July 2019
-
 
                                  Posture Manager              Endpoint
                 Orchestrator    +---------------+        +---------------+
@@ -862,9 +928,9 @@ Evaluator       Repository      |      |        |        |      |        |
 +------+        +--------+      +---------------+        +---------------+
 
 
-                  Figure 2: EPCP Collection Architecture
+                  Figure 3: EPCP Collection Architecture
 
-   In Figure 2, any of the communications between the Posture Manager
+   In Figure 3, any of the communications between the Posture Manager
    and EPCP components to its left could be performed directly or
    indirectly using a given message transfer mechanism.  For example,
    the pub/sub interface between the Orchestrator and the Posture
@@ -880,6 +946,14 @@ Evaluator       Repository      |      |        |        |      |        |
    then bound to one or more specific transfer mechanisms (i.e.  RESTful
    API, [RFC8322], [RFC8600], and so on).
 
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 17]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
 B.3.  Datastream Collection
 
    [NIST800126], also known as SCAP 1.3, provides the technical
@@ -890,14 +964,6 @@ B.3.  Datastream Collection
    perform configuration assessment on a given endpoint.  These source
    components include XCCDF checklists, OVAL Definitions, and CPE
    Dictionary information.  A single "datastream collection" may
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 16]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    encapsulate multiple "datastreams", and reference any number of SCAP
    components.  Datastream collections were intended to provide an
    envelope enabling transfer of SCAP data more easily.
@@ -936,6 +1002,14 @@ Appendix C.  Exploring An XMPP-based Solution
    Ongoing work has been taking place around and during IETF hackathons.
    The list of hackathon efforts follows:
 
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 18]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
    o  [HACK99]: A partial implementation of a vulnerability assessment
       scenario involving an [I-D.ietf-sacm-ecp] implementation, a
       [RFC8322] implementation, and a proprietary evaluator to pull the
@@ -947,30 +1021,50 @@ Appendix C.  Exploring An XMPP-based Solution
    o  [HACK101]: A fully automated configuration assessment
       implementation using XMPP as a communication mechanism.
 
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 17]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    o  [HACK102]: An exploration of how we might model assessment,
       collection, and evaluation abstractly, and then rely on YANG
       expressions for the attributes of traditional endpoints.
 
-   Figure 3 depicts a slightly more detailed view of the architecture
+   Figure 4 depicts a slightly more detailed view of the architecture
    (within the enterprise boundary) - one that fosters the development
    of a pluggable ecosystem of cooperative tools.  Existing collection
    mechanisms can be brought into this architecture by specifying the
    interface of the collector and creating the XMPP-Grid Connector
    binding for that interface.
 
-   Additionally, while not directly depicted in Figure 3, this
+   Additionally, while not directly depicted in Figure 4, this
    architecture does allow point-to-point interfaces.  In fact,
    [RFC8600] provides brokering capabilities to facilitate such point-
    to-point data transfers).  Additionally, each of the SACM Components
-   depicted in Figure 3 may be a provider, a consumer, or both,
+   depicted in Figure 4 may be a provider, a consumer, or both,
    depending on the workflow in context.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 19]
+
+Internet-Draft              SACM Architecture                  July 2019
+
 
     +--------------+           +--------------+
     | Orchestrator |           | Repositories |
@@ -991,7 +1085,7 @@ Internet-Draft              SACM Architecture                  July 2019
                     | Collector(s) |
                     +--------------+
 
-                     Figure 3: XMPP-based Architecture
+                     Figure 4: XMPP-based Architecture
 
    [RFC8600] details a number of XMPP extensions (XEPs) that MUST be
    utilized to meet the needs of [RFC7632] and [RFC8248]:
@@ -1002,14 +1096,6 @@ Internet-Draft              SACM Architecture                  July 2019
       capabilities of an entity, such as supported features, and items
       associated with an entity.
 
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 18]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
    o  Publish-Subscribe (XEP-0060): The PubSub extension enables
       entities to create nodes (topics) at a PubSub service and publish
       information at those nodes.  Once published, an event notification
@@ -1017,7 +1103,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
    At this point, [RFC8600] specifies fewer features than SACM requires,
    and there are other XMPP extensions (XEPs) we need to consider to
-   meet the needs of [RFC7632] and [RFC8248].  In Figure 3 we therefore
+   meet the needs of [RFC7632] and [RFC8248].  In Figure 4 we therefore
    use "XMPP-Grid+" to indicate something more than [RFC8600] alone,
    even though we are not yet fully confident in the exact set of XMPP-
    related extensions we will require.  The authors propose work to
@@ -1028,6 +1114,14 @@ Internet-Draft              SACM Architecture                  July 2019
       for broadcasting and dynamically discovering an entities'
       capabilities.  This information is transported via standard XMPP
       presence.  Example capabilities that could be discovered could
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 20]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
       include support for posture attribute collection, support for
       specific types of posture attribute collection such as EPCP,
       SWIMA, OVAL, or YANG.  Other capabilities are still to be
@@ -1057,15 +1151,6 @@ Internet-Draft              SACM Architecture                  July 2019
 
    o  File Repository and Sharing (XEP-0214): This extension defines a
       method for XMPP entities to designate a set of file available for
-
-
-
-
-Montville & Munyan      Expires January 25, 2020               [Page 19]
-
-Internet-Draft              SACM Architecture                  July 2019
-
-
       retrieval by other users of their choosing, and is based on PubSub
       Collections.
 
@@ -1085,6 +1170,14 @@ Internet-Draft              SACM Architecture                  July 2019
 
    o  PubSub Collection Nodes (XEP-0248): Effectively an extension to
       XEP-0060 (Publish-Subscribe), PubSub Collections aim to simplify
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 21]
+
+Internet-Draft              SACM Architecture                  July 2019
+
+
       an entities' subscription to multiple related topics, and
       establishes a "node graph" relating parent nodes to its
       descendents.  An example "node graph" could be rooted in a
@@ -1106,7 +1199,7 @@ Internet-Draft              SACM Architecture                  July 2019
 C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
       Collection Protocol
 
-   Figure 4 depicts a further detailed view of the architecture
+   Figure 5 depicts a further detailed view of the architecture
    including the Endpoint Posture Collection Protocol as the collection
    subsystem, illustrating the idea of a pluggable ecosystem of
    cooperative tools.
@@ -1117,7 +1210,26 @@ C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
 
 
 
-Montville & Munyan      Expires January 25, 2020               [Page 20]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan      Expires January 26, 2020               [Page 22]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -1165,7 +1277,7 @@ Internet-Draft              SACM Architecture                  July 2019
 *                                                                             *
 *******************************************************************************
 
-             Figure 4: XMPP-based Architecture including EPCP
+             Figure 5: XMPP-based Architecture including EPCP
 
 
 
@@ -1173,7 +1285,7 @@ Internet-Draft              SACM Architecture                  July 2019
 
 
 
-Montville & Munyan      Expires January 25, 2020               [Page 21]
+Montville & Munyan      Expires January 26, 2020               [Page 23]
 
 Internet-Draft              SACM Architecture                  July 2019
 
@@ -1229,4 +1341,4 @@ Authors' Addresses
 
 
 
-Montville & Munyan      Expires January 25, 2020               [Page 22]
+Montville & Munyan      Expires January 26, 2020               [Page 24]
