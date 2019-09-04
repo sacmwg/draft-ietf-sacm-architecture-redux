@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-ietf-sacm-arch-02" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-sacm-arch-03" category="std">
 
   <front>
     <title abbrev="SACM Architecture">Security Automation and Continuous Monitoring (SACM) Architecture</title>
@@ -41,7 +41,7 @@
       </address>
     </author>
 
-    <date year="2019" month="July" day="25"/>
+    <date year="2019" month="September" day="04"/>
 
     <area>Security</area>
     <workgroup>SACM Working Group</workgroup>
@@ -83,41 +83,207 @@
 <t>The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect <xref target="RFC7632"/> and <xref target="RFC8248"/>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.</t>
 
 <figure title="Notional Architecture" anchor="fig-notional"><artwork><![CDATA[
-                  +--------------------+
-                  | Feeds/Repositories |
-                  |  of External Data  |
-                  +--------------------+
-                             |
-                             |
-*****************************v**************** Enterprise Boundary ************
-*                            |                                                *
-*  +---------------+         |     +--------------+                           *
-*  | Orchestrators |         |     | Repositories |                           *
-*  +------^--------+         |     +----^---------+                           *
-*         |                  |          |              +----------------+     *
-*         |                  |          |              | Downstream Uses|     *
-*         |                  |          |              | +-----------+  |     *
-*  +------v------------------v----------v------+       | |Evaluations|  |     *
-*  |           Message Transfer System         <-------> +-----------+  |     *
-*  +----------------------^--------------------+       | +-----------+  |     *
-*                         |                            | | Analytics |  |     *
-*                         |                            | +-----------+  |     *
-*           +-------------v------+                     | +-----------+  |     *
-*           | Collection Systems |                     | | Reporting |  |     *
-*           +--------------------+                     | +-----------+  |     *
-*                                                      +----------------+     *
-*******************************************************************************
+              +--------------------+
+              | Feeds/Repositories |
+              |  of External Data  |
+              +---------+----------+
+                        +
+****************************************************** Enterprise Boundary ***
+                        +
+      +--------------+  |  +--------------------+
+      | Orchestrator |  |  | Repositories/CMDBs |
+      +------^-------+  |  +----------^---------+
+             |          |             |             +--------------------+
+             |          |             |             |  Downstream Uses   |
+             |          |             |             | +----------------+ |
+ +-----------v----------v-------------v------+      | |   Analytics    | |
+ |       Component Integration Service       <------> +----------------+ |
+ +----- -----^--------------------------^----+      | +----------------+ |
+             |                          |           | |   Reporting    | |
+             |                          |           | +----------------+ |
+ +-----------v-------------------+      |           +--------------------+
+ |  Collection Sub-Architecture  |      |
+ +-------------------------------+      |
+                  +---------------------v---------+
+                  |  Evaluation Sub-Architecture  |
+                  +-------------------------------+
 
 ]]></artwork></figure>
 
-<t>As shown in <xref target="fig-notional"/>, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. The message transfer system is expected to maximally align with the requirements described in <xref target="RFC8248"/>, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.</t>
+<t>As shown in <xref target="fig-notional"/>, the SACM architecture consists of some basic SACM Components communicating using a component integration service. The component integration service is expected to maximally align with the requirements described in <xref target="RFC8248"/>, which means that the component integration service will support brokered (i.e. point-to-point) and proxied data exchange.</t>
 
 <t>The enterprise boundary is not intended to imply a physical boundary. Rather, the enterprise boundary is intended to be inclusive of various cloud environments and vendor-provided services in addition to any physical systems the enterprise operates.</t>
 
-<t>This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.</t>
+<section anchor="architectural-components" title="Architectural Components">
+<t>This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.  The <xref target="fig-notional"/> diagram illustrates a number of SACM components which are architecturally significant and therefore warrant discussion and clarification.</t>
+
+<section anchor="orchestrator" title="Orchestrator">
+<t>An Orchestration component exists to aid in the automation of configuration, coordination, and management for the ecosystem of SACM components.  The Orchestrator performs control-plane operations, administration of an implementing organization's components (including endpoints, posture collection services, and downstream activities), scheduling of automated tasks, and any ad-hoc activities such as the initiation of collection or evaluation activities.  The Orchestrator is the key administrative interface into the SACM architecture.</t>
 
 </section>
-<section anchor="relevant-workflows" title="Relevant Workflows">
+<section anchor="repositoriescmdbs" title="Repositories/CMDBs">
+<t>The <xref target="fig-notional"/> diagram only includes a single reference to "Repositories/CMDBs", but in practice, a number of separate data repositories may exist, including posture attribute repositories, policy repositories, local vulnerability definition data repositories, and state assessment results repositories.  These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems or graph/map implementations focused on the relationships between data elements.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).</t>
+
+</section>
+<section anchor="component-integration-service" title="Component Integration Service">
+<t>If each SACM component represents a set of services, capabilities, and/or functions, the Component Integration Service represents the "fabric" by which all those services, capabilities and functions are woven together.  The Component Integration Service acts as a message broker, combining a canonical data model, a common command set, and a messaging infrastructure to allow other SACM components to communicate using a shared set of interfaces.  The Component Integration Service's brokering capabilities enable the exchange of information, the orchestration of capabilities, message routing and reliable delivery.  The Component Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.</t>
+
+<t>The Component Integration Service should provide mechanisms for synchronous "request/response"-style messaging, asynchronous "send and forget" messaging, or publish/subscribe.  It is the responsibility of the Component Integration Service to coordinate and manage the sending and receiving of messages.  The Component Integration Service should allow components the ability to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.</t>
+
+<t>A number of pieces come together to form the Component Integration Service:</t>
+
+<t><list style="numbers">
+  <t>Common communication infrastructure:  The physical communications infrastructure, providing a cross-platform, cross-language universal adapter between SACM components.  This infrastructure commonly includes message routing capabilities to facilitate the correct routing of messages from SACM component to SACM component, as well as using Publish/Subscribe functionality to facilitate sending messages to all receivers.</t>
+  <t>Adapters:  The use of a standard, canonical data model will likely require SACM components to translate component-specific information into the canonical format used by the message broker.</t>
+  <t>Common command/interaction structure: Just as PC architectures have a common set of commands to represent the different operations possible on a physical bus, there must be common interactions that all SACM components can understand.</t>
+</list></t>
+
+</section>
+</section>
+<section anchor="sub-architectures" title="Sub-Architectures">
+<t>The <xref target="fig-notional"/> shows two components representing the architectural workflows involved in a cooperative ecosystem of SACM components: Collection and Evaluation.  The following section, Architectural Workflows (TBD - ADD LINK) further expands on these components/workflows.</t>
+
+</section>
+<section anchor="downstream-uses" title="Downstream Uses">
+<t>As depicted by <xref target="fig-notional"/>, a number of downstream uses exist in the cooperative ecosystem.  Each notional SACM component represents distinct sub-architectures which will exchange information via the component integration services, using interactions described in this draft.</t>
+
+<section anchor="reporting" title="Reporting">
+<t>The Reporting component represents the capabilities of the SACM architecture dealing with the query and retrieval of collected posture attribute information, evaluation results, etc. in various display formats that are useful to a wide range of stakeholders.</t>
+
+</section>
+<section anchor="analytics" title="Analytics">
+<t>The Analytics component represents the capabilities of the SACM architecture dealing with the discovery, interpretation, and communication of any meaningful patterns of data in order to inform effective decision making within the organization.</t>
+
+</section>
+</section>
+</section>
+<section anchor="sub-architectural-components" title="Sub-Architectural Components">
+<t>This section describes the workflows derived from the interactions with the two sub-architectures depicted in the <xref target="fig-notional"/>: Collection and Evaluation.</t>
+
+<section anchor="collection-sub-architecture" title="Collection Sub-Architecture">
+<t>The Collection sub-architecture, in a SACM context, is the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Orchestration components will choreograph endpoint data collection via interactions using the Component Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of methods, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, or host-based.</t>
+
+<figure title="Collection Sub-Architecture" anchor="fig-collection"><artwork><![CDATA[
++----------------------------------------------------------+
+|                       Orchestrator                       |
++-----------+----------------------------------------------+
+            |               +------------------------------+
+            |               | Posture Attribute Repository |
+            |               +--------------^---------------+
+            |                              |
+            |                              |
+            |                       Collected Data
+            |                              ^
+            |                              |
++-----------v------------------------------+---------------+
+|             Component Integration Service                |
++----+------------------^-----------+------------------^---+
+     |                  |           |                  |
+     |                  |           |                  |
+     v                  |           v                  |
+  Perform           Collected    Perform           Collected
+ Collection           Data      Collection           Data
+     |                  ^           |                  ^
+     |                  |           |                  |
+     |                  |           |                  |
++----v------------------+----+ +----v------------------+----+
+| Posture Collection Service | | Posture Collection Service |
++---^------------------------+ |                            |
+    |                   |      | +------------------------+ |
+    |                   v      | |        Endpoint        | |
+  Events             Queries   | +------------------------+ |
+    ^                   |      +----------------------------+
+    |                   |
++---+-------------------v----+
+|          Endpoint          |
++----------------------------+
+
+]]></artwork></figure>
+
+<section anchor="posture-collection-service" title="Posture Collection Service">
+<t>The Posture Collection Service (PCS) is the SACM component responsible for the collection of posture attributes from an endpoint or set of endpoints.  A single PCS may be responsible for management of posture attribute collection from many endpoints.  The PCS will interact with the Component Integration Service to receive collection instructions and to provide collected posture data for persistence to the Posture Attribute Repository.  Collection instructions may be supplied in a variety of forms, including subscription to a publish/subscribe topic to which the Component Integration Service has published instructions, via request/response-style synchronous messaging, or via asynchronous "send-and-forget" messaging.  Collected posture information may then be supplied to the Component Integration Service via similar channels.  The various interaction types are discussed later in this draft (TBD).</t>
+
+</section>
+<section anchor="endpoint" title="Endpoint">
+<t>Building upon <xref target="I-D.ietf-sacm-terminology"/>, the SACM Collection Sub-Architecture augments the definition of an Endpoint as a component within an organization's management domain from which a Posture Collection Service will collect relevant posture attributes.</t>
+
+</section>
+<section anchor="posture-attribute-repository" title="Posture Attribute Repository">
+<t>The Posture Attribute Repository is a SACM component responsible for the persistent storage of posture attributes collected via interactions between the Posture Collection Service and Endpoints.</t>
+
+</section>
+</section>
+<section anchor="evaluation-sub-architecture" title="Evaluation Sub-Architecture">
+<t>The Evaluation Sub-Architecture, in the SACM context, is the mechanism by which policy, expressed in the form of expected state, is compared with collected posture attributes to yield an evaluation result, that result being contextually dependent on the policy being evaluated.</t>
+
+<figure title="Evaluation Sub-Architecture" anchor="fig-evaluation"><artwork><![CDATA[
++---------------------------------------+
+|              Orchestrator             |
++-------------------+-------------------+
+                    |
+                    |
+                    |
++-------------------v-------------------+
+|     Component Integration Service     |
++--------+------------^--------^--------+
+         |            |        |
+         |            |        |
+         v            |    Retrieve         +--------------------------------+
+      Perform         |     Posture <-------+  Posture Attribute Repository  |
+     Evaluation       |    Attributes       +--------------------------------+
+         |            |
+         |            |
+         |            |                     +--------------------------------+
+         |            +-----Retrieve <------+        Policy Repository       |
+         |                   Policy         +--------------------------------+
+         |
++--------v------------------------------+
+|       Posture Evaluation Service      |
++----------------------------+----------+
+                             |
+                             v
+                         Evaluation
+                          Results
+                             |
+                             |
+        +--------------------v----------+
+        | Evaluation Results Repository |
+        +-------------------------------+
+]]></artwork></figure>
+
+<section anchor="posture-evaluation-service" title="Posture Evaluation Service">
+<t>The Posture Evaluation Service represents the SACM component responsible for coordinating the policy to be evaluated and the collected posture attributes relevant to that policy, as well as the comparison engine responsible for correctly determining compliance with the expected state.</t>
+
+</section>
+<section anchor="policy-repository" title="Policy Repository">
+<t>The Policy Repository represents a persistent storage mechanism for the policy to be assessed against collected posture attributes to determine if an endpoint meets the defined expected state.  Examples of information contained in a Policy Repository would be Vulnerability Definition Data or configuration recommendations as part of a CIS Benchmark or DISA STIG.</t>
+
+</section>
+<section anchor="evaluation-results-repository" title="Evaluation Results Repository">
+<t>The Evaluation Results Repository persists the information representing the results of a particular posture assessment, indicating those posture attributes collected from various endpoints which either meet or do not meet the expected state defined by the assessed policy.  Consideration should be made for the context of individual results.  For example, meeting the expected state for a configuration attribute indicates a correct configuration of the endpoint, whereas meeting an expected state for a vulnerable software version indicates an incorrect and therefore vulnerable configuration.</t>
+
+</section>
+</section>
+</section>
+<section anchor="interactions" title="Interactions">
+<t>SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.  Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</t>
+
+<t><list style="symbols">
+  <t><spanx style="strong">Publish/Subscribe</spanx>: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.</t>
+  <t><spanx style="strong">Request/Response</spanx>: A request/response interaction can take a number of forms, but will always be synchronous operations involving the requesting component waiting/blocking until a response is received from the requested component or a timeout occurs.
+  <list style="symbols">
+      <t><spanx style="strong">Information Request</spanx>: An information request is simply one component requesting information from another component, such as an Orchestrator requesting collection capabilities from a Posture Collection Service.</t>
+      <t><spanx style="strong">Query</spanx>: A query interaction can take one of two forms, "selection" or "storage".
+      <list style="symbols">
+          <t><spanx style="emph">Selection</spanx>: A component requests data from a repository.</t>
+          <t><spanx style="emph">Storage</spanx>: A component provides data to be persisted in a repository.</t>
+        </list></t>
+    </list></t>
+  <t><spanx style="strong">Directive</spanx>: Commonly referred to as "Send-and-Forget", a directive is an asynchronous interaction whereby a component requests information from another component but does not wait/block for a response.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.</t>
+</list></t>
+
+</section>
+<section anchor="security-domain-workflows" title="Security Domain Workflows">
 <t>This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.</t>
 
 <section anchor="it-asset-management" title="IT Asset Management">
@@ -193,7 +359,7 @@
 </list></t>
 
 </section>
-<section anchor="interactions" title="Interactions">
+<section anchor="interactions-1" title="Interactions">
 <t>SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.</t>
 
 <t><list style="symbols">
@@ -204,13 +370,13 @@
   <t>Tell: A component instructs another.</t>
 </list></t>
 
-<t>TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaning the necessary combinations relevant to the configuration assessment workflow below.</t>
+<t>TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaining the necessary combinations relevant to the configuration assessment workflow below.</t>
 
 <t>Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</t>
 
 </section>
 <section anchor="capabilities" title="Capabilities">
-<t>Per <xref target="RFC8248"/>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem. We need for components to be able to express, for example, something like the following: As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL.</t>
+<t>Per <xref target="RFC8248"/>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".</t>
 
 </section>
 </section>
@@ -579,6 +745,33 @@
     <date year="n.d."/>
   </front>
 </reference>
+<reference anchor="HACK103" target="https://www.ietf.org/how/meetings/103/">
+  <front>
+    <title>IETF 103 Hackathon - N/A</title>
+    <author >
+      <organization></organization>
+    </author>
+    <date year="n.d."/>
+  </front>
+</reference>
+<reference anchor="HACK104" target="https://github.com/CISecurity/SACM-Architecture">
+  <front>
+    <title>IETF 104 Hackathon - A simple XMPP client</title>
+    <author >
+      <organization></organization>
+    </author>
+    <date year="n.d."/>
+  </front>
+</reference>
+<reference anchor="HACK105" target="https://github.com/CISecurity/SACM-Architecture">
+  <front>
+    <title>IETF 105 Hackathon - A more robust XMPP client including collection extensions</title>
+    <author >
+      <organization></organization>
+    </author>
+    <date year="n.d."/>
+  </front>
+</reference>
 
 
     </references>
@@ -857,8 +1050,11 @@ Evaluator       Repository      |      |        |        |      |        |
 <t><list style="symbols">
   <t><xref target="HACK99"/>: A partial implementation of a vulnerability assessment scenario involving an <xref target="I-D.ietf-sacm-ecp"/> implementation, a <xref target="RFC8322"/> implementation, and a proprietary evaluator to pull the pieces together.</t>
   <t><xref target="HACK100"/>: Work to combine the vulnerability assessment scenario from <xref target="HACK99"/> with an XMPP-based YANG push model.</t>
-  <t><xref target="HACK101"/>: A fully automated configuration assessment implementation using XMPP as a communication mechanism.</t>
+  <t><xref target="HACK101"/>: A fully automated configuration assessment implementation using XMPP (specifically Publish/Subscribe capabilities) as a communication mechanism.</t>
   <t><xref target="HACK102"/>: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.</t>
+  <t><xref target="HACK103"/>: No SACM participation at the Bangkok hackathon.</t>
+  <t><xref target="HACK104"/>: Basic XMPP-to-Concise MAP - Created an XMPP adapter that can accept basic posture attributes and translate them to Concise MAP.  This hackathon only proved the concept that system characteristics information can be transported via XMPP and translated to a (very basic) concise MAP implementation.</t>
+  <t><xref target="HACK105"/>: Advanced XMPP-to-Concise MAP:  Full orchestration of collection capabilities using XMPP.  Collector implementations extend the core XMPP structure to allow OVAL collection instructions (OVAL objects) to inform posture attribute collection.  Collected system characteristics can be provided to the Concise MAP XMPP adapter using all 3 available XMPP capabilities: Publish/Subscribe, Information Query (iq - request/response) stanzas, or direct Message stanzas.  CDDL was created to map collected posture attributes to Concise MAP structure.  The XMPP adapter translates the incoming system characteristics and stores the information in the MAP.</t>
 </list></t>
 
 <t><xref target="fig-xmpp"/> depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</t>
@@ -964,269 +1160,351 @@ Evaluator       Repository      |      |        |        |      |        |
   </back>
 
 <!-- ##markdown-source:
-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
-7skH8MwgDAjtfB38PyUScOavoQAA
+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
+0CG09a33XzNQFx262wAA
 
 -->
 

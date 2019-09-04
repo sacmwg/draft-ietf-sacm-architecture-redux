@@ -285,21 +285,39 @@ ul.toc li {
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements notation">
 <link href="#rfc.section.2" rel="Chapter" title="2 Terms and Definitions">
 <link href="#rfc.section.3" rel="Chapter" title="3 Architectural Overview">
-<link href="#rfc.section.4" rel="Chapter" title="4 Relevant Workflows">
-<link href="#rfc.section.4.1" rel="Chapter" title="4.1 IT Asset Management">
-<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Vulnerability Management">
-<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Configuration Management">
-<link href="#rfc.section.5" rel="Chapter" title="5 Configuration Management Components, Interactions, and Capabilities">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 Components">
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 Interactions">
-<link href="#rfc.section.5.3" rel="Chapter" title="5.3 Capabilities">
-<link href="#rfc.section.6" rel="Chapter" title="6 Configuration Assessment Workflow">
-<link href="#rfc.section.7" rel="Chapter" title="7 Privacy Considerations">
-<link href="#rfc.section.8" rel="Chapter" title="8 Security Considerations">
-<link href="#rfc.section.9" rel="Chapter" title="9 IANA Considerations">
-<link href="#rfc.references" rel="Chapter" title="10 References">
-<link href="#rfc.references.1" rel="Chapter" title="10.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="10.2 Informative References">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Architectural Components">
+<link href="#rfc.section.3.1.1" rel="Chapter" title="3.1.1 Orchestrator">
+<link href="#rfc.section.3.1.2" rel="Chapter" title="3.1.2 Repositories/CMDBs">
+<link href="#rfc.section.3.1.3" rel="Chapter" title="3.1.3 Component Integration Service">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Sub-Architectures">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Downstream Uses">
+<link href="#rfc.section.3.3.1" rel="Chapter" title="3.3.1 Reporting">
+<link href="#rfc.section.3.3.2" rel="Chapter" title="3.3.2 Analytics">
+<link href="#rfc.section.4" rel="Chapter" title="4 Sub-Architectural Components">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Collection Sub-Architecture">
+<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Posture Collection Service">
+<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Endpoint">
+<link href="#rfc.section.4.1.3" rel="Chapter" title="4.1.3 Posture Attribute Repository">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Evaluation Sub-Architecture">
+<link href="#rfc.section.4.2.1" rel="Chapter" title="4.2.1 Posture Evaluation Service">
+<link href="#rfc.section.4.2.2" rel="Chapter" title="4.2.2 Policy Repository">
+<link href="#rfc.section.4.2.3" rel="Chapter" title="4.2.3 Evaluation Results Repository">
+<link href="#rfc.section.5" rel="Chapter" title="5 Interactions">
+<link href="#rfc.section.6" rel="Chapter" title="6 Security Domain Workflows">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 IT Asset Management">
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 Vulnerability Management">
+<link href="#rfc.section.6.3" rel="Chapter" title="6.3 Configuration Management">
+<link href="#rfc.section.7" rel="Chapter" title="7 Configuration Management Components, Interactions, and Capabilities">
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Components">
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Interactions">
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Capabilities">
+<link href="#rfc.section.8" rel="Chapter" title="8 Configuration Assessment Workflow">
+<link href="#rfc.section.9" rel="Chapter" title="9 Privacy Considerations">
+<link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
+<link href="#rfc.section.11" rel="Chapter" title="11 IANA Considerations">
+<link href="#rfc.references" rel="Chapter" title="12 References">
+<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References">
 <link href="#rfc.appendix.A" rel="Chapter" title="A Mapping to RFC8248">
 <link href="#rfc.appendix.B" rel="Chapter" title="B Example Components">
 <link href="#rfc.appendix.B.1" rel="Chapter" title="B.1 Policy Services">
@@ -315,8 +333,8 @@ ul.toc li {
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-sacm-arch-02" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-07-25" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-sacm-arch-03" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-09-04" />
   <meta name="dct.abstract" content="This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon , and is predicated upon information gleaned from SACM Use Cases and Requirements ( and  respectively), and terminology as found in .WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well." />
   <meta name="description" content="This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon , and is predicated upon information gleaned from SACM Use Cases and Requirements ( and  respectively), and terminology as found in .WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well." />
 
@@ -340,8 +358,8 @@ ul.toc li {
 <td class="right">CIS</td>
 </tr>
 <tr>
-<td class="left">Expires: January 26, 2020</td>
-<td class="right">July 25, 2019</td>
+<td class="left">Expires: March 7, 2020</td>
+<td class="right">September 04, 2019</td>
 </tr>
 
     	
@@ -349,7 +367,7 @@ ul.toc li {
   </table>
 
   <p class="title">Security Automation and Continuous Monitoring (SACM) Architecture<br />
-  <span class="filename">draft-ietf-sacm-arch-02</span></p>
+  <span class="filename">draft-ietf-sacm-arch-03</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon <a href="#RFC8600" class="xref">[RFC8600]</a>, and is predicated upon information gleaned from SACM Use Cases and Requirements (<a href="#RFC7632" class="xref">[RFC7632]</a> and <a href="#RFC8248" class="xref">[RFC8248]</a> respectively), and terminology as found in <a href="#I-D.ietf-sacm-terminology" class="xref">[I-D.ietf-sacm-terminology]</a>.</p>
@@ -358,7 +376,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 26, 2020.</p>
+<p>This Internet-Draft will expire on March 7, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -376,35 +394,71 @@ ul.toc li {
 </li>
 <li>3.   <a href="#rfc.section.3">Architectural Overview</a>
 </li>
-<li>4.   <a href="#rfc.section.4">Relevant Workflows</a>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Architectural Components</a>
 </li>
-<ul><li>4.1.   <a href="#rfc.section.4.1">IT Asset Management</a>
+<ul><li>3.1.1.   <a href="#rfc.section.3.1.1">Orchestrator</a>
 </li>
-<li>4.2.   <a href="#rfc.section.4.2">Vulnerability Management</a>
+<li>3.1.2.   <a href="#rfc.section.3.1.2">Repositories/CMDBs</a>
 </li>
-<li>4.3.   <a href="#rfc.section.4.3">Configuration Management</a>
+<li>3.1.3.   <a href="#rfc.section.3.1.3">Component Integration Service</a>
 </li>
-</ul><li>5.   <a href="#rfc.section.5">Configuration Management Components, Interactions, and Capabilities</a>
+</ul><li>3.2.   <a href="#rfc.section.3.2">Sub-Architectures</a>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">Components</a>
+<li>3.3.   <a href="#rfc.section.3.3">Downstream Uses</a>
 </li>
-<li>5.2.   <a href="#rfc.section.5.2">Interactions</a>
+<ul><li>3.3.1.   <a href="#rfc.section.3.3.1">Reporting</a>
 </li>
-<li>5.3.   <a href="#rfc.section.5.3">Capabilities</a>
+<li>3.3.2.   <a href="#rfc.section.3.3.2">Analytics</a>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">Configuration Assessment Workflow</a>
+</ul></ul><li>4.   <a href="#rfc.section.4">Sub-Architectural Components</a>
 </li>
-<li>7.   <a href="#rfc.section.7">Privacy Considerations</a>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Collection Sub-Architecture</a>
 </li>
-<li>8.   <a href="#rfc.section.8">Security Considerations</a>
+<ul><li>4.1.1.   <a href="#rfc.section.4.1.1">Posture Collection Service</a>
 </li>
-<li>9.   <a href="#rfc.section.9">IANA Considerations</a>
+<li>4.1.2.   <a href="#rfc.section.4.1.2">Endpoint</a>
 </li>
-<li>10.   <a href="#rfc.references">References</a>
+<li>4.1.3.   <a href="#rfc.section.4.1.3">Posture Attribute Repository</a>
 </li>
-<ul><li>10.1.   <a href="#rfc.references.1">Normative References</a>
+</ul><li>4.2.   <a href="#rfc.section.4.2">Evaluation Sub-Architecture</a>
 </li>
-<li>10.2.   <a href="#rfc.references.2">Informative References</a>
+<ul><li>4.2.1.   <a href="#rfc.section.4.2.1">Posture Evaluation Service</a>
+</li>
+<li>4.2.2.   <a href="#rfc.section.4.2.2">Policy Repository</a>
+</li>
+<li>4.2.3.   <a href="#rfc.section.4.2.3">Evaluation Results Repository</a>
+</li>
+</ul></ul><li>5.   <a href="#rfc.section.5">Interactions</a>
+</li>
+<li>6.   <a href="#rfc.section.6">Security Domain Workflows</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">IT Asset Management</a>
+</li>
+<li>6.2.   <a href="#rfc.section.6.2">Vulnerability Management</a>
+</li>
+<li>6.3.   <a href="#rfc.section.6.3">Configuration Management</a>
+</li>
+</ul><li>7.   <a href="#rfc.section.7">Configuration Management Components, Interactions, and Capabilities</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.section.7.1">Components</a>
+</li>
+<li>7.2.   <a href="#rfc.section.7.2">Interactions</a>
+</li>
+<li>7.3.   <a href="#rfc.section.7.3">Capabilities</a>
+</li>
+</ul><li>8.   <a href="#rfc.section.8">Configuration Assessment Workflow</a>
+</li>
+<li>9.   <a href="#rfc.section.9">Privacy Considerations</a>
+</li>
+<li>10.   <a href="#rfc.section.10">Security Considerations</a>
+</li>
+<li>11.   <a href="#rfc.section.11">IANA Considerations</a>
+</li>
+<li>12.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>12.2.   <a href="#rfc.references.2">Informative References</a>
 </li>
 </ul><li>Appendix A.   <a href="#rfc.appendix.A">Mapping to RFC8248</a>
 </li>
@@ -447,46 +501,224 @@ ul.toc li {
 <div id="rfc.figure.1"></div>
 <div id="fig-notional"></div>
 <pre>
-                  +--------------------+
-                  | Feeds/Repositories |
-                  |  of External Data  |
-                  +--------------------+
-                             |
-                             |
-*****************************v**************** Enterprise Boundary ************
-*                            |                                                *
-*  +---------------+         |     +--------------+                           *
-*  | Orchestrators |         |     | Repositories |                           *
-*  +------^--------+         |     +----^---------+                           *
-*         |                  |          |              +----------------+     *
-*         |                  |          |              | Downstream Uses|     *
-*         |                  |          |              | +-----------+  |     *
-*  +------v------------------v----------v------+       | |Evaluations|  |     *
-*  |           Message Transfer System         &lt;-------&gt; +-----------+  |     *
-*  +----------------------^--------------------+       | +-----------+  |     *
-*                         |                            | | Analytics |  |     *
-*                         |                            | +-----------+  |     *
-*           +-------------v------+                     | +-----------+  |     *
-*           | Collection Systems |                     | | Reporting |  |     *
-*           +--------------------+                     | +-----------+  |     *
-*                                                      +----------------+     *
-*******************************************************************************
+              +--------------------+
+              | Feeds/Repositories |
+              |  of External Data  |
+              +---------+----------+
+                        +
+****************************************************** Enterprise Boundary ***
+                        +
+      +--------------+  |  +--------------------+
+      | Orchestrator |  |  | Repositories/CMDBs |
+      +------^-------+  |  +----------^---------+
+             |          |             |             +--------------------+
+             |          |             |             |  Downstream Uses   |
+             |          |             |             | +----------------+ |
+ +-----------v----------v-------------v------+      | |   Analytics    | |
+ |       Component Integration Service       &lt;------&gt; +----------------+ |
+ +----- -----^--------------------------^----+      | +----------------+ |
+             |                          |           | |   Reporting    | |
+             |                          |           | +----------------+ |
+ +-----------v-------------------+      |           +--------------------+
+ |  Collection Sub-Architecture  |      |
+ +-------------------------------+      |
+                  +---------------------v---------+
+                  |  Evaluation Sub-Architecture  |
+                  +-------------------------------+
 
 </pre>
 <p class="figure">Figure 1: Notional Architecture</p>
-<p id="rfc.section.3.p.2">As shown in <a href="#fig-notional" class="xref">Figure 1</a>, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. The message transfer system is expected to maximally align with the requirements described in <a href="#RFC8248" class="xref">[RFC8248]</a>, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.</p>
+<p id="rfc.section.3.p.2">As shown in <a href="#fig-notional" class="xref">Figure 1</a>, the SACM architecture consists of some basic SACM Components communicating using a component integration service. The component integration service is expected to maximally align with the requirements described in <a href="#RFC8248" class="xref">[RFC8248]</a>, which means that the component integration service will support brokered (i.e. point-to-point) and proxied data exchange.</p>
 <p id="rfc.section.3.p.3">The enterprise boundary is not intended to imply a physical boundary. Rather, the enterprise boundary is intended to be inclusive of various cloud environments and vendor-provided services in addition to any physical systems the enterprise operates.</p>
-<p id="rfc.section.3.p.4">This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.</p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> <a href="#architectural-components" id="architectural-components">Architectural Components</a>
+</h1>
+<p id="rfc.section.3.1.p.1">This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.  The <a href="#fig-notional" class="xref">Figure 1</a> diagram illustrates a number of SACM components which are architecturally significant and therefore warrant discussion and clarification.</p>
+<h1 id="rfc.section.3.1.1">
+<a href="#rfc.section.3.1.1">3.1.1.</a> <a href="#orchestrator" id="orchestrator">Orchestrator</a>
+</h1>
+<p id="rfc.section.3.1.1.p.1">An Orchestration component exists to aid in the automation of configuration, coordination, and management for the ecosystem of SACM components.  The Orchestrator performs control-plane operations, administration of an implementing organization's components (including endpoints, posture collection services, and downstream activities), scheduling of automated tasks, and any ad-hoc activities such as the initiation of collection or evaluation activities.  The Orchestrator is the key administrative interface into the SACM architecture.</p>
+<h1 id="rfc.section.3.1.2">
+<a href="#rfc.section.3.1.2">3.1.2.</a> <a href="#repositoriescmdbs" id="repositoriescmdbs">Repositories/CMDBs</a>
+</h1>
+<p id="rfc.section.3.1.2.p.1">The <a href="#fig-notional" class="xref">Figure 1</a> diagram only includes a single reference to "Repositories/CMDBs", but in practice, a number of separate data repositories may exist, including posture attribute repositories, policy repositories, local vulnerability definition data repositories, and state assessment results repositories.  These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems or graph/map implementations focused on the relationships between data elements.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).</p>
+<h1 id="rfc.section.3.1.3">
+<a href="#rfc.section.3.1.3">3.1.3.</a> <a href="#component-integration-service" id="component-integration-service">Component Integration Service</a>
+</h1>
+<p id="rfc.section.3.1.3.p.1">If each SACM component represents a set of services, capabilities, and/or functions, the Component Integration Service represents the "fabric" by which all those services, capabilities and functions are woven together.  The Component Integration Service acts as a message broker, combining a canonical data model, a common command set, and a messaging infrastructure to allow other SACM components to communicate using a shared set of interfaces.  The Component Integration Service's brokering capabilities enable the exchange of information, the orchestration of capabilities, message routing and reliable delivery.  The Component Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.</p>
+<p id="rfc.section.3.1.3.p.2">The Component Integration Service should provide mechanisms for synchronous "request/response"-style messaging, asynchronous "send and forget" messaging, or publish/subscribe.  It is the responsibility of the Component Integration Service to coordinate and manage the sending and receiving of messages.  The Component Integration Service should allow components the ability to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.</p>
+<p id="rfc.section.3.1.3.p.3">A number of pieces come together to form the Component Integration Service:</p>
+<p></p>
+
+<ol>
+<li>Common communication infrastructure:  The physical communications infrastructure, providing a cross-platform, cross-language universal adapter between SACM components.  This infrastructure commonly includes message routing capabilities to facilitate the correct routing of messages from SACM component to SACM component, as well as using Publish/Subscribe functionality to facilitate sending messages to all receivers.</li>
+<li>Adapters:  The use of a standard, canonical data model will likely require SACM components to translate component-specific information into the canonical format used by the message broker.</li>
+<li>Common command/interaction structure: Just as PC architectures have a common set of commands to represent the different operations possible on a physical bus, there must be common interactions that all SACM components can understand.</li>
+</ol>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> <a href="#sub-architectures" id="sub-architectures">Sub-Architectures</a>
+</h1>
+<p id="rfc.section.3.2.p.1">The <a href="#fig-notional" class="xref">Figure 1</a> shows two components representing the architectural workflows involved in a cooperative ecosystem of SACM components: Collection and Evaluation.  The following section, Architectural Workflows (TBD - ADD LINK) further expands on these components/workflows.</p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> <a href="#downstream-uses" id="downstream-uses">Downstream Uses</a>
+</h1>
+<p id="rfc.section.3.3.p.1">As depicted by <a href="#fig-notional" class="xref">Figure 1</a>, a number of downstream uses exist in the cooperative ecosystem.  Each notional SACM component represents distinct sub-architectures which will exchange information via the component integration services, using interactions described in this draft.</p>
+<h1 id="rfc.section.3.3.1">
+<a href="#rfc.section.3.3.1">3.3.1.</a> <a href="#reporting" id="reporting">Reporting</a>
+</h1>
+<p id="rfc.section.3.3.1.p.1">The Reporting component represents the capabilities of the SACM architecture dealing with the query and retrieval of collected posture attribute information, evaluation results, etc. in various display formats that are useful to a wide range of stakeholders.</p>
+<h1 id="rfc.section.3.3.2">
+<a href="#rfc.section.3.3.2">3.3.2.</a> <a href="#analytics" id="analytics">Analytics</a>
+</h1>
+<p id="rfc.section.3.3.2.p.1">The Analytics component represents the capabilities of the SACM architecture dealing with the discovery, interpretation, and communication of any meaningful patterns of data in order to inform effective decision making within the organization.</p>
 <h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> <a href="#relevant-workflows" id="relevant-workflows">Relevant Workflows</a>
+<a href="#rfc.section.4">4.</a> <a href="#sub-architectural-components" id="sub-architectural-components">Sub-Architectural Components</a>
 </h1>
-<p id="rfc.section.4.p.1">This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.</p>
+<p id="rfc.section.4.p.1">This section describes the workflows derived from the interactions with the two sub-architectures depicted in the <a href="#fig-notional" class="xref">Figure 1</a>: Collection and Evaluation.</p>
 <h1 id="rfc.section.4.1">
-<a href="#rfc.section.4.1">4.1.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a>
+<a href="#rfc.section.4.1">4.1.</a> <a href="#collection-sub-architecture" id="collection-sub-architecture">Collection Sub-Architecture</a>
 </h1>
-<p id="rfc.section.4.1.p.1">Information Technology asset management is easier said than done. The <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a> have two controls dealing with IT asset management. Control 1, Inventory and Control of Hardware Assets, states, "Actively manage (inventory, track, and correct) all hardware devices on the network so that only authorized devices are given access, and unauthorized and unmanaged devices are found and prevented from gaining access." Control 2, Inventory and Control of Software Assets, states, "Actively manage (inventory, track, and correct) all software on the network so that only authorized software is installed and can execute, and that unauthorized and unmanaged software is found and prevented from installation or execution."</p>
-<p id="rfc.section.4.1.p.2">In spirit, this covers all of the processing entities on your network (as opposed to things like network cables, dongles, adapters, etc.), whether physical or virtual.</p>
-<p id="rfc.section.4.1.p.3">An IT asset management capability needs to be able to:</p>
+<p id="rfc.section.4.1.p.1">The Collection sub-architecture, in a SACM context, is the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Orchestration components will choreograph endpoint data collection via interactions using the Component Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of methods, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, or host-based.</p>
+<div id="rfc.figure.2"></div>
+<div id="fig-collection"></div>
+<pre>
++----------------------------------------------------------+
+|                       Orchestrator                       |
++-----------+----------------------------------------------+
+            |               +------------------------------+
+            |               | Posture Attribute Repository |
+            |               +--------------^---------------+
+            |                              |
+            |                              |
+            |                       Collected Data
+            |                              ^
+            |                              |
++-----------v------------------------------+---------------+
+|             Component Integration Service                |
++----+------------------^-----------+------------------^---+
+     |                  |           |                  |
+     |                  |           |                  |
+     v                  |           v                  |
+  Perform           Collected    Perform           Collected
+ Collection           Data      Collection           Data
+     |                  ^           |                  ^
+     |                  |           |                  |
+     |                  |           |                  |
++----v------------------+----+ +----v------------------+----+
+| Posture Collection Service | | Posture Collection Service |
++---^------------------------+ |                            |
+    |                   |      | +------------------------+ |
+    |                   v      | |        Endpoint        | |
+  Events             Queries   | +------------------------+ |
+    ^                   |      +----------------------------+
+    |                   |
++---+-------------------v----+
+|          Endpoint          |
++----------------------------+
+
+</pre>
+<p class="figure">Figure 2: Collection Sub-Architecture</p>
+<h1 id="rfc.section.4.1.1">
+<a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#posture-collection-service" id="posture-collection-service">Posture Collection Service</a>
+</h1>
+<p id="rfc.section.4.1.1.p.1">The Posture Collection Service (PCS) is the SACM component responsible for the collection of posture attributes from an endpoint or set of endpoints.  A single PCS may be responsible for management of posture attribute collection from many endpoints.  The PCS will interact with the Component Integration Service to receive collection instructions and to provide collected posture data for persistence to the Posture Attribute Repository.  Collection instructions may be supplied in a variety of forms, including subscription to a publish/subscribe topic to which the Component Integration Service has published instructions, via request/response-style synchronous messaging, or via asynchronous "send-and-forget" messaging.  Collected posture information may then be supplied to the Component Integration Service via similar channels.  The various interaction types are discussed later in this draft (TBD).</p>
+<h1 id="rfc.section.4.1.2">
+<a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#endpoint" id="endpoint">Endpoint</a>
+</h1>
+<p id="rfc.section.4.1.2.p.1">Building upon <a href="#I-D.ietf-sacm-terminology" class="xref">[I-D.ietf-sacm-terminology]</a>, the SACM Collection Sub-Architecture augments the definition of an Endpoint as a component within an organization's management domain from which a Posture Collection Service will collect relevant posture attributes.</p>
+<h1 id="rfc.section.4.1.3">
+<a href="#rfc.section.4.1.3">4.1.3.</a> <a href="#posture-attribute-repository" id="posture-attribute-repository">Posture Attribute Repository</a>
+</h1>
+<p id="rfc.section.4.1.3.p.1">The Posture Attribute Repository is a SACM component responsible for the persistent storage of posture attributes collected via interactions between the Posture Collection Service and Endpoints.</p>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> <a href="#evaluation-sub-architecture" id="evaluation-sub-architecture">Evaluation Sub-Architecture</a>
+</h1>
+<p id="rfc.section.4.2.p.1">The Evaluation Sub-Architecture, in the SACM context, is the mechanism by which policy, expressed in the form of expected state, is compared with collected posture attributes to yield an evaluation result, that result being contextually dependent on the policy being evaluated.</p>
+<div id="rfc.figure.3"></div>
+<div id="fig-evaluation"></div>
+<pre>
++---------------------------------------+
+|              Orchestrator             |
++-------------------+-------------------+
+                    |
+                    |
+                    |
++-------------------v-------------------+
+|     Component Integration Service     |
++--------+------------^--------^--------+
+         |            |        |
+         |            |        |
+         v            |    Retrieve         +--------------------------------+
+      Perform         |     Posture &lt;-------+  Posture Attribute Repository  |
+     Evaluation       |    Attributes       +--------------------------------+
+         |            |
+         |            |
+         |            |                     +--------------------------------+
+         |            +-----Retrieve &lt;------+        Policy Repository       |
+         |                   Policy         +--------------------------------+
+         |
++--------v------------------------------+
+|       Posture Evaluation Service      |
++----------------------------+----------+
+                             |
+                             v
+                         Evaluation
+                          Results
+                             |
+                             |
+        +--------------------v----------+
+        | Evaluation Results Repository |
+        +-------------------------------+
+</pre>
+<p class="figure">Figure 3: Evaluation Sub-Architecture</p>
+<h1 id="rfc.section.4.2.1">
+<a href="#rfc.section.4.2.1">4.2.1.</a> <a href="#posture-evaluation-service" id="posture-evaluation-service">Posture Evaluation Service</a>
+</h1>
+<p id="rfc.section.4.2.1.p.1">The Posture Evaluation Service represents the SACM component responsible for coordinating the policy to be evaluated and the collected posture attributes relevant to that policy, as well as the comparison engine responsible for correctly determining compliance with the expected state.</p>
+<h1 id="rfc.section.4.2.2">
+<a href="#rfc.section.4.2.2">4.2.2.</a> <a href="#policy-repository" id="policy-repository">Policy Repository</a>
+</h1>
+<p id="rfc.section.4.2.2.p.1">The Policy Repository represents a persistent storage mechanism for the policy to be assessed against collected posture attributes to determine if an endpoint meets the defined expected state.  Examples of information contained in a Policy Repository would be Vulnerability Definition Data or configuration recommendations as part of a CIS Benchmark or DISA STIG.</p>
+<h1 id="rfc.section.4.2.3">
+<a href="#rfc.section.4.2.3">4.2.3.</a> <a href="#evaluation-results-repository" id="evaluation-results-repository">Evaluation Results Repository</a>
+</h1>
+<p id="rfc.section.4.2.3.p.1">The Evaluation Results Repository persists the information representing the results of a particular posture assessment, indicating those posture attributes collected from various endpoints which either meet or do not meet the expected state defined by the assessed policy.  Consideration should be made for the context of individual results.  For example, meeting the expected state for a configuration attribute indicates a correct configuration of the endpoint, whereas meeting an expected state for a vulnerable software version indicates an incorrect and therefore vulnerable configuration.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#interactions" id="interactions">Interactions</a>
+</h1>
+<p id="rfc.section.5.p.1">SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.  Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</p>
+<p></p>
+
+<ul>
+<li>
+<strong>Publish/Subscribe</strong>: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.</li>
+<li>
+<strong>Request/Response</strong>: A request/response interaction can take a number of forms, but will always be synchronous operations involving the requesting component waiting/blocking until a response is received from the requested component or a timeout occurs.  <ul>
+<li>
+<strong>Information Request</strong>: An information request is simply one component requesting information from another component, such as an Orchestrator requesting collection capabilities from a Posture Collection Service.</li>
+<li>
+<strong>Query</strong>: A query interaction can take one of two forms, "selection" or "storage".  <ul>
+<li>
+<em>Selection</em>: A component requests data from a repository.</li>
+<li>
+<em>Storage</em>: A component provides data to be persisted in a repository.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<strong>Directive</strong>: Commonly referred to as "Send-and-Forget", a directive is an asynchronous interaction whereby a component requests information from another component but does not wait/block for a response.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.</li>
+</ul>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#security-domain-workflows" id="security-domain-workflows">Security Domain Workflows</a>
+</h1>
+<p id="rfc.section.6.p.1">This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.</p>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> <a href="#it-asset-management" id="it-asset-management">IT Asset Management</a>
+</h1>
+<p id="rfc.section.6.1.p.1">Information Technology asset management is easier said than done. The <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a> have two controls dealing with IT asset management. Control 1, Inventory and Control of Hardware Assets, states, "Actively manage (inventory, track, and correct) all hardware devices on the network so that only authorized devices are given access, and unauthorized and unmanaged devices are found and prevented from gaining access." Control 2, Inventory and Control of Software Assets, states, "Actively manage (inventory, track, and correct) all software on the network so that only authorized software is installed and can execute, and that unauthorized and unmanaged software is found and prevented from installation or execution."</p>
+<p id="rfc.section.6.1.p.2">In spirit, this covers all of the processing entities on your network (as opposed to things like network cables, dongles, adapters, etc.), whether physical or virtual.</p>
+<p id="rfc.section.6.1.p.3">An IT asset management capability needs to be able to:</p>
 <p></p>
 
 <ul>
@@ -495,18 +727,18 @@ ul.toc li {
 <li>Handle software and/or hardware (including virtual assets)</li>
 <li>Represent cloud hybrid environments</li>
 </ul>
-<h1 id="rfc.section.4.2">
-<a href="#rfc.section.4.2">4.2.</a> <a href="#vulnerability-management" id="vulnerability-management">Vulnerability Management</a>
+<h1 id="rfc.section.6.2">
+<a href="#rfc.section.6.2">6.2.</a> <a href="#vulnerability-management" id="vulnerability-management">Vulnerability Management</a>
 </h1>
-<p id="rfc.section.4.2.p.1">Vulnerability management is a relatively established process. To paraphrase the <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a>, continuous vulnerability management is the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
-<p id="rfc.section.4.2.p.2">A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</p>
+<p id="rfc.section.6.2.p.1">Vulnerability management is a relatively established process. To paraphrase the <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a>, continuous vulnerability management is the act of continuously acquiring, assessing, and taking subsequent action on new information in order to identify and remediate vulnerabilities, therefore minimizing the window of opportunity for attackers.</p>
+<p id="rfc.section.6.2.p.2">A vulnerability assessment (i.e. vulnerability detection) is performed in two steps:</p>
 <p></p>
 
 <ul>
 <li>Endpoint information collected by the endpoint management capabilities is examined by the vulnerability management capabilities through Evaluation Tasks.</li>
 <li>If the data possessed by the endpoint management capabilities is insufficient, a Collection Task is triggered and the necessary data is collected from the target endpoint.</li>
 </ul>
-<p id="rfc.section.4.2.p.4">Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:</p>
+<p id="rfc.section.6.2.p.4">Vulnerability detection relies on the examination of different endpoint information depending on the nature of a specific vulnerability. Common endpoint information used to detect a vulnerability includes:</p>
 <p></p>
 
 <ul>
@@ -514,13 +746,13 @@ ul.toc li {
 <li>File system attributes</li>
 <li>Specific state attributes</li>
 </ul>
-<p id="rfc.section.4.2.p.6">In some cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to perform collection from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</p>
-<h1 id="rfc.section.4.3">
-<a href="#rfc.section.4.3">4.3.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a>
+<p id="rfc.section.6.2.p.6">In some cases, the endpoint information needed to determine an endpoint's vulnerability status will have been previously collected by the endpoint management capabilities and available in a Repository. However, in other cases, the necessary endpoint information will not be readily available in a Repository and a Collection Task will be triggered to perform collection from the target endpoint. Of course, some implementations of endpoint management capabilities may prefer to enable operators to perform this collection even when sufficient information can be provided by the endpoint management capabilities (e.g. there may be freshness requirements for information).</p>
+<h1 id="rfc.section.6.3">
+<a href="#rfc.section.6.3">6.3.</a> <a href="#configuration-management" id="configuration-management">Configuration Management</a>
 </h1>
-<p id="rfc.section.4.3.p.1">Configuration management involves configuration assessment, which requires state assessment. The <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a> specify two high-level controls concerning configuration management (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in the following paraphrasing: Establish, implement, and actively manage (track, report on, correct) the security configuration of systems using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings.</p>
-<p id="rfc.section.4.3.p.2">Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information.</p>
-<p id="rfc.section.4.3.p.3">A preferred flow follows:</p>
+<p id="rfc.section.6.3.p.1">Configuration management involves configuration assessment, which requires state assessment. The <a href="#CISCONTROLS" class="xref">[CISCONTROLS]</a> specify two high-level controls concerning configuration management (Control 5 for non-network devices and Control 11 for network devices). As an aside, these controls are listed separately because many enterprises have different organizations for managing network infrastructure and workload endpoints. Merging the two controls results in the following paraphrasing: Establish, implement, and actively manage (track, report on, correct) the security configuration of systems using a rigorous configuration management and change control process in order to prevent attackers from exploiting vulnerable services and settings.</p>
+<p id="rfc.section.6.3.p.2">Typically, an enterprise will use configuration guidance from a reputable source, and from time to time they may tailor the guidance from that source prior to adopting it as part of their enterprise standard. The enterprise standard is then provided to the appropriate configuration assessment tools and they assess endpoints and/or appropriate endpoint information.</p>
+<p id="rfc.section.6.3.p.3">A preferred flow follows:</p>
 <p></p>
 
 <ul>
@@ -531,15 +763,15 @@ ul.toc li {
 <li>Configuration assessment tool queries configuration state repository to evaluate compliance</li>
 <li>If information is stale or unavailable, configuration assessment tool triggers an ad hoc assessment</li>
 </ul>
-<p id="rfc.section.4.3.p.5">The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.</p>
-<h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#configuration-management-components-interactions-and-capabilities" id="configuration-management-components-interactions-and-capabilities">Configuration Management Components, Interactions, and Capabilities</a>
+<p id="rfc.section.6.3.p.5">The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#configuration-management-components-interactions-and-capabilities" id="configuration-management-components-interactions-and-capabilities">Configuration Management Components, Interactions, and Capabilities</a>
 </h1>
-<p id="rfc.section.5.p.1">This section provides more detail about the components, interactions, and capabilities required when considering the aforementioned configuration management workflow.</p>
-<h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> <a href="#components" id="components">Components</a>
+<p id="rfc.section.7.p.1">This section provides more detail about the components, interactions, and capabilities required when considering the aforementioned configuration management workflow.</p>
+<h1 id="rfc.section.7.1">
+<a href="#rfc.section.7.1">7.1.</a> <a href="#components" id="components">Components</a>
 </h1>
-<p id="rfc.section.5.1.p.1">The following is a minimal list of SACM Components required to implement the aforementioned configuration assessment workflow.</p>
+<p id="rfc.section.7.1.p.1">The following is a minimal list of SACM Components required to implement the aforementioned configuration assessment workflow.</p>
 <p></p>
 
 <ul>
@@ -551,10 +783,10 @@ ul.toc li {
 <li>Configuration Assessment Evaluator: A component responsible for evaluating system posture attribute values against expected posture attribute values.</li>
 <li>Configuration Assessment Results Repository: A component used for storing evaluation results.</li>
 </ul>
-<h1 id="rfc.section.5.2">
-<a href="#rfc.section.5.2">5.2.</a> <a href="#interactions" id="interactions">Interactions</a>
+<h1 id="rfc.section.7.2">
+<a href="#rfc.section.7.2">7.2.</a> <a href="#interactions-1" id="interactions-1">Interactions</a>
 </h1>
-<p id="rfc.section.5.2.p.1">SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.</p>
+<p id="rfc.section.7.2.p.1">SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.</p>
 <p></p>
 
 <ul>
@@ -564,17 +796,17 @@ ul.toc li {
 <li>Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.</li>
 <li>Tell: A component instructs another.</li>
 </ul>
-<p id="rfc.section.5.2.p.3">TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaning the necessary combinations relevant to the configuration assessment workflow below.</p>
-<p id="rfc.section.5.2.p.4">Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</p>
-<h1 id="rfc.section.5.3">
-<a href="#rfc.section.5.3">5.3.</a> <a href="#capabilities" id="capabilities">Capabilities</a>
+<p id="rfc.section.7.2.p.3">TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaining the necessary combinations relevant to the configuration assessment workflow below.</p>
+<p id="rfc.section.7.2.p.4">Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</p>
+<h1 id="rfc.section.7.3">
+<a href="#rfc.section.7.3">7.3.</a> <a href="#capabilities" id="capabilities">Capabilities</a>
 </h1>
-<p id="rfc.section.5.3.p.1">Per <a href="#RFC8248" class="xref">[RFC8248]</a>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem. We need for components to be able to express, for example, something like the following: As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL.</p>
-<h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> <a href="#configuration-assessment-workflow" id="configuration-assessment-workflow">Configuration Assessment Workflow</a>
+<p id="rfc.section.7.3.p.1">Per <a href="#RFC8248" class="xref">[RFC8248]</a>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".</p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#configuration-assessment-workflow" id="configuration-assessment-workflow">Configuration Assessment Workflow</a>
 </h1>
-<p id="rfc.section.6.p.1">This section describes the components and interactions in a basic configuration assessment workflow. For simplicity, error conditions are recognized as being necessary and are not depicted. When one component messages another component, the message is expected to be handled appropriately unless there is an error condition, or other notification, messaged in return.</p>
-<div id="rfc.figure.2"></div>
+<p id="rfc.section.8.p.1">This section describes the components and interactions in a basic configuration assessment workflow. For simplicity, error conditions are recognized as being necessary and are not depicted. When one component messages another component, the message is expected to be handled appropriately unless there is an error condition, or other notification, messaged in return.</p>
+<div id="rfc.figure.4"></div>
 <div id="fig-configassess"></div>
 <pre>
 +-------------+
@@ -600,8 +832,8 @@ ul.toc li {
                  +-------------------+
               Collection Sub-Architecture
 </pre>
-<p class="figure">Figure 2: Configuration Assessment Component Interactions</p>
-<p><a href="#fig-configassess" class="xref">Figure 2</a> depicts configuration assessment components and their interactions, which are further described below.</p>
+<p class="figure">Figure 4: Configuration Assessment Component Interactions</p>
+<p><a href="#fig-configassess" class="xref">Figure 4</a> depicts configuration assessment components and their interactions, which are further described below.</p>
 <p></p>
 
 <ol>
@@ -616,20 +848,20 @@ ul.toc li {
 </li>
 <li>Evaluation results are stored in the Evaluation Results Repository: TODO - add specific interaction options here</li>
 </ol>
-<p id="rfc.section.6.p.4">In the above flow, the payload information is expected to convey the context required by the receiving component for the action being taken under different circumstances. For example, the Tell message sent from an Orchestrator to a Collection sub-architecture might be telling that Collector to watch a specific posture attribute and report only specific detected changes to the Posture Attribute Repository, or it might be telling the Collector to gather that posture attribute immediately. Such details are expected to be handled as part of that payload, not as part of the architecture described herein.</p>
-<h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#privacy-considerations" id="privacy-considerations">Privacy Considerations</a>
-</h1>
-<p id="rfc.section.7.p.1">TODO</p>
-<h1 id="rfc.section.8">
-<a href="#rfc.section.8">8.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
-</h1>
-<p id="rfc.section.8.p.1">TODO</p>
+<p id="rfc.section.8.p.4">In the above flow, the payload information is expected to convey the context required by the receiving component for the action being taken under different circumstances. For example, the Tell message sent from an Orchestrator to a Collection sub-architecture might be telling that Collector to watch a specific posture attribute and report only specific detected changes to the Posture Attribute Repository, or it might be telling the Collector to gather that posture attribute immediately. Such details are expected to be handled as part of that payload, not as part of the architecture described herein.</p>
 <h1 id="rfc.section.9">
-<a href="#rfc.section.9">9.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+<a href="#rfc.section.9">9.</a> <a href="#privacy-considerations" id="privacy-considerations">Privacy Considerations</a>
 </h1>
-<p id="rfc.section.9.p.1">TODO: Revamp this section after the configuration assessment workflow is fleshed out.</p>
-<p id="rfc.section.9.p.2">IANA tables can probably be used to make life a little easier. We would like a place to enumerate:</p>
+<p id="rfc.section.9.p.1">TODO</p>
+<h1 id="rfc.section.10">
+<a href="#rfc.section.10">10.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+</h1>
+<p id="rfc.section.10.p.1">TODO</p>
+<h1 id="rfc.section.11">
+<a href="#rfc.section.11">11.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
+</h1>
+<p id="rfc.section.11.p.1">TODO: Revamp this section after the configuration assessment workflow is fleshed out.</p>
+<p id="rfc.section.11.p.2">IANA tables can probably be used to make life a little easier. We would like a place to enumerate:</p>
 <p></p>
 
 <ul>
@@ -640,9 +872,9 @@ ul.toc li {
 <li>Collection sub-architecture Identification</li>
 </ul>
 <h1 id="rfc.references">
-<a href="#rfc.references">10.</a> References</h1>
+<a href="#rfc.references">12.</a> References</h1>
 <h1 id="rfc.references.1">
-<a href="#rfc.references.1">10.1.</a> Normative References</h1>
+<a href="#rfc.references.1">12.1.</a> Normative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="I-D.ietf-sacm-ecp">[I-D.ietf-sacm-ecp]</b></td>
@@ -666,7 +898,7 @@ ul.toc li {
 </tr>
 </tbody></table>
 <h1 id="rfc.references.2">
-<a href="#rfc.references.2">10.2.</a> Informative References</h1>
+<a href="#rfc.references.2">12.2.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="CISCONTROLS">[CISCONTROLS]</b></td>
@@ -688,6 +920,18 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="HACK102">[HACK102]</b></td>
 <td class="top">"<a href="https://www.github.com/CISecurity/YANG">IETF 102 Hackathon - YANG Collection on Traditional Endpoints</a>", n.d..</td>
+</tr>
+<tr>
+<td class="reference"><b id="HACK103">[HACK103]</b></td>
+<td class="top">"<a href="https://www.ietf.org/how/meetings/103/">IETF 103 Hackathon - N/A</a>", n.d..</td>
+</tr>
+<tr>
+<td class="reference"><b id="HACK104">[HACK104]</b></td>
+<td class="top">"<a href="https://github.com/CISecurity/SACM-Architecture">IETF 104 Hackathon - A simple XMPP client</a>", n.d..</td>
+</tr>
+<tr>
+<td class="reference"><b id="HACK105">[HACK105]</b></td>
+<td class="top">"<a href="https://github.com/CISecurity/SACM-Architecture">IETF 105 Hackathon - A more robust XMPP client including collection extensions</a>", n.d..</td>
 </tr>
 <tr>
 <td class="reference"><b id="HACK99">[HACK99]</b></td>
@@ -1079,7 +1323,7 @@ ul.toc li {
 <a href="#rfc.appendix.B.2">B.2.</a> <a href="#software-inventory" id="software-inventory">Software Inventory</a>
 </h1>
 <p id="rfc.section.B.2.p.1">The SACM working group has accepted work on the Endpoint Posture Collection Profile <a href="#I-D.ietf-sacm-ecp" class="xref">[I-D.ietf-sacm-ecp]</a>, which describes a collection architecture and may be viewed as a collector coupled with a collection-specific repository.</p>
-<div id="rfc.figure.3"></div>
+<div id="rfc.figure.5"></div>
 <div id="fig-ecp"></div>
 <pre>
                                  Posture Manager              Endpoint
@@ -1102,8 +1346,8 @@ Evaluator       Repository      |      |        |        |      |        |
 +------+        +--------+      +---------------+        +---------------+
 
 </pre>
-<p class="figure">Figure 3: EPCP Collection Architecture</p>
-<p id="rfc.section.B.2.p.2">In <a href="#fig-ecp" class="xref">Figure 3</a>, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#RFC8600" class="xref">[RFC8600]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
+<p class="figure">Figure 5: EPCP Collection Architecture</p>
+<p id="rfc.section.B.2.p.2">In <a href="#fig-ecp" class="xref">Figure 5</a>, any of the communications between the Posture Manager and EPCP components to its left could be performed directly or indirectly using a given message transfer mechanism. For example, the pub/sub interface between the Orchestrator and the Posture Manager could be using a proprietary method or using <a href="#RFC8600" class="xref">[RFC8600]</a> or some other pub/sub mechanism. Similarly, the store connection from the Posture Manager to the Repository could be performed internally to a given implementation, via a RESTful API invocation over HTTPS, or even over a pub/sub mechanism.</p>
 <p id="rfc.section.B.2.p.3">Our assertion is that the Evaluator, Repository, Orchestrator, and Posture Manager all have the potential to represent SACM Components with specific capability interfaces that can be logically specified, then bound to one or more specific transfer mechanisms (i.e. RESTful API, <a href="#RFC8322" class="xref">[RFC8322]</a>, <a href="#RFC8600" class="xref">[RFC8600]</a>, and so on).</p>
 <h1 id="rfc.appendix.B.3">
 <a href="#rfc.appendix.B.3">B.3.</a> <a href="#datastream-collection" id="datastream-collection">Datastream Collection</a>
@@ -1129,13 +1373,19 @@ Evaluator       Repository      |      |        |        |      |        |
 <li>
 <a href="#HACK100" class="xref">[HACK100]</a>: Work to combine the vulnerability assessment scenario from <a href="#HACK99" class="xref">[HACK99]</a> with an XMPP-based YANG push model.</li>
 <li>
-<a href="#HACK101" class="xref">[HACK101]</a>: A fully automated configuration assessment implementation using XMPP as a communication mechanism.</li>
+<a href="#HACK101" class="xref">[HACK101]</a>: A fully automated configuration assessment implementation using XMPP (specifically Publish/Subscribe capabilities) as a communication mechanism.</li>
 <li>
 <a href="#HACK102" class="xref">[HACK102]</a>: An exploration of how we might model assessment, collection, and evaluation abstractly, and then rely on YANG expressions for the attributes of traditional endpoints.</li>
+<li>
+<a href="#HACK103" class="xref">[HACK103]</a>: No SACM participation at the Bangkok hackathon.</li>
+<li>
+<a href="#HACK104" class="xref">[HACK104]</a>: Basic XMPP-to-Concise MAP - Created an XMPP adapter that can accept basic posture attributes and translate them to Concise MAP.  This hackathon only proved the concept that system characteristics information can be transported via XMPP and translated to a (very basic) concise MAP implementation.</li>
+<li>
+<a href="#HACK105" class="xref">[HACK105]</a>: Advanced XMPP-to-Concise MAP:  Full orchestration of collection capabilities using XMPP.  Collector implementations extend the core XMPP structure to allow OVAL collection instructions (OVAL objects) to inform posture attribute collection.  Collected system characteristics can be provided to the Concise MAP XMPP adapter using all 3 available XMPP capabilities: Publish/Subscribe, Information Query (iq - request/response) stanzas, or direct Message stanzas.  CDDL was created to map collected posture attributes to Concise MAP structure.  The XMPP adapter translates the incoming system characteristics and stores the information in the MAP.</li>
 </ul>
-<p><a href="#fig-xmpp" class="xref">Figure 4</a> depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</p>
-<p id="rfc.section.C.p.5">Additionally, while not directly depicted in <a href="#fig-xmpp" class="xref">Figure 4</a>, this architecture does allow point-to-point interfaces. In fact, <a href="#RFC8600" class="xref">[RFC8600]</a> provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in <a href="#fig-xmpp" class="xref">Figure 4</a> may be a provider, a consumer, or both, depending on the workflow in context.</p>
-<div id="rfc.figure.4"></div>
+<p><a href="#fig-xmpp" class="xref">Figure 6</a> depicts a slightly more detailed view of the architecture (within the enterprise boundary) - one that fosters the development of a pluggable ecosystem of cooperative tools. Existing collection mechanisms can be brought into this architecture by specifying the interface of the collector and creating the XMPP-Grid Connector binding for that interface.</p>
+<p id="rfc.section.C.p.5">Additionally, while not directly depicted in <a href="#fig-xmpp" class="xref">Figure 6</a>, this architecture does allow point-to-point interfaces. In fact, <a href="#RFC8600" class="xref">[RFC8600]</a> provides brokering capabilities to facilitate such point-to-point data transfers). Additionally, each of the SACM Components depicted in <a href="#fig-xmpp" class="xref">Figure 6</a> may be a provider, a consumer, or both, depending on the workflow in context.</p>
+<div id="rfc.figure.6"></div>
 <div id="fig-xmpp"></div>
 <pre>
  +--------------+           +--------------+
@@ -1157,7 +1407,7 @@ Evaluator       Repository      |      |        |        |      |        |
                  | Collector(s) |
                  +--------------+
 </pre>
-<p class="figure">Figure 4: XMPP-based Architecture</p>
+<p class="figure">Figure 6: XMPP-based Architecture</p>
 <p><a href="#RFC8600" class="xref">[RFC8600]</a> details a number of XMPP extensions (XEPs) that MUST be utilized to meet the needs of <a href="#RFC7632" class="xref">[RFC7632]</a> and <a href="#RFC8248" class="xref">[RFC8248]</a>:</p>
 <p></p>
 
@@ -1165,7 +1415,7 @@ Evaluator       Repository      |      |        |        |      |        |
 <li>Service Discovery (XEP-0030): Service Discovery allows XMPP entities to discover information about other XMPP entities.  Two kinds of information can be discovered: the identity and capabilities of an entity, such as supported features, and items associated with an entity.</li>
 <li>Publish-Subscribe (XEP-0060): The PubSub extension enables entities to create nodes (topics) at a PubSub service and publish information at those nodes.  Once published, an event notification is broadcast to all entities that have subscribed to that node.</li>
 </ul>
-<p id="rfc.section.C.p.8">At this point, <a href="#RFC8600" class="xref">[RFC8600]</a> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <a href="#RFC7632" class="xref">[RFC7632]</a> and <a href="#RFC8248" class="xref">[RFC8248]</a>. In <a href="#fig-xmpp" class="xref">Figure 4</a> we therefore use "XMPP-Grid+" to indicate something more than <a href="#RFC8600" class="xref">[RFC8600]</a> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <a href="#RFC8600" class="xref">[RFC8600]</a> to include additional XEPs - possibly the following:</p>
+<p id="rfc.section.C.p.8">At this point, <a href="#RFC8600" class="xref">[RFC8600]</a> specifies fewer features than SACM requires, and there are other XMPP extensions (XEPs) we need to consider to meet the needs of <a href="#RFC7632" class="xref">[RFC7632]</a> and <a href="#RFC8248" class="xref">[RFC8248]</a>. In <a href="#fig-xmpp" class="xref">Figure 6</a> we therefore use "XMPP-Grid+" to indicate something more than <a href="#RFC8600" class="xref">[RFC8600]</a> alone, even though we are not yet fully confident in the exact set of XMPP-related extensions we will require. The authors propose work to extend (or modify) <a href="#RFC8600" class="xref">[RFC8600]</a> to include additional XEPs - possibly the following:</p>
 <p></p>
 
 <ul>
@@ -1183,8 +1433,8 @@ Evaluator       Repository      |      |        |        |      |        |
 <h1 id="rfc.appendix.C.1">
 <a href="#rfc.appendix.C.1">C.1.</a> <a href="#example-architecture-using-xmpp-grid-and-endpoint-posture-collection-protocol" id="example-architecture-using-xmpp-grid-and-endpoint-posture-collection-protocol">Example Architecture using XMPP-Grid and Endpoint Posture Collection Protocol</a>
 </h1>
-<p><a href="#fig-xmpp-epcp" class="xref">Figure 5</a> depicts a further detailed view of the architecture including the Endpoint Posture Collection Protocol as the collection subsystem, illustrating the idea of a pluggable ecosystem of cooperative tools.</p>
-<div id="rfc.figure.5"></div>
+<p><a href="#fig-xmpp-epcp" class="xref">Figure 7</a> depicts a further detailed view of the architecture including the Endpoint Posture Collection Protocol as the collection subsystem, illustrating the idea of a pluggable ecosystem of cooperative tools.</p>
+<div id="rfc.figure.7"></div>
 <div id="fig-xmpp-epcp"></div>
 <pre>
           +--------------------+
@@ -1230,7 +1480,7 @@ Evaluator       Repository      |      |        |        |      |        |
 *                                                                             *
 *******************************************************************************
 </pre>
-<p class="figure">Figure 5: XMPP-based Architecture including EPCP</p>
+<p class="figure">Figure 7: XMPP-based Architecture including EPCP</p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
   <address class="vcard">
