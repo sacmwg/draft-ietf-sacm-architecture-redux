@@ -108,10 +108,10 @@ informative:
     target: https://www.ietf.org/how/meetings/103/
     title: IETF 103 Hackathon - N/A
   HACK104:
-    target: https://github.com/CISecurity/IETF104-Client
+    target: https://github.com/CISecurity/SACM-Architecture
     title: IETF 104 Hackathon - A simple XMPP client
   HACK105:
-    target: https://github.com/CISecurity/IETF104-Client
+    target: https://github.com/CISecurity/SACM-Architecture
     title: IETF 105 Hackathon - A more robust XMPP client including collection extensions
 
 --- abstract
@@ -138,41 +138,184 @@ This draft defers to {{-sacmt}} for terms and definitions.
 The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.
 
 ~~~~~~~~~~
-                  +--------------------+
-                  | Feeds/Repositories |
-                  |  of External Data  |
-                  +--------------------+
-                             |
-                             |
-*****************************v**************** Enterprise Boundary ************
-*                            |                                                *
-*  +---------------+         |     +--------------+                           *
-*  | Orchestrators |         |     | Repositories |                           *
-*  +------^--------+         |     +----^---------+                           *
-*         |                  |          |              +----------------+     *
-*         |                  |          |              | Downstream Uses|     *
-*         |                  |          |              | +-----------+  |     *
-*  +------v------------------v----------v------+       | |Evaluations|  |     *
-*  |           Message Transfer System         <-------> +-----------+  |     *
-*  +----------------------^--------------------+       | +-----------+  |     *
-*                         |                            | | Analytics |  |     *
-*                         |                            | +-----------+  |     *
-*           +-------------v------+                     | +-----------+  |     *
-*           | Collection Systems |                     | | Reporting |  |     *
-*           +--------------------+                     | +-----------+  |     *
-*                                                      +----------------+     *
-*******************************************************************************
+              +--------------------+
+              | Feeds/Repositories |
+              |  of External Data  |
+              +---------+----------+
+                        +
+****************************************************** Enterprise Boundary ***
+                        +
+      +--------------+  |  +--------------------+
+      | Orchestrator |  |  | Repositories/CMDBs |
+      +------^-------+  |  +----------^---------+
+             |          |             |             +--------------------+
+             |          |             |             |  Downstream Uses   |
+             |          |             |             | +----------------+ |
+ +-----------v----------v-------------v------+      | |   Analytics    | |
+ |       Component Integration Service       <------> +----------------+ |
+ +----- -----^--------------------------^----+      | +----------------+ |
+             |                          |           | |   Reporting    | |
+             |                          |           | +----------------+ |
+ +-----------v-------------------+      |           +--------------------+
+ |  Collection Sub-Architecture  |      |
+ +-------------------------------+      |
+                  +---------------------v---------+
+                  |  Evaluation Sub-Architecture  |
+                  +-------------------------------+
 
 ~~~~~~~~~~
 {: #fig-notional title="Notional Architecture"}
 
-As shown in {{fig-notional}}, the notional SACM architecture consists of some basic SACM Components using a message transfer system to communicate. The message transfer system is expected to maximally align with the requirements described in {{RFC8248}}, which means that the message transfer system will support brokered (i.e. point-to-point) and proxied data exchange.
+As shown in {{fig-notional}}, the SACM architecture consists of some basic SACM Components communicating using a component integration service. The component integration service is expected to maximally align with the requirements described in {{RFC8248}}, which means that the component integration service will support brokered (i.e. point-to-point) and proxied data exchange.
 
 The enterprise boundary is not intended to imply a physical boundary. Rather, the enterprise boundary is intended to be inclusive of various cloud environments and vendor-provided services in addition to any physical systems the enterprise operates.
 
-This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.
+## Architectural Components
+This document suggests a variety of players in a cooperative ecosystem - we call these players SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Generally each role is either a consumer of information or a provider of information.  The {{fig-notional}} diagram illustrates a number of SACM components which are architecturally significant and therefore warrant discussion and clarification.
 
-# Relevant Workflows
+### Orchestrator
+An Orchestration component exists to aid in the automation of configuration, coordination, and management for the ecosystem of SACM components.  The Orchestrator performs control-plane operations, administration of an implementing organization's components (including endpoints, posture collection services, and downstream activities), scheduling of automated tasks, and any ad-hoc activities such as the initiation of collection or evaluation activities.  The Orchestrator is the key administrative interface into the SACM architecture.
+
+### Repositories/CMDBs
+The {{fig-notional}} diagram only includes a single reference to "Repositories/CMDBs", but in practice, a number of separate data repositories may exist, including posture attribute repositories, policy repositories, local vulnerability definition data repositories, and state assessment results repositories.  These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems or graph/map implementations focused on the relationships between data elements.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).
+
+### Component Integration Service
+If each SACM component represents a set of services, capabilities, and/or functions, the Component Integration Service represents the "fabric" by which all those services, capabilities and functions are woven together.  The Component Integration Service acts as a message broker, combining a canonical data model, a common command set, and a messaging infrastructure to allow other SACM components to communicate using a shared set of interfaces.  The Component Integration Service's brokering capabilities enable the exchange of information, the orchestration of capabilities, message routing and reliable delivery.  The Component Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.  
+
+The Component Integration Service should provide mechanisms for synchronous "request/response"-style messaging, asynchronous "send and forget" messaging, or publish/subscribe.  It is the responsibility of the Component Integration Service to coordinate and manage the sending and receiving of messages.  The Component Integration Service should allow components the ability to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.
+
+A number of pieces come together to form the Component Integration Service:
+
+1. Common communication infrastructure:  The physical communications infrastructure, providing a cross-platform, cross-language universal adapter between SACM components.  This infrastructure commonly includes message routing capabilities to facilitate the correct routing of messages from SACM component to SACM component, as well as using Publish/Subscribe functionality to facilitate sending messages to all receivers.
+2. Adapters:  The use of a standard, canonical data model will likely require SACM components to translate component-specific information into the canonical format used by the message broker.
+3. Common command/interaction structure: Just as PC architectures have a common set of commands to represent the different operations possible on a physical bus, there must be common interactions that all SACM components can understand.
+
+## Sub-Architectures
+The {{fig-notional}} shows two components representing the architectural workflows involved in a cooperative ecosystem of SACM components: Collection and Evaluation.  The following section, Architectural Workflows (TBD - ADD LINK) further expands on these components/workflows.
+
+## Downstream Uses
+As depicted by {{fig-notional}}, a number of downstream uses exist in the cooperative ecosystem.  Each notional SACM component represents distinct sub-architectures which will exchange information via the component integration services, using interactions described in this draft.
+
+### Reporting
+The Reporting component represents the capabilities of the SACM architecture dealing with the query and retrieval of collected posture attribute information, evaluation results, etc. in various display formats that are useful to a wide range of stakeholders.
+
+### Analytics
+The Analytics component represents the capabilities of the SACM architecture dealing with the discovery, interpretation, and communication of any meaningful patterns of data in order to inform effective decision making within the organization.
+
+# Sub-Architectural Components
+This section describes the workflows derived from the interactions with the two sub-architectures depicted in the {{fig-notional}}: Collection and Evaluation.
+
+## Collection Sub-Architecture
+The Collection sub-architecture, in a SACM context, is the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Orchestration components will choreograph endpoint data collection via interactions using the Component Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of methods, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, or host-based.
+
+~~~~~~~~~~
++----------------------------------------------------------+
+|                       Orchestrator                       |
++-----------+----------------------------------------------+
+            |               +------------------------------+
+            |               | Posture Attribute Repository |
+            |               +--------------^---------------+
+            |                              |
+            |                              |
+            |                       Collected Data
+            |                              ^
+            |                              |
++-----------v------------------------------+---------------+
+|             Component Integration Service                |
++----+------------------^-----------+------------------^---+
+     |                  |           |                  |
+     |                  |           |                  |
+     v                  |           v                  |
+  Perform           Collected    Perform           Collected
+ Collection           Data      Collection           Data
+     |                  ^           |                  ^
+     |                  |           |                  |
+     |                  |           |                  |
++----v------------------+----+ +----v------------------+----+
+| Posture Collection Service | | Posture Collection Service |
++---^------------------------+ |                            |
+    |                   |      | +------------------------+ |
+    |                   v      | |        Endpoint        | |
+  Events             Queries   | +------------------------+ |
+    ^                   |      +----------------------------+
+    |                   |
++---+-------------------v----+
+|          Endpoint          |
++----------------------------+
+
+~~~~~~~~~~
+{: #fig-collection title="Collection Sub-Architecture"}
+
+### Posture Collection Service
+The Posture Collection Service (PCS) is the SACM component responsible for the collection of posture attributes from an endpoint or set of endpoints.  A single PCS may be responsible for management of posture attribute collection from many endpoints.  The PCS will interact with the Component Integration Service to receive collection instructions and to provide collected posture data for persistence to the Posture Attribute Repository.  Collection instructions may be supplied in a variety of forms, including subscription to a publish/subscribe topic to which the Component Integration Service has published instructions, via request/response-style synchronous messaging, or via asynchronous "send-and-forget" messaging.  Collected posture information may then be supplied to the Component Integration Service via similar channels.  The various interaction types are discussed later in this draft (TBD).
+
+### Endpoint
+Building upon {{-sacmt}}, the SACM Collection Sub-Architecture augments the definition of an Endpoint as a component within an organization's management domain from which a Posture Collection Service will collect relevant posture attributes.
+
+### Posture Attribute Repository
+The Posture Attribute Repository is a SACM component responsible for the persistent storage of posture attributes collected via interactions between the Posture Collection Service and Endpoints.
+
+## Evaluation Sub-Architecture
+The Evaluation Sub-Architecture, in the SACM context, is the mechanism by which policy, expressed in the form of expected state, is compared with collected posture attributes to yield an evaluation result, that result being contextually dependent on the policy being evaluated.
+
+~~~~~~~~~~
++---------------------------------------+
+|              Orchestrator             |
++-------------------+-------------------+
+                    |
+                    |
+                    |
++-------------------v-------------------+
+|     Component Integration Service     |
++--------+------------^--------^--------+
+         |            |        |
+         |            |        |
+         v            |    Retrieve         +--------------------------------+
+      Perform         |     Posture <-------+  Posture Attribute Repository  |
+     Evaluation       |    Attributes       +--------------------------------+
+         |            |
+         |            |
+         |            |                     +--------------------------------+
+         |            +-----Retrieve <------+        Policy Repository       |
+         |                   Policy         +--------------------------------+
+         |
++--------v------------------------------+
+|       Posture Evaluation Service      |
++----------------------------+----------+
+                             |
+                             v
+                         Evaluation
+                          Results
+                             |
+                             |
+        +--------------------v----------+
+        | Evaluation Results Repository |
+        +-------------------------------+
+~~~~~~~~~~
+{: #fig-evaluation title="Evaluation Sub-Architecture"}
+
+### Posture Evaluation Service
+The Posture Evaluation Service represents the SACM component responsible for coordinating the policy to be evaluated and the collected posture attributes relevant to that policy, as well as the comparison engine responsible for correctly determining compliance with the expected state.
+
+### Policy Repository
+The Policy Repository represents a persistent storage mechanism for the policy to be assessed against collected posture attributes to determine if an endpoint meets the defined expected state.  Examples of information contained in a Policy Repository would be Vulnerability Definition Data or configuration recommendations as part of a CIS Benchmark or DISA STIG.
+
+### Evaluation Results Repository
+The Evaluation Results Repository persists the information representing the results of a particular posture assessment, indicating those posture attributes collected from various endpoints which either meet or do not meet the expected state defined by the assessed policy.  Consideration should be made for the context of individual results.  For example, meeting the expected state for a configuration attribute indicates a correct configuration of the endpoint, whereas meeting an expected state for a vulnerable software version indicates an incorrect and therefore vulnerable configuration.
+
+# Interactions
+SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.  Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.
+
+* **Publish/Subscribe**: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.
+* **Request/Response**: A request/response interaction can take a number of forms, but will always be synchronous operations involving the requesting component waiting/blocking until a response is received from the requested component or a timeout occurs.
+  * **Information Request**: An information request is simply one component requesting information from another component, such as an Orchestrator requesting collection capabilities from a Posture Collection Service.
+  * **Query**: A query interaction can take one of two forms, "selection" or "storage".
+    * *Selection*: A component requests data from a repository.
+    * *Storage*: A component provides data to be persisted in a repository.
+* **Directive**: Commonly referred to as "Send-and-Forget", a directive is an asynchronous interaction whereby a component requests information from another component but does not wait/block for a response.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.
+
+
+# Security Domain Workflows
 This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.
 
 ## IT Asset Management
