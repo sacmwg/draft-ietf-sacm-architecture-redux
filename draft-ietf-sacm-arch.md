@@ -314,6 +314,8 @@ SACM Components are intended to interact with other SACM Components. These inter
     * *Storage*: A component provides data to be persisted in a repository.
 * **Directive**: Commonly referred to as "Send-and-Forget", a directive is an asynchronous interaction whereby a component requests information from another component but does not wait/block for a response.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.
 
+Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.
+
 
 # Security Domain Workflows
 This section describes three primary information security domains from which workflows may be derived: IT Asset Management, Vulnerability Management, and Configuration Management.
@@ -362,8 +364,8 @@ A preferred flow follows:
 
 The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.
 
-# Configuration Management Components, Interactions, and Capabilities
-This section provides more detail about the components, interactions, and capabilities required when considering the aforementioned configuration management workflow.
+# Configuration Management Components and Capabilities
+This section provides more detail about the components and capabilities required when considering the aforementioned configuration management workflow.
 
 ## Components
 The following is a minimal list of SACM Components required to implement the aforementioned configuration assessment workflow.
@@ -375,20 +377,6 @@ The following is a minimal list of SACM Components required to implement the afo
 * Posture Attribute Repository: A component used for storing system posture attribute values.
 * Configuration Assessment Evaluator: A component responsible for evaluating system posture attribute values against expected posture attribute values.
 * Configuration Assessment Results Repository: A component used for storing evaluation results.
-
-
-## Interactions
-SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.
-
-* Store: One component stores information in another.
-* Ask: A component requests information from another.
-* Notify/Ask: A component notifies another component, which then asks the notifying component (or another component) for information.
-* Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.
-* Tell: A component instructs another.
-
-TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaining the necessary combinations relevant to the configuration assessment workflow below.
-
-Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.
 
 ## Capabilities
 Per {{RFC8248}}, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".
