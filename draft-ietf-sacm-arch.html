@@ -307,10 +307,9 @@ ul.toc li {
 <link href="#rfc.section.6.1" rel="Chapter" title="6.1 IT Asset Management">
 <link href="#rfc.section.6.2" rel="Chapter" title="6.2 Vulnerability Management">
 <link href="#rfc.section.6.3" rel="Chapter" title="6.3 Configuration Management">
-<link href="#rfc.section.7" rel="Chapter" title="7 Configuration Management Components, Interactions, and Capabilities">
+<link href="#rfc.section.7" rel="Chapter" title="7 Configuration Management Components and Capabilities">
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Components">
-<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Interactions">
-<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Capabilities">
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Capabilities">
 <link href="#rfc.section.8" rel="Chapter" title="8 Configuration Assessment Workflow">
 <link href="#rfc.section.9" rel="Chapter" title="9 Privacy Considerations">
 <link href="#rfc.section.10" rel="Chapter" title="10 Security Considerations">
@@ -334,7 +333,7 @@ ul.toc li {
 
   <meta name="dct.creator" content="Montville, A. and B. Munyan" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-sacm-arch-03" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-09-04" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-09-06" />
   <meta name="dct.abstract" content="This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon , and is predicated upon information gleaned from SACM Use Cases and Requirements ( and  respectively), and terminology as found in .WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well." />
   <meta name="description" content="This memo defines a Security Automation and Continuous Monitoring (SACM) architecture. This work is built upon , and is predicated upon information gleaned from SACM Use Cases and Requirements ( and  respectively), and terminology as found in .WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested changes should be submitted as pull requests at https://github.com/sacmwg/ietf-mandm-sacm-arch/.  Instructions are on that page as well." />
 
@@ -358,8 +357,8 @@ ul.toc li {
 <td class="right">CIS</td>
 </tr>
 <tr>
-<td class="left">Expires: March 7, 2020</td>
-<td class="right">September 04, 2019</td>
+<td class="left">Expires: March 9, 2020</td>
+<td class="right">September 06, 2019</td>
 </tr>
 
     	
@@ -376,7 +375,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on March 7, 2020.</p>
+<p>This Internet-Draft will expire on March 9, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -438,13 +437,11 @@ ul.toc li {
 </li>
 <li>6.3.   <a href="#rfc.section.6.3">Configuration Management</a>
 </li>
-</ul><li>7.   <a href="#rfc.section.7">Configuration Management Components, Interactions, and Capabilities</a>
+</ul><li>7.   <a href="#rfc.section.7">Configuration Management Components and Capabilities</a>
 </li>
 <ul><li>7.1.   <a href="#rfc.section.7.1">Components</a>
 </li>
-<li>7.2.   <a href="#rfc.section.7.2">Interactions</a>
-</li>
-<li>7.3.   <a href="#rfc.section.7.3">Capabilities</a>
+<li>7.2.   <a href="#rfc.section.7.2">Capabilities</a>
 </li>
 </ul><li>8.   <a href="#rfc.section.8">Configuration Assessment Workflow</a>
 </li>
@@ -709,6 +706,7 @@ ul.toc li {
 <li>
 <strong>Directive</strong>: Commonly referred to as "Send-and-Forget", a directive is an asynchronous interaction whereby a component requests information from another component but does not wait/block for a response.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.</li>
 </ul>
+<p id="rfc.section.5.p.3">Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</p>
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#security-domain-workflows" id="security-domain-workflows">Security Domain Workflows</a>
 </h1>
@@ -765,9 +763,9 @@ ul.toc li {
 </ul>
 <p id="rfc.section.6.3.p.5">The SACM architecture needs to support varying deployment models to accommodate the current state of the industry, but should strongly encourage event-driven approaches to monitoring configuration.</p>
 <h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#configuration-management-components-interactions-and-capabilities" id="configuration-management-components-interactions-and-capabilities">Configuration Management Components, Interactions, and Capabilities</a>
+<a href="#rfc.section.7">7.</a> <a href="#configuration-management-components-and-capabilities" id="configuration-management-components-and-capabilities">Configuration Management Components and Capabilities</a>
 </h1>
-<p id="rfc.section.7.p.1">This section provides more detail about the components, interactions, and capabilities required when considering the aforementioned configuration management workflow.</p>
+<p id="rfc.section.7.p.1">This section provides more detail about the components and capabilities required when considering the aforementioned configuration management workflow.</p>
 <h1 id="rfc.section.7.1">
 <a href="#rfc.section.7.1">7.1.</a> <a href="#components" id="components">Components</a>
 </h1>
@@ -784,24 +782,9 @@ ul.toc li {
 <li>Configuration Assessment Results Repository: A component used for storing evaluation results.</li>
 </ul>
 <h1 id="rfc.section.7.2">
-<a href="#rfc.section.7.2">7.2.</a> <a href="#interactions-1" id="interactions-1">Interactions</a>
+<a href="#rfc.section.7.2">7.2.</a> <a href="#capabilities" id="capabilities">Capabilities</a>
 </h1>
-<p id="rfc.section.7.2.p.1">SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the level of this architectural approach, as the combination of interfaces with their supported operations.</p>
-<p></p>
-
-<ul>
-<li>Store: One component stores information in another.</li>
-<li>Ask: A component requests information from another.</li>
-<li>Notify/Ask: A component notifies another component, which then asks the notifying component (or another component) for information.</li>
-<li>Publish/Subscribe: A component publishes information to a messaging system and a set of other components, subscribed to that information type, receive the published information.</li>
-<li>Tell: A component instructs another.</li>
-</ul>
-<p id="rfc.section.7.2.p.3">TODO: Consider breaking out Notify, Publish, and Subscribe into separate line items, and adding Error (a type of Notify). Then consider explaining the necessary combinations relevant to the configuration assessment workflow below.</p>
-<p id="rfc.section.7.2.p.4">Each interaction will convey a payload of information. The payload information is expected to contain sub-domain-specific characteristics and instructions.</p>
-<h1 id="rfc.section.7.3">
-<a href="#rfc.section.7.3">7.3.</a> <a href="#capabilities" id="capabilities">Capabilities</a>
-</h1>
-<p id="rfc.section.7.3.p.1">Per <a href="#RFC8248" class="xref">[RFC8248]</a>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".</p>
+<p id="rfc.section.7.2.p.1">Per <a href="#RFC8248" class="xref">[RFC8248]</a>, solutions MUST support capability negotiation. Components implementing specific interfaces and operations (i.e. interactions) will need a method of describing their capabilities to other components participating in the ecosystem; for example, "As a component in the ecosystem, I can assess the configuration of Windows, MacOS, and AWS using OVAL".</p>
 <h1 id="rfc.section.8">
 <a href="#rfc.section.8">8.</a> <a href="#configuration-assessment-workflow" id="configuration-assessment-workflow">Configuration Assessment Workflow</a>
 </h1>
