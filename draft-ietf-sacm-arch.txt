@@ -5,16 +5,16 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: March 9, 2020                                September 06, 2019
+Expires: May 1, 2020                                    October 29, 2019
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
-                        draft-ietf-sacm-arch-03
+                        draft-ietf-sacm-arch-04
 
 Abstract
 
-   This memo defines a Security Automation and Continuous Monitoring
-   (SACM) architecture.  This work is built upon [RFC8600], and is
+   This document defines an architecture enabling a cooperative Security
+   Automation and Continuous Monitoring (SACM) ecosystem.  This work is
    predicated upon information gleaned from SACM Use Cases and
    Requirements ([RFC7632] and [RFC8248] respectively), and terminology
    as found in [I-D.ietf-sacm-terminology].
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 9, 2020.
+   This Internet-Draft will expire on May 1, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montville & Munyan        Expires March 9, 2020                 [Page 1]
+Montville & Munyan         Expires May 1, 2020                  [Page 1]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
    carefully, as they describe your rights and restrictions with respect
@@ -70,56 +70,49 @@ Table of Contents
      1.1.  Requirements notation . . . . . . . . . . . . . . . . . .   3
    2.  Terms and Definitions . . . . . . . . . . . . . . . . . . . .   3
    3.  Architectural Overview  . . . . . . . . . . . . . . . . . . .   3
-     3.1.  Architectural Components  . . . . . . . . . . . . . . . .   4
-       3.1.1.  Orchestrator  . . . . . . . . . . . . . . . . . . . .   5
-       3.1.2.  Repositories/CMDBs  . . . . . . . . . . . . . . . . .   5
-       3.1.3.  Component Integration Service . . . . . . . . . . . .   5
-     3.2.  Sub-Architectures . . . . . . . . . . . . . . . . . . . .   6
+     3.1.  SACM Role-based Architecture  . . . . . . . . . . . . . .   4
+     3.2.  Architectural Roles/Components  . . . . . . . . . . . . .   5
+       3.2.1.  Orchestrator(s) . . . . . . . . . . . . . . . . . . .   5
+       3.2.2.  Repositories/CMDBs  . . . . . . . . . . . . . . . . .   5
+       3.2.3.  Integration Service . . . . . . . . . . . . . . . . .   5
      3.3.  Downstream Uses . . . . . . . . . . . . . . . . . . . . .   6
        3.3.1.  Reporting . . . . . . . . . . . . . . . . . . . . . .   6
-       3.3.2.  Analytics . . . . . . . . . . . . . . . . . . . . . .   7
-   4.  Sub-Architectural Components  . . . . . . . . . . . . . . . .   7
-     4.1.  Collection Sub-Architecture . . . . . . . . . . . . . . .   7
-       4.1.1.  Posture Collection Service  . . . . . . . . . . . . .   8
-       4.1.2.  Endpoint  . . . . . . . . . . . . . . . . . . . . . .   9
-       4.1.3.  Posture Attribute Repository  . . . . . . . . . . . .   9
-     4.2.  Evaluation Sub-Architecture . . . . . . . . . . . . . . .   9
-       4.2.1.  Posture Evaluation Service  . . . . . . . . . . . . .  10
-       4.2.2.  Policy Repository . . . . . . . . . . . . . . . . . .  10
-       4.2.3.  Evaluation Results Repository . . . . . . . . . . . .  11
-   5.  Interactions  . . . . . . . . . . . . . . . . . . . . . . . .  11
-   6.  Security Domain Workflows . . . . . . . . . . . . . . . . . .  12
-     6.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  12
-     6.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  13
-     6.3.  Configuration Management  . . . . . . . . . . . . . . . .  13
-   7.  Configuration Management Components and Capabilities  . . . .  14
-     7.1.  Components  . . . . . . . . . . . . . . . . . . . . . . .  15
-     7.2.  Capabilities  . . . . . . . . . . . . . . . . . . . . . .  15
-   8.  Configuration Assessment Workflow . . . . . . . . . . . . . .  15
-   9.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  17
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  17
-   11. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  18
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  18
-   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  20
-   Appendix B.  Example Components . . . . . . . . . . . . . . . . .  23
-     B.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .  23
-     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  24
-
-
-
-Montville & Munyan        Expires March 9, 2020                 [Page 2]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  25
-     B.4.  Network Configuration Collection  . . . . . . . . . . . .  25
-   Appendix C.  Exploring An XMPP-based Solution . . . . . . . . . .  25
+       3.3.2.  Analytics . . . . . . . . . . . . . . . . . . . . . .   6
+     3.4.  Sub-Architectures . . . . . . . . . . . . . . . . . . . .   7
+       3.4.1.  Collection Sub-Architecture . . . . . . . . . . . . .   7
+       3.4.2.  Evaluation Sub-Architecture . . . . . . . . . . . . .   9
+   4.  Interactions  . . . . . . . . . . . . . . . . . . . . . . . .  11
+   5.  Security Domain Workflows . . . . . . . . . . . . . . . . . .  12
+     5.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  12
+       5.1.1.  Components, Capabilities and Workflow(s)  . . . . . .  13
+     5.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  13
+       5.2.1.  Components, Capabilities and Workflow(s)  . . . . . .  14
+     5.3.  Configuration Management  . . . . . . . . . . . . . . . .  15
+       5.3.1.  Components, Capabilities and Workflow(s)  . . . . . .  16
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  18
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  19
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  19
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  19
+   Appendix A.  Mapping to RFC8248 . . . . . . . . . . . . . . . . .  21
+   Appendix B.  Example Components . . . . . . . . . . . . . . . . .  24
+     B.1.  Policy Services . . . . . . . . . . . . . . . . . . . . .  24
+     B.2.  Software Inventory  . . . . . . . . . . . . . . . . . . .  25
+     B.3.  Datastream Collection . . . . . . . . . . . . . . . . . .  26
+     B.4.  Network Configuration Collection  . . . . . . . . . . . .  26
+   Appendix C.  Exploring An XMPP-based Solution . . . . . . . . . .  27
      C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
-           Collection Protocol . . . . . . . . . . . . . . . . . . .  29
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  31
+           Collection Protocol . . . . . . . . . . . . . . . . . . .  30
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  32
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                  [Page 2]
+
+Internet-Draft              SACM Architecture               October 2019
+
 
 1.  Introduction
 
@@ -152,86 +145,106 @@ Internet-Draft              SACM Architecture             September 2019
    given flow, one or more components are consumers of information and
    one or more components are providers of information.
 
+          +----------------+
+          | SACM Component |
+          |   (Provider)   |
+          +-------+--------+
+                  |
+                  |
+   +--------------v----------------+
+   |      Integration Service      |
+   +--------------+----------------+
+                  |
+                  |
+          +-------v--------+
+          | SACM Component |
+          |   (Consumer)   |
+          +----------------+
+
+                  Figure 1: Basic Architectural Structure
 
 
 
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                 [Page 3]
+Montville & Munyan         Expires May 1, 2020                  [Page 3]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
+
+   A provider can be described as an abstraction that refers to an
+   entity capable of sending SACM-relevant information to one or many
+   consumers.  Consumers can be described as an abstraction that refers
+   to an entity capable of receiving SACM-relevant information from one
+   or many providers.  Different roles within a cooperative ecosystem
+   may act as both providers and consumers of SACM-relevant information.
+
+3.1.  SACM Role-based Architecture
+
+   Within the cooperative SACM ecosystem, a number of roles act in
+   coordination to provide relevant policy/guidance, perform data
+   collection, storage, evaluation, and support downstream analytics and
+   reporting.
 
               +--------------------+
               | Feeds/Repositories |
               |  of External Data  |
               +---------+----------+
-                        +
-****************************************************** Enterprise Boundary ***
-                        +
-      +--------------+  |  +--------------------+
-      | Orchestrator |  |  | Repositories/CMDBs |
-      +------^-------+  |  +----------^---------+
+                        |
+******************************************* Boundary of Responsibility ******
+                        |
+   +-----------------+  |  +--------------------+
+   | Orchestrator(s) |  |  | Repositories/CMDBs |
+   +---------^-------+  |  +----------^---------+
              |          |             |             +--------------------+
              |          |             |             |  Downstream Uses   |
              |          |             |             | +----------------+ |
  +-----------v----------v-------------v------+      | |   Analytics    | |
- |       Component Integration Service       <------> +----------------+ |
- +----- -----^--------------------------^----+      | +----------------+ |
+ |             Integration Service           <------> +----------------+ |
+ +-----------^--------------------------^----+      | +----------------+ |
              |                          |           | |   Reporting    | |
              |                          |           | +----------------+ |
  +-----------v-------------------+      |           +--------------------+
  |  Collection Sub-Architecture  |      |
  +-------------------------------+      |
-                  +---------------------v---------+
-                  |  Evaluation Sub-Architecture  |
-                  +-------------------------------+
+                        +---------------v---------------+
+                        |  Evaluation Sub-Architecture  |
+                        +-------------------------------+
 
 
-                      Figure 1: Notional Architecture
+                Figure 2: Notional Role-based Architecture
 
-   As shown in Figure 1, the SACM architecture consists of some basic
-   SACM Components communicating using a component integration service.
-   The component integration service is expected to maximally align with
+   As shown in Figure 2, the SACM role-based architecture consists of
+   some basic SACM Components communicating using an integration
+   service.  The integration service is expected to maximally align with
    the requirements described in [RFC8248], which means that the
-   component integration service will support brokered (i.e. point-to-
-   point) and proxied data exchange.
+   integration service will support brokered (i.e. point-to-point) and
+   proxied data exchange.
 
-   The enterprise boundary is not intended to imply a physical boundary.
-   Rather, the enterprise boundary is intended to be inclusive of
-   various cloud environments and vendor-provided services in addition
-   to any physical systems the enterprise operates.
 
-3.1.  Architectural Components
+
+Montville & Munyan         Expires May 1, 2020                  [Page 4]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+   The boundary of responsibility is not intended to imply a physical
+   boundary.  Rather, it is intended to be inclusive of various cloud/
+   virtualized environments, BYOD and vendor-provided services in
+   addition to any physical systems the enterprise operates.
+
+3.2.  Architectural Roles/Components
 
    This document suggests a variety of players in a cooperative
-   ecosystem - we call these players SACM Components.  SACM Components
-   may be composed of other SACM Components, and each SACM Component
-   plays one, or more, of several roles relevant to the ecosystem.
-   Generally each role is either a consumer of information or a provider
-   of information.  The Figure 1 diagram illustrates a number of SACM
+   ecosystem; these players are known as SACM Components.  SACM
+   Components may be composed of other SACM Components, and each SACM
+   Component plays one, or more, of several roles relevant to the
+   ecosystem.  Roles may act as providers of information, consumers of
+   information, or both provider and consumer.  Figure 2 depicts a
+   number of SACM components which are architecturally significant and
+   therefore warrant discussion and clarification.
 
+3.2.1.  Orchestrator(s)
 
-
-Montville & Munyan        Expires March 9, 2020                 [Page 4]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-   components which are architecturally significant and therefore
-   warrant discussion and clarification.
-
-3.1.1.  Orchestrator
-
-   An Orchestration component exists to aid in the automation of
+   Orchestration components exists to aid in the automation of
    configuration, coordination, and management for the ecosystem of SACM
    components.  The Orchestrator performs control-plane operations,
    administration of an implementing organization's components
@@ -241,130 +254,107 @@ Internet-Draft              SACM Architecture             September 2019
    Orchestrator is the key administrative interface into the SACM
    architecture.
 
-3.1.2.  Repositories/CMDBs
+3.2.2.  Repositories/CMDBs
 
-   The Figure 1 diagram only includes a single reference to
-   "Repositories/CMDBs", but in practice, a number of separate data
-   repositories may exist, including posture attribute repositories,
-   policy repositories, local vulnerability definition data
-   repositories, and state assessment results repositories.  These data
-   repositories may exist separately or together in a single
-   representation, and the design of these repositories may be as
-   distinct as their intended purpose, such as the use of relational
-   database management systems or graph/map implementations focused on
-   the relationships between data elements.  Each implementation of a
-   SACM repository should focus on the relationships between data
-   elements and implement the SACM information and data model(s).
+   Figure 2 only includes a single reference to "Repositories/CMDBs",
+   but in practice, a number of separate data repositories may exist,
+   including posture attribute repositories, policy repositories, local
+   vulnerability definition data repositories, and state assessment
+   results repositories.  These data repositories may exist separately
+   or together in a single representation, and the design of these
+   repositories may be as distinct as their intended purpose, such as
+   the use of relational database management systems or graph/map
+   implementations focused on the relationships between data elements.
+   Each implementation of a SACM repository should focus on the
+   relationships between data elements and implement the SACM
+   information and data model(s).
 
-3.1.3.  Component Integration Service
+3.2.3.  Integration Service
 
-   If each SACM component represents a set of services, capabilities,
-   and/or functions, the Component Integration Service represents the
-   "fabric" by which all those services, capabilities and functions are
-   woven together.  The Component Integration Service acts as a message
-   broker, combining a canonical data model, a common command set, and a
-   messaging infrastructure to allow other SACM components to
-   communicate using a shared set of interfaces.  The Component
-   Integration Service's brokering capabilities enable the exchange of
-   information, the orchestration of capabilities, message routing and
-   reliable delivery.  The Component Integration Service minimizes the
-   dependencies from one system to another through the loose coupling of
-   applications through messaging.
-
-   The Component Integration Service should provide mechanisms for
-   synchronous "request/response"-style messaging, asynchronous "send
-   and forget" messaging, or publish/subscribe.  It is the
+   If each SACM component represents a set of capabilities, the
+   Integration Service represents the "fabric" by which all those
+   services are woven together.  The Integration Service acts as a
 
 
 
-Montville & Munyan        Expires March 9, 2020                 [Page 5]
+Montville & Munyan         Expires May 1, 2020                  [Page 5]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
-   responsibility of the Component Integration Service to coordinate and
-   manage the sending and receiving of messages.  The Component
-   Integration Service should allow components the ability to directly
-   connect and produce or consume messages, or connect via message
-   translators which can act as a proxy, transforming messages from a
-   component format to one implementing a SACM data model.
+   message broker, combining a set of common message categories and
+   infrastructure to allow SACM components to communicate using a shared
+   set of interfaces.  The Integration Service's brokering capabilities
+   enable the exchange of various information payloads, orchestration of
+   component capabilities, message routing and reliable delivery.  The
+   Integration Service minimizes the dependencies from one system to
+   another through the loose coupling of applications through messaging.
+   SACM components will "attach" to the Integration Service either
+   through native support for the integration implementation, or through
+   the use of "adapters" which provide a proxied attachment.
 
-   A number of pieces come together to form the Component Integration
-   Service:
+   The Integration Service should provide mechanisms for synchronous
+   "request/response"-style messaging, asynchronous "send and forget"
+   messaging, or publish/subscribe.  It is the responsibility of the
+   Integration Service to coordinate and manage the sending and
+   receiving of messages.  The Integration Service should allow
+   components the ability to directly connect and produce or consume
+   messages, or connect via message translators which can act as a
+   proxy, transforming messages from a component format to one
+   implementing a SACM data model.
 
-   1.  Common communication infrastructure: The physical communications
-       infrastructure, providing a cross-platform, cross-language
-       universal adapter between SACM components.  This infrastructure
-       commonly includes message routing capabilities to facilitate the
-       correct routing of messages from SACM component to SACM
-       component, as well as using Publish/Subscribe functionality to
-       facilitate sending messages to all receivers.
-
-   2.  Adapters: The use of a standard, canonical data model will likely
-       require SACM components to translate component-specific
-       information into the canonical format used by the message broker.
-
-   3.  Common command/interaction structure: Just as PC architectures
-       have a common set of commands to represent the different
-       operations possible on a physical bus, there must be common
-       interactions that all SACM components can understand.
-
-3.2.  Sub-Architectures
-
-   The Figure 1 shows two components representing the architectural
-   workflows involved in a cooperative ecosystem of SACM components:
-   Collection and Evaluation.  The following section, Architectural
-   Workflows (TBD - ADD LINK) further expands on these components/
-   workflows.
+   The Integration Service MUST provide routing capabilities for
+   payloads between producers and consumers.  The Integration Service
+   MAY provide further capabilities within the payload delivery
+   pipeline.  Examples of these capabilities include, but are not
+   limited to, intermediate processing, message transformation, type
+   conversion, validation, etc.
 
 3.3.  Downstream Uses
 
-   As depicted by Figure 1, a number of downstream uses exist in the
+   As depicted by Figure 2, a number of downstream uses exist in the
    cooperative ecosystem.  Each notional SACM component represents
    distinct sub-architectures which will exchange information via the
-   component integration services, using interactions described in this
-   draft.
+   integration services, using interactions described in this draft.
 
 3.3.1.  Reporting
 
-   The Reporting component represents the capabilities of the SACM
-   architecture dealing with the query and retrieval of collected
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                 [Page 6]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
+   The Reporting component represents capabilities outside of the SACM
+   architecture scope dealing with the query and retrieval of collected
    posture attribute information, evaluation results, etc. in various
    display formats that are useful to a wide range of stakeholders.
 
 3.3.2.  Analytics
 
-   The Analytics component represents the capabilities of the SACM
-   architecture dealing with the discovery, interpretation, and
+   The Analytics component represents capabilities outside of the SACM
+   architecture scope dealing with the discovery, interpretation, and
    communication of any meaningful patterns of data in order to inform
    effective decision making within the organization.
 
-4.  Sub-Architectural Components
 
-   This section describes the workflows derived from the interactions
-   with the two sub-architectures depicted in the Figure 1: Collection
+
+Montville & Munyan         Expires May 1, 2020                  [Page 6]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+3.4.  Sub-Architectures
+
+   Figure 2 shows two components representing sub-architectural roles
+   involved in a cooperative ecosystem of SACM components: Collection
    and Evaluation.
 
-4.1.  Collection Sub-Architecture
+3.4.1.  Collection Sub-Architecture
 
    The Collection sub-architecture, in a SACM context, is the mechanism
    by which posture attributes are collected from applicable endpoints
    and persisted to a repository, such as a configuration management
    database (CMDB).  Orchestration components will choreograph endpoint
-   data collection via interactions using the Component Integration
-   Service as a message broker.  Instructions to perform endpoint data
-   collection are directed to a Posture Collection Service capable of
-   performing collection activities utilizing any number of methods,
-   such as SNMP, NETCONF/RESTCONF, SSH, WinRM, or host-based.
+   data collection via interactions using the Integration Service as a
+   message broker.  Instructions to perform endpoint data collection are
+   directed to a Posture Collection Service capable of performing
+   collection activities utilizing any number of methods, such as SNMP,
+   NETCONF/RESTCONF, SSH, WinRM, or host-based.
 
 
 
@@ -389,87 +379,107 @@ Internet-Draft              SACM Architecture             September 2019
 
 
 
-Montville & Munyan        Expires March 9, 2020                 [Page 7]
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                  [Page 7]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
    +----------------------------------------------------------+
-   |                       Orchestrator                       |
+   |                    Orchestrator(s)                       |
    +-----------+----------------------------------------------+
                |               +------------------------------+
                |               | Posture Attribute Repository |
                |               +--------------^---------------+
-               |                              |
-               |                              |
+            Perform                           |
+           Collection                         |
                |                       Collected Data
                |                              ^
                |                              |
    +-----------v------------------------------+---------------+
-   |             Component Integration Service                |
+   |                    Integration Service                   |
    +----+------------------^-----------+------------------^---+
-        |                  |           |                  |
         |                  |           |                  |
         v                  |           v                  |
      Perform           Collected    Perform           Collected
     Collection           Data      Collection           Data
         |                  ^           |                  ^
         |                  |           |                  |
-        |                  |           |                  |
-   +----v------------------+----+ +----v------------------+----+
-   | Posture Collection Service | | Posture Collection Service |
-   +---^------------------------+ |                            |
-       |                   |      | +------------------------+ |
-       |                   v      | |        Endpoint        | |
-     Events             Queries   | +------------------------+ |
-       ^                   |      +----------------------------+
+   +----v-----------------------+ +----v------------------+------+
+   | Posture Collection Service | |          Endpoint            |
+   +---^------------------------+ | +--------------------------+ |
+       |                   |      | |Posture Collection Service| |
+       |                   v      | +--------------------------+ |
+     Events             Queries   +------------------------------+
+       ^                   |
        |                   |
    +---+-------------------v----+
    |          Endpoint          |
    +----------------------------+
 
 
-                   Figure 2: Collection Sub-Architecture
+             Figure 3: Decomposed Collection Sub-Architecture
 
-4.1.1.  Posture Collection Service
+3.4.1.1.  Posture Collection Service
 
    The Posture Collection Service (PCS) is the SACM component
    responsible for the collection of posture attributes from an endpoint
    or set of endpoints.  A single PCS may be responsible for management
    of posture attribute collection from many endpoints.  The PCS will
-   interact with the Component Integration Service to receive collection
+   interact with the Integration Service to receive collection
    instructions and to provide collected posture data for persistence to
    the Posture Attribute Repository.  Collection instructions may be
    supplied in a variety of forms, including subscription to a publish/
-   subscribe topic to which the Component Integration Service has
+   subscribe topic to which the Integration Service has published
+   instructions, via request/response-style synchronous messaging, or
+   via asynchronous "send-and-forget" messaging.  Collected posture
 
 
 
-Montville & Munyan        Expires March 9, 2020                 [Page 8]
+Montville & Munyan         Expires May 1, 2020                  [Page 8]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
-   published instructions, via request/response-style synchronous
-   messaging, or via asynchronous "send-and-forget" messaging.
-   Collected posture information may then be supplied to the Component
-   Integration Service via similar channels.  The various interaction
-   types are discussed later in this draft (TBD).
+   information may then be supplied to the Integration Service via
+   similar channels.  The various interaction types are discussed later
+   in this draft (TBD).
 
-4.1.2.  Endpoint
+3.4.1.2.  Endpoint
 
    Building upon [I-D.ietf-sacm-terminology], the SACM Collection Sub-
    Architecture augments the definition of an Endpoint as a component
    within an organization's management domain from which a Posture
    Collection Service will collect relevant posture attributes.
 
-4.1.3.  Posture Attribute Repository
+3.4.1.3.  Posture Attribute Repository
 
    The Posture Attribute Repository is a SACM component responsible for
    the persistent storage of posture attributes collected via
    interactions between the Posture Collection Service and Endpoints.
 
-4.2.  Evaluation Sub-Architecture
+3.4.1.4.  Posture Collection Workflow
+
+   Posture collection may be triggered from a number of components, but
+   commonly begin either via event-based triggering on an endpoint or
+   through manual orchestration, both illustrated in Figure 3 above.
+   Once orchestration has provided the directive to perform collection,
+   posture collection services consume the directives.  Posture
+   collection is invoked for those endpoints overseen by the respective
+   posture collection services.  Collected data is then provided to the
+   Integration Service, with a directive to store that information in an
+   appropriate repository.
+
+3.4.2.  Evaluation Sub-Architecture
 
    The Evaluation Sub-Architecture, in the SACM context, is the
    mechanism by which policy, expressed in the form of expected state,
@@ -491,82 +501,68 @@ Internet-Draft              SACM Architecture             September 2019
 
 
 
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                 [Page 9]
+Montville & Munyan         Expires May 1, 2020                  [Page 9]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
-+---------------------------------------+
-|              Orchestrator             |
-+-------------------+-------------------+
-                    |
-                    |
-                    |
-+-------------------v-------------------+
-|     Component Integration Service     |
-+--------+------------^--------^--------+
-         |            |        |
-         |            |        |
-         v            |    Retrieve         +--------------------------------+
-      Perform         |     Posture <-------+  Posture Attribute Repository  |
-     Evaluation       |    Attributes       +--------------------------------+
-         |            |
-         |            |
-         |            |                     +--------------------------------+
-         |            +-----Retrieve <------+        Policy Repository       |
-         |                   Policy         +--------------------------------+
-         |
-+--------v------------------------------+
-|       Posture Evaluation Service      |
-+----------------------------+----------+
-                             |
-                             v
-                         Evaluation
-                          Results
-                             |
-                             |
-        +--------------------v----------+
-        | Evaluation Results Repository |
-        +-------------------------------+
+                     +------------------+
+                     |    Collection    |    +-------------------------------+
+                     | Sub-Architecture |    | Evaluation Results Repository |
++--------------+     +--------^---------+    +-----------------^-------------+
+| Orchestrator |              |                                |
++------+-------+              |                                |
+       |                   Perform                 Store Evaluation Results
+    Perform               Collection                           |
+   Evaluation                 |                                |
+       |                      |                                |
++------v----------------------v--------------------------------+-------------+
+|                             Integration Service                            |
++--------+----------------------------^----------------------^---------------+
+         |                            |                      |
+         |                            |                      |
+      Perform                  Retrieve Posture              |
+     Evaluation                   Attributes          Retrieve Policy
+         |                            |                      |
+         |                            |                      |
++--------v-------------------+  +-----v------+        +------v-----+
+| Posture Evaluation Service |  |  Posture   |        |   Policy   |
++----------------------------+  | Attribute  |        | Repository |
+                                | Repository |        +------------+
+                                +------------+
 
-                   Figure 3: Evaluation Sub-Architecture
+             Figure 4: Decomposed Evaluation Sub-Architecture
 
-4.2.1.  Posture Evaluation Service
+3.4.2.1.  Posture Evaluation Service
 
-   The Posture Evaluation Service represents the SACM component
+   The Posture Evaluation Service (PES) represents the SACM component
    responsible for coordinating the policy to be evaluated and the
    collected posture attributes relevant to that policy, as well as the
    comparison engine responsible for correctly determining compliance
    with the expected state.
 
-4.2.2.  Policy Repository
+3.4.2.2.  Policy Repository
 
    The Policy Repository represents a persistent storage mechanism for
    the policy to be assessed against collected posture attributes to
    determine if an endpoint meets the defined expected state.  Examples
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 10]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    of information contained in a Policy Repository would be
    Vulnerability Definition Data or configuration recommendations as
    part of a CIS Benchmark or DISA STIG.
 
-4.2.3.  Evaluation Results Repository
+
+
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 10]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+3.4.2.3.  Evaluation Results Repository
 
    The Evaluation Results Repository persists the information
    representing the results of a particular posture assessment,
@@ -579,62 +575,88 @@ Internet-Draft              SACM Architecture             September 2019
    version indicates an incorrect and therefore vulnerable
    configuration.
 
-5.  Interactions
+3.4.2.4.  Posture Evaluation Workflow
+
+   Posture evaluation is orchestrated through the Integration Service to
+   the appropriate Posture Evaluation Service.  The PES will, through
+   coordination with the Integration Service, query both the Posture
+   Attribute Repository and the Policy Repository to obtain relevant
+   state data for comparison.  If necessary, the PES may be required to
+   invoke further posture collection.  Once all relevant posture
+   information has been collected, it is compared to expected state
+   based on applicable policy.  Comparison results are then persisted to
+   an evaluation results repository for further downstream use and
+   analysis.
+
+4.  Interactions
 
    SACM Components are intended to interact with other SACM Components.
-   These interactions can be thought of, at the level of this
-   architectural approach, as the combination of interfaces with their
-   supported operations.  Each interaction will convey a payload of
-   information.  The payload information is expected to contain sub-
-   domain-specific characteristics and instructions.
-
-   o  *Publish/Subscribe*: A component publishes information to a
-      messaging system and a set of other components, subscribed to that
-      information type, receive the published information.
-
-   o  *Request/Response*: A request/response interaction can take a
-      number of forms, but will always be synchronous operations
-      involving the requesting component waiting/blocking until a
-      response is received from the requested component or a timeout
-      occurs.
-
-      *  *Information Request*: An information request is simply one
-         component requesting information from another component, such
-         as an Orchestrator requesting collection capabilities from a
-         Posture Collection Service.
-
-      *  *Query*: A query interaction can take one of two forms,
-         "selection" or "storage".
-
-         +  _Selection_: A component requests data from a repository.
-
-         +  _Storage_: A component provides data to be persisted in a
-            repository.
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 11]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-   o  *Directive*: Commonly referred to as "Send-and-Forget", a
-      directive is an asynchronous interaction whereby a component
-      requests information from another component but does not wait/
-      block for a response.  The receiving component may reply later via
-      callbacks or further interactions, but it is not mandatory.
-
-   Each interaction will convey a payload of information.  The payload
+   These interactions can be thought of, at the architectural level, as
+   the combination of interfaces with their supported operations.  Each
+   interaction will convey a payload of information.  The payload
    information is expected to contain sub-domain-specific
    characteristics and instructions.
 
-6.  Security Domain Workflows
+   Two categories of interactions SHOULD be supported by the Integration
+   Service; broadcast interactions, and directed interactions.
+
+   o  *Broadcast*: A broadcast interaction, commonly known as "publish/
+      subscribe", allows for a wider distribution of a message payload.
+      When a payload is published to a topic on the Integration Service,
+      all subscribers to that topic are alerted and may consume the
+      message payload.  A broadcast interaction may also simulate a
+      "directed" interaction when a topic only has a single subscriber.
+      An example of a broadcast interaction could be to publish to a
+      topic that new configuration assessment content is available.
+      Subscribing consumers receive the notification, and proceed to
+      collect endpoint configuration posture based on the new content.
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 11]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+   o  *Directed*: The intent of a directed interaction is to enable
+      point-to-point communications between a producer and consumer,
+      through the standard interfaces provided by the Integration
+      Service.  The provider component indicates which consumer is
+      intended to receive the payload, and the Integration Service
+      routes the payload directly to that consumer.  Two "styles" of
+      directed interaction exist, differing only by the response from
+      the payload consumer:
+
+      *  *Synchronous (Request/Response)*: Synchronous, request/response
+         style interaction requires that the requesting component block
+         and wait for the receiving component to respond, or to time out
+         when that response is delayed past a given time threshold.  A
+         synchronous interaction example may be querying a CMDB for
+         posture attribute information in order to perform an
+         evaluation.
+
+      *  *Asynchronous (Fire-and-Forget)*: An asynchronous interaction
+         involves the payload producer directing the message to a
+         consumer, but not blocking or waiting for a response.  This
+         style of interaction allows the producer to continue on to
+         other activities without the need to wait for responses.  This
+         style is particularly useful when the interaction payload
+         invokes a potentially long-running task, such as data
+         collection, report generation, or policy evaluation.  The
+         receiving component may reply later via callbacks or further
+         interactions, but it is not mandatory.
+
+   Each interaction will convey a payload of information.  The payload
+   is expected to contain specific characteristics and instructions to
+   be interpreted by receiving components.
+
+5.  Security Domain Workflows
 
    This section describes three primary information security domains
    from which workflows may be derived: IT Asset Management,
    Vulnerability Management, and Configuration Management.
 
-6.1.  IT Asset Management
+5.1.  IT Asset Management
 
    Information Technology asset management is easier said than done.
    The [CISCONTROLS] have two controls dealing with IT asset management.
@@ -644,13 +666,31 @@ Internet-Draft              SACM Architecture             September 2019
    unauthorized and unmanaged devices are found and prevented from
    gaining access."  Control 2, Inventory and Control of Software
    Assets, states, "Actively manage (inventory, track, and correct) all
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 12]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    software on the network so that only authorized software is installed
    and can execute, and that unauthorized and unmanaged software is
    found and prevented from installation or execution."
 
    In spirit, this covers all of the processing entities on your network
    (as opposed to things like network cables, dongles, adapters, etc.),
-   whether physical or virtual.
+   whether physical or virtual, on-premises or in the cloud.
+
+5.1.1.  Components, Capabilities and Workflow(s)
+
+   TBD
+
+5.1.1.1.  Components
+
+   TBD
+
+5.1.1.2.  Capabilities
 
    An IT asset management capability needs to be able to:
 
@@ -664,17 +704,11 @@ Internet-Draft              SACM Architecture             September 2019
 
    o  Represent cloud hybrid environments
 
+5.1.1.3.  Workflow(s)
 
+   TBD
 
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 12]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-6.2.  Vulnerability Management
+5.2.  Vulnerability Management
 
    Vulnerability management is a relatively established process.  To
    paraphrase the [CISCONTROLS], continuous vulnerability management is
@@ -685,6 +719,16 @@ Internet-Draft              SACM Architecture             September 2019
 
    A vulnerability assessment (i.e. vulnerability detection) is
    performed in two steps:
+
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 13]
+
+Internet-Draft              SACM Architecture               October 2019
+
 
    o  Endpoint information collected by the endpoint management
       capabilities is examined by the vulnerability management
@@ -717,19 +761,36 @@ Internet-Draft              SACM Architecture             September 2019
    the endpoint management capabilities (e.g. there may be freshness
    requirements for information).
 
-6.3.  Configuration Management
+5.2.1.  Components, Capabilities and Workflow(s)
+
+   TBD
+
+5.2.1.1.  Components
+
+   TBD
+
+5.2.1.2.  Capabilities
+
+   TBD
+
+5.2.1.3.  Workflow(s)
+
+   TBD
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 14]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+5.3.  Configuration Management
 
    Configuration management involves configuration assessment, which
    requires state assessment.  The [CISCONTROLS] specify two high-level
    controls concerning configuration management (Control 5 for non-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 13]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    network devices and Control 11 for network devices).  As an aside,
    these controls are listed separately because many enterprises have
    different organizations for managing network infrastructure and
@@ -770,23 +831,24 @@ Internet-Draft              SACM Architecture             September 2019
    accommodate the current state of the industry, but should strongly
    encourage event-driven approaches to monitoring configuration.
 
-7.  Configuration Management Components and Capabilities
+
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 15]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
+5.3.1.  Components, Capabilities and Workflow(s)
 
    This section provides more detail about the components and
    capabilities required when considering the aforementioned
    configuration management workflow.
 
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 14]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-7.1.  Components
+5.3.1.1.  Components
 
    The following is a minimal list of SACM Components required to
    implement the aforementioned configuration assessment workflow.
@@ -813,7 +875,7 @@ Internet-Draft              SACM Architecture             September 2019
    o  Configuration Assessment Results Repository: A component used for
       storing evaluation results.
 
-7.2.  Capabilities
+5.3.1.2.  Capabilities
 
    Per [RFC8248], solutions MUST support capability negotiation.
    Components implementing specific interfaces and operations (i.e.
@@ -822,92 +884,97 @@ Internet-Draft              SACM Architecture             September 2019
    component in the ecosystem, I can assess the configuration of
    Windows, MacOS, and AWS using OVAL".
 
-8.  Configuration Assessment Workflow
+5.3.1.3.  Configuration Assessment Workflow
 
    This section describes the components and interactions in a basic
    configuration assessment workflow.  For simplicity, error conditions
    are recognized as being necessary and are not depicted.  When one
    component messages another component, the message is expected to be
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 16]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    handled appropriately unless there is an error condition, or other
    notification, messaged in return.
 
++-------------+  +----------------+  +------------------+  +------------+
+| Policy Feed |  |  Orchestrator  |  |    Evaluation    |  | Evaluation |
++------+------+  +-------+--------+  | Sub-Architecture |  |   Results  |
+       |                 |           +---^----------+---+  | Repository |
+       |                 |               |          |      +------^-----+
+       |                 |               |          |             |
+     1.|               3.|             8.|        9.|          10.|
+       |                 |               |          |             |
+       |                 |               |          |             |
++------v-----------------v---------------+----------v-------------+-----+
+|                           Integration Service                         |
++-----+----------------------------------+----------^---------+------^--+
+      |                                  |          |         |      |
+      |                                  |          |         |      |
+    2.|                                4.|        5.|       6.|    7.|
+      |                                  |          |         |      |
+      |                                  |          |         |      |
++-----v------+                       +---v----------+---+  +--v------+--+
+|   Policy   |                       |    Collection    |  |  Posture   |
+| Repository |                       | Sub-Architecture |  | Attribute  |
++------------+                       +------------------+  | Repository |
+                                                           +------------+
 
+         Figure 5: Configuration Assessment Component Interactions
 
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 15]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-+-------------+
-| Policy Feed |
-+-----+-------+
-      |                     5.1
-  1   |   +----------------------------------------+
-      |   |                                        |
-+-----v------+  2   +----------------+  5  +-----v-----+  6   +------------+
-|   Policy   +------>  Orchestrator  +-----> Evaluator +------> Evaluation |
-| Repository |      +-------+--------+     +-----^-----+      |   Results  |
-+------------+              |                    |            | Repository |
-                            | 3                  |            +------------+
-                            |                    | 5.2
-                 +----------|--------+           |
-                 | +--------v------+ |           |
-                 | |   Collector   | |           |
-                 | +-------+-------+ |   4   +------------+
-                 |         |         +-------> Posture    |
-                 | +-------+-------+ |       | Attribute  |
-                 | | Target System | |       | Repository |
-                 | +---------------+ |       +------------+
-                 +-------------------+
-              Collection Sub-Architecture
-
-         Figure 4: Configuration Assessment Component Interactions
-
-   Figure 4 depicts configuration assessment components and their
+   Figure 5 depicts configuration assessment components and their
    interactions, which are further described below.
 
-   1.  Policy is stored in the Policy Repository: TODO - add specific
-       interaction options here.
+   1.   A policy feed provides a configuration assessment policy payload
+        to the Integration Service.
 
-   2.  The Orchestrator obtains collection information from the Policy
-       Repository: TODO - add specific interaction options here.
+   2.   The Policy Repository, a consumer of Policy Feed information,
+        receives and persists the Policy Feed's payload.
 
-   3.  The Orchestrator initiates collection to be performed by the
-       Collection Sub-Architecture: TODO - add specific interaction
-       options here.
+   3.   Orchestration component(s), either manually invoked, scheduled,
+        or event-based, publish a payload to begin the configuration
+        assessment process.
 
-   4.  Collected posture attributes are stored n the Posture Attribute
-       Repository: TODO - add specific interaction options here.
+   4.   If necessary, Collection Sub-Architecture components may be
+        invoked to collect neeeded posture attribute information.
 
-   5.  The Orchestrator initiates the Evaluator (optionally with
-       evaluation information gathered from the Policy Repository): TODO
-       - add specific interaction options here
-
-       1.  The Evaluator obtains evaluation information from the Policy
-           Repository (optionally): TODO - add specific interaction
-           options here
+   5.   If necessary, the Collection Sub-Architecture will provide
+        collected posture attributes to the Integration Service for
+        persistence to the Posture Attribute Repository.
 
 
 
-Montville & Munyan        Expires March 9, 2020                [Page 16]
+
+Montville & Munyan         Expires May 1, 2020                 [Page 17]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
-       2.  The Evaluator obtains relevant posture attributes from the
-           Posture Attribute Repository: TODO - add specific interaction
-           options here
+   6.   The Posture Attribute Repository will consume a payload querying
+        for relevant posture attribute information.
 
-   6.  Evaluation results are stored in the Evaluation Results
-       Repository: TODO - add specific interaction options here
+   7.   The Posture Attribute Repository will provide the requested
+        information to the Integration Service, allowing further
+        orchestration payloads requesting the Evaluation Sub-
+        Architecture perform evaluation tasks.
+
+   8.   The Evaluation Sub-Architecture consumes the evaluation payload
+        and performs component-specific state comparison operations to
+        produce evaluation results.
+
+   9.   A payload containing evaluation results are provided by the
+        Evaluation Sub-Architecture to the Integration Service
+
+   10.  Evaluation results are consumed by/persisted to the Evaluation
+        Results Repository
 
    In the above flow, the payload information is expected to convey the
    context required by the receiving component for the action being
-   taken under different circumstances.  For example, the Tell message
+   taken under different circumstances.  For example, a directed message
    sent from an Orchestrator to a Collection sub-architecture might be
    telling that Collector to watch a specific posture attribute and
    report only specific detected changes to the Posture Attribute
@@ -916,15 +983,15 @@ Internet-Draft              SACM Architecture             September 2019
    handled as part of that payload, not as part of the architecture
    described herein.
 
-9.  Privacy Considerations
+6.  Privacy Considerations
 
    TODO
 
-10.  Security Considerations
+7.  Security Considerations
 
    TODO
 
-11.  IANA Considerations
+8.  IANA Considerations
 
    TODO: Revamp this section after the configuration assessment workflow
    is fleshed out.
@@ -936,6 +1003,13 @@ Internet-Draft              SACM Architecture             September 2019
 
    o  SACM Component implementation identifiers
 
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 18]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    o  SACM Component versions
 
    o  Associations of SACM Components (and versions) to specific
@@ -943,20 +1017,9 @@ Internet-Draft              SACM Architecture             September 2019
 
    o  Collection sub-architecture Identification
 
+9.  References
 
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 17]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-12.  References
-
-12.1.  Normative References
+9.1.  Normative References
 
    [I-D.ietf-sacm-ecp]
               Haynes, D., Fitzgerald-McKay, J., and L. Lorenzin,
@@ -980,7 +1043,7 @@ Internet-Draft              SACM Architecture             September 2019
               DOI 10.17487/RFC8600, June 2019,
               <https://www.rfc-editor.org/info/rfc8600>.
 
-12.2.  Informative References
+9.2.  Informative References
 
    [CISCONTROLS]
               "CIS Controls v7.0", n.d.,
@@ -989,12 +1052,19 @@ Internet-Draft              SACM Architecture             September 2019
    [draft-birkholz-sacm-yang-content]
               Birkholz, H. and N. Cam-Winget, "YANG subscribed
               notifications via SACM Statements", n.d.,
-              <https://tools.ietf.org/html/
-              draft-birkholz-sacm-yang-content-01>.
+              <https://tools.ietf.org/html/draft-birkholz-sacm-yang-
+              content-01>.
 
    [HACK100]  "IETF 100 Hackathon - Vulnerability Scenario EPCP+XMPP",
               n.d., <https://www.github.com/sacmwg/vulnerability-
               scenario/ietf-hackathon>.
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 19]
+
+Internet-Draft              SACM Architecture               October 2019
+
 
    [HACK101]  "IETF 101 Hackathon - Configuration Assessment XMPP",
               n.d., <https://www.github.com/CISecurity/Integration>.
@@ -1002,13 +1072,6 @@ Internet-Draft              SACM Architecture             September 2019
    [HACK102]  "IETF 102 Hackathon - YANG Collection on Traditional
               Endpoints", n.d.,
               <https://www.github.com/CISecurity/YANG>.
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 18]
-
-Internet-Draft              SACM Architecture             September 2019
-
 
    [HACK103]  "IETF 103 Hackathon - N/A", n.d.,
               <https://www.ietf.org/how/meetings/103/>.
@@ -1048,6 +1111,17 @@ Internet-Draft              SACM Architecture             September 2019
               Publishing Protocol", RFC 5023, DOI 10.17487/RFC5023,
               October 2007, <https://www.rfc-editor.org/info/rfc5023>.
 
+
+
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 20]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    [RFC7632]  Waltermire, D. and D. Harrington, "Endpoint Security
               Posture Assessment: Enterprise Use Cases", RFC 7632,
               DOI 10.17487/RFC7632, September 2015,
@@ -1057,14 +1131,6 @@ Internet-Draft              SACM Architecture             September 2019
               Continuous Monitoring (SACM) Requirements", RFC 8248,
               DOI 10.17487/RFC8248, September 2017,
               <https://www.rfc-editor.org/info/rfc8248>.
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 19]
-
-Internet-Draft              SACM Architecture             September 2019
-
 
    [RFC8322]  Field, J., Banghart, S., and D. Waltermire, "Resource-
               Oriented Lightweight Information Exchange (ROLIE)",
@@ -1105,6 +1171,13 @@ Appendix A.  Mapping to RFC8248
    If there is no entry in the Supported By column, then there is a gap
    that must be filled.
 
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 21]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    +----------+----------------------------------------+---------------+
    | ID       | Name                                   |  Supported By |
    +----------+----------------------------------------+---------------+
@@ -1114,14 +1187,6 @@ Appendix A.  Mapping to RFC8248
    |          |                                        |               |
    | G-003    | Scalability                            |      XMPP     |
    |          |                                        |               |
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 20]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    | G-004    | Versatility                            |   XMPP-Core   |
    |          |                                        |               |
    | G-005    | Information Extensibility              |   XMPP-Core   |
@@ -1161,6 +1226,14 @@ Internet-Draft              SACM Architecture             September 2019
    |          |                                        |               |
    | ARCH-007 | Role-Based Authorization               |   XMPP-Core   |
    |          |                                        |               |
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 22]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    | ARCH-008 | Context-Based Authorization            |               |
    |          |                                        |               |
    | ARCH-009 | Time Synchronization                   |  Operational  |
@@ -1170,14 +1243,6 @@ Internet-Draft              SACM Architecture             September 2019
    | IM-002   | Posture Data Publication               |      N/A      |
    |          |                                        |               |
    | IM-003   | Data Model Negotiation                 |      N/A      |
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 21]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    |          |                                        |               |
    | IM-004   | Data Model Identification              |      N/A      |
    |          |                                        |               |
@@ -1217,6 +1282,14 @@ Internet-Draft              SACM Architecture             September 2019
    |          |                                        |               |
    | DM-016   | Transfer Agnostic                      |      N/A      |
    |          |                                        |               |
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 23]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    | OP-001   | Time Synchronization                   |               |
    |          |                                        |               |
    | OP-002   | Collection Abstraction                 |               |
@@ -1226,14 +1299,6 @@ Internet-Draft              SACM Architecture             September 2019
    | OP-004   | Attribute-Based Query                  |               |
    |          |                                        |               |
    | OP-005   | Information-Based Query with Filtering |               |
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 22]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    |          |                                        |               |
    | OP-006   | Operation Scalability                  |               |
    |          |                                        |               |
@@ -1272,6 +1337,15 @@ B.1.  Policy Services
    concept of information categories and links.  Strictly speaking,
    these are logical concepts independent of the RESTful binding ROLIE
    specifies.  In other words, ROLIE binds a logical interface (i.e.
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 24]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    GET workspace, GET collection, SET entry, and so on) to a specific
    mechanism (namely an ATOM Publication Protocol extension).
 
@@ -1281,15 +1355,6 @@ B.1.  Policy Services
 
    Even if a [RFC8322] server were external to an organization, there
    would be a need for a policy source inside the organization as well,
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 23]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
    and it may be preferred for such a policy source to be connected
    directly to the ecosystem's communication infrastructure.
 
@@ -1320,15 +1385,23 @@ Evaluator       Repository      |      |        |        |      |        |
 +------+        +--------+      +---------------+        +---------------+
 
 
-                  Figure 5: EPCP Collection Architecture
+                  Figure 6: EPCP Collection Architecture
 
-   In Figure 5, any of the communications between the Posture Manager
+   In Figure 6, any of the communications between the Posture Manager
    and EPCP components to its left could be performed directly or
    indirectly using a given message transfer mechanism.  For example,
    the pub/sub interface between the Orchestrator and the Posture
    Manager could be using a proprietary method or using [RFC8600] or
    some other pub/sub mechanism.  Similarly, the store connection from
    the Posture Manager to the Repository could be performed internally
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 25]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    to a given implementation, via a RESTful API invocation over HTTPS,
    or even over a pub/sub mechanism.
 
@@ -1337,14 +1410,6 @@ Evaluator       Repository      |      |        |        |      |        |
    with specific capability interfaces that can be logically specified,
    then bound to one or more specific transfer mechanisms (i.e.  RESTful
    API, [RFC8322], [RFC8600], and so on).
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 24]
-
-Internet-Draft              SACM Architecture             September 2019
-
 
 B.3.  Datastream Collection
 
@@ -1384,6 +1449,15 @@ B.4.  Network Configuration Collection
    statement envelope" which are published, essentially, via an XMPP-
    Grid Connector for SACM Components also part of the XMPP-Grid.
 
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 26]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    This is a specific example of an existing collection mechanism being
    adapted to the XMPP-Grid message transfer system.
 
@@ -1393,14 +1467,6 @@ Appendix C.  Exploring An XMPP-based Solution
 
    Ongoing work has been taking place around and during IETF hackathons.
    The list of hackathon efforts follows:
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 25]
-
-Internet-Draft              SACM Architecture             September 2019
-
 
    o  [HACK99]: A partial implementation of a vulnerability assessment
       scenario involving an [I-D.ietf-sacm-ecp] implementation, a
@@ -1438,27 +1504,26 @@ Internet-Draft              SACM Architecture             September 2019
       XMPP adapter translates the incoming system characteristics and
       stores the information in the MAP.
 
-   Figure 6 depicts a slightly more detailed view of the architecture
+   Figure 7 depicts a slightly more detailed view of the architecture
    (within the enterprise boundary) - one that fosters the development
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 27]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    of a pluggable ecosystem of cooperative tools.  Existing collection
    mechanisms can be brought into this architecture by specifying the
    interface of the collector and creating the XMPP-Grid Connector
    binding for that interface.
 
-   Additionally, while not directly depicted in Figure 6, this
+   Additionally, while not directly depicted in Figure 7, this
    architecture does allow point-to-point interfaces.  In fact,
    [RFC8600] provides brokering capabilities to facilitate such point-
    to-point data transfers).  Additionally, each of the SACM Components
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 26]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
-   depicted in Figure 6 may be a provider, a consumer, or both,
+   depicted in Figure 7 may be a provider, a consumer, or both,
    depending on the workflow in context.
 
     +--------------+           +--------------+
@@ -1480,7 +1545,7 @@ Internet-Draft              SACM Architecture             September 2019
                     | Collector(s) |
                     +--------------+
 
-                     Figure 6: XMPP-based Architecture
+                     Figure 7: XMPP-based Architecture
 
    [RFC8600] details a number of XMPP extensions (XEPs) that MUST be
    utilized to meet the needs of [RFC7632] and [RFC8248]:
@@ -1496,23 +1561,23 @@ Internet-Draft              SACM Architecture             September 2019
       information at those nodes.  Once published, an event notification
       is broadcast to all entities that have subscribed to that node.
 
+
+
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 28]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    At this point, [RFC8600] specifies fewer features than SACM requires,
    and there are other XMPP extensions (XEPs) we need to consider to
-   meet the needs of [RFC7632] and [RFC8248].  In Figure 6 we therefore
+   meet the needs of [RFC7632] and [RFC8248].  In Figure 7 we therefore
    use "XMPP-Grid+" to indicate something more than [RFC8600] alone,
    even though we are not yet fully confident in the exact set of XMPP-
    related extensions we will require.  The authors propose work to
    extend (or modify) [RFC8600] to include additional XEPs - possibly
    the following:
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 27]
-
-Internet-Draft              SACM Architecture             September 2019
-
 
    o  Entity Capabilities (XEP-0115): This extension defines the methods
       for broadcasting and dynamically discovering an entities'
@@ -1554,6 +1619,13 @@ Internet-Draft              SACM Architecture             September 2019
       simplified client registration, and may be useful when adding new
       endpoints or SACM components to the ecosystem.
 
+
+
+Montville & Munyan         Expires May 1, 2020                 [Page 29]
+
+Internet-Draft              SACM Architecture               October 2019
+
+
    o  Bidirectional-streams Over Synchronous HTTP (BOSH) (XEP-0124):
       BOSH emulates the semantics of a long-lived, bidirectional TCP
       connection between two entities (aka "long polling").  Consider a
@@ -1561,15 +1633,6 @@ Internet-Draft              SACM Architecture             September 2019
       vulnerability definition repository ingesting data from a Feed/
       Repository of External Data, and a second SACM component such as
       an Orchestrator.  Using BOSH, the Orchestrator can effectively
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 28]
-
-Internet-Draft              SACM Architecture             September 2019
-
-
       continuously poll the vulnerability definition repository for
       changes/updates.
 
@@ -1596,7 +1659,7 @@ Internet-Draft              SACM Architecture             September 2019
 C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
       Collection Protocol
 
-   Figure 7 depicts a further detailed view of the architecture
+   Figure 8 depicts a further detailed view of the architecture
    including the Endpoint Posture Collection Protocol as the collection
    subsystem, illustrating the idea of a pluggable ecosystem of
    cooperative tools.
@@ -1614,16 +1677,9 @@ C.1.  Example Architecture using XMPP-Grid and Endpoint Posture
 
 
 
-
-
-
-
-
-
-
-Montville & Munyan        Expires March 9, 2020                [Page 29]
+Montville & Munyan         Expires May 1, 2020                 [Page 30]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
           +--------------------+
@@ -1631,7 +1687,7 @@ Internet-Draft              SACM Architecture             September 2019
           |  of External Data  |
           +--------------------+
                     |
-********************v************************* Enterprise Boundary ************
+********************v*********************** Boundary of Responsibility *******
 *                   |                                                         *
 *  +--------------+ | +-------------------+ +-------------+                   *
 *  | Orchestrator | | | Posture Attr Repo | | Policy Repo |                   *
@@ -1669,7 +1725,7 @@ Internet-Draft              SACM Architecture             September 2019
 *                                                                             *
 *******************************************************************************
 
-             Figure 7: XMPP-based Architecture including EPCP
+             Figure 8: XMPP-based Architecture including EPCP
 
 
 
@@ -1677,9 +1733,9 @@ Internet-Draft              SACM Architecture             September 2019
 
 
 
-Montville & Munyan        Expires March 9, 2020                [Page 30]
+Montville & Munyan         Expires May 1, 2020                 [Page 31]
 
-Internet-Draft              SACM Architecture             September 2019
+Internet-Draft              SACM Architecture               October 2019
 
 
 Authors' Addresses
@@ -1733,4 +1789,4 @@ Authors' Addresses
 
 
 
-Montville & Munyan        Expires March 9, 2020                [Page 31]
+Montville & Munyan         Expires May 1, 2020                 [Page 32]
