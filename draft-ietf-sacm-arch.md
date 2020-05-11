@@ -352,9 +352,9 @@ The Orchestrator component, being a specialized role in the architecture, onboar
 With this in mind, the Orchestrator must first authenticate to the Integration Service.  Once authentication has succeeded, the Orchestrator must establish "service handlers" per the {{component-registration-taxonomy}}.  Once "service handlers" have been established, the Orchestrator is then equipped to handle component registration, onboarding, capability discovery, and topic subscription policy.
 
 The following requirements exist for the Orchestrator to establish "service handlers" supporting the {{component-registration-taxonomy}}:
-- The Orchestrator MUST enable the capability to receive onboarding requests via the `/orchestrator/registration` topic, 
-- The Orchestrator MUST have the capability to generate, manage, and persist unique identifiers for all registered components, 
-- The Orchestrator MUST have the capability to inventory and manage its "roster" (the list of registered components), 
+- The Orchestrator MUST enable the capability to receive onboarding requests via the `/orchestrator/registration` topic,
+- The Orchestrator MUST have the capability to generate, manage, and persist unique identifiers for all registered components,
+- The Orchestrator MUST have the capability to inventory and manage its "roster" (the list of registered components),
 - The Orchestrator MUST support making directed requests to registered components over the component's administrative interface, as configured by the `/orchestrator/[component-unique-identifier]` topic.  Administrative interface functions are described by their taxonomy, below.
 
 ### Component Onboarding
@@ -433,7 +433,7 @@ N/A
 N/A
 
 ### Process Description
-Once the Orchestrator has authenticated to the Integration Service, it must establish (or re-establish) any service handlers interacting with administrative interfaces and/or general operational interfaces. 
+Once the Orchestrator has authenticated to the Integration Service, it must establish (or re-establish) any service handlers interacting with administrative interfaces and/or general operational interfaces.
 
 For initial registration, the Orchestrator MUST enable capabilities to:
 
@@ -452,6 +452,7 @@ N/A
 
 
 ## Component Registration
+{: #component-registration-taxonomy title="Component Registration"}
 Component onboarding describes how an individual component becomes part of the ecosystem; registering with the orchestrator, advertising capabilities, establishing its administrative interface, and subscribing to relevant topics.
 
 ### Topic
@@ -477,8 +478,8 @@ Orchestrator
 
 ### Process Description
 When the Orchestrator receives the component's request for onboarding, it will:
-- Generate a unique identifier, `[component-unique-identifier]`, for the onboarding component, 
-- Persist required information (TBD probably need more specifics), including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being orchestrated, 
+- Generate a unique identifier, `[component-unique-identifier]`, for the onboarding component,
+- Persist required information (TBD probably need more specifics), including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being orchestrated,
 - Establish the administrative interface via the `/orchestrator/[component-unique-identifier]` topic.
 
 ### Response Payload
@@ -703,4 +704,3 @@ This section describes the components and interactions in a basic configuration 
 10. Evaluation results are consumed by/persisted to the Evaluation Results Repository
 
 In the above flow, the payload information is expected to convey the context required by the receiving component for the action being taken under different circumstances. For example, a directed message sent from an Orchestrator to a Collection sub-architecture might be telling that Collector to watch a specific posture attribute and report only specific detected changes to the Posture Attribute Repository, or it might be telling the Collector to gather that posture attribute immediately. Such details are expected to be handled as part of that payload, not as part of the architecture described herein.
-
