@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-05
+docname: draft-ietf-sacm-arch-06
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -400,12 +400,16 @@ The Orchestrator supplies a payload of instructions to a topic or set of topics 
 
 ### Initiate Ad-Hoc Evaluation
 [TBD]
+
 ### Coordinate Periodic Evaluation
 [TBD]
+
 #### Schedule
 [TBD]
+
 #### Cancel
 [TBD]
+
 ### Coordinate Change-based Evaluation
 [TBD] i.e. if a posture attribute in the repository is changed, trigger an evaluation of particular policy items
 
@@ -415,6 +419,7 @@ The Orchestrator supplies a payload of instructions to a topic or set of topics 
 # Taxonomy
 
 ## Orchestrator Registration
+{: #orchestrator-registration-taxonomy title="Orchestrator Registration"}
 The Orchestrator Registration taxonomy describes how an Orchestrator onboards to the ecosystem, or how it returns from a non-operational state.
 
 ### Topic
@@ -458,8 +463,6 @@ Component onboarding describes how an individual component becomes part of the e
 ### Topic
 `/orchestrator/registration`
 
-`[component-type]` includes `pcs`, `repository`, `pes`, and MORE TBD
-
 ### Interaction Type
 Directed (Request/Response)
 
@@ -468,22 +471,25 @@ Any component wishing to join the ecosystem, such as Posture Collection Services
 
 ### Request Payload
 [TBD] Information Elements, such as
+
 - identifying-information
-  - component-type (pcs, pes, repository, etc)
-  - name
-  - description
+	- component-type (i.e Posture Collection Service, Posture Evaluation Service, Repository, etc.)
+	- name
+	- description
 
 ### Receiver
 Orchestrator
 
 ### Process Description
 When the Orchestrator receives the component's request for onboarding, it will:
+
 - Generate a unique identifier, `[component-unique-identifier]`, for the onboarding component,
 - Persist required information (TBD probably need more specifics), including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being orchestrated,
 - Establish the administrative interface via the `/orchestrator/[component-unique-identifier]` topic.
 
 ### Response Payload
 [TBD] Information Elements
+
 - component-unique-identifier
 
 ### Response Processing
@@ -491,7 +497,7 @@ Successful receipt of the Orchestrator's response, including the `[component-uni
 
 
 ## Orchestrator-to-Component Administrative Interface
-{: #orchestrator-pcs-direct-taxonomy title="Orchestrator-to-Component Administrative Interface"}
+{: #orchestrator-component-direct-taxonomy title="Orchestrator-to-Component Administrative Interface"}
 A number of functions may take place which, instead of being published to a multi-subscriber topic, may require direct interaction between an Orchestrator and a registered component.  During component onboarding, this direct channel is established first by the Orchestrator and subsequently complemented by the onboarding component.
 
 ### Capability Advertisement Handshake
@@ -508,11 +514,12 @@ Any ecosystem component (minus the Orchestrator)
 
 #### Request Payload
 [TBD] Information Elements
+
 - component-type
 - component-unique-identifier
 - interaction-type (capability-advertisement):
-  - list of capabilities
-  - list of endpoints/services
+	- list of capabilities
+	- list of endpoints/services
 
 #### Receiver
 Orchestrator
@@ -524,7 +531,8 @@ Upon receipt of the component's capability advertisement, it SHOULD:
 
 #### Response Payload
 [TBD] Information Elements
-- list of topics to subscribe
+
+- a list of topics to which the receiver should subscribe
 
 #### Response Processing
 Once the component has received the response to its capability advertisement, it should subscribe to the Orchestrator-provided topics.
