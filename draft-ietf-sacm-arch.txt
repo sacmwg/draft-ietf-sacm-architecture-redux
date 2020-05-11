@@ -9,7 +9,7 @@ Expires: 12 November 2020                                    11 May 2020
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
-                        draft-ietf-sacm-arch-05
+                        draft-ietf-sacm-arch-06
 
 Abstract
 
@@ -94,8 +94,10 @@ Table of Contents
                Collection  . . . . . . . . . . . . . . . . . . . . .  16
        4.3.4.  Persist Collected Posture Attributes  . . . . . . . .  16
        4.3.5.  Initiate Ad-Hoc Evaluation  . . . . . . . . . . . . .  16
-       4.3.6.  Queries . . . . . . . . . . . . . . . . . . . . . . .  16
-   5.  Taxonomy  . . . . . . . . . . . . . . . . . . . . . . . . . .  16
+       4.3.6.  Coordinate Periodic Evaluation  . . . . . . . . . . .  16
+       4.3.7.  Coordinate Change-based Evaluation  . . . . . . . . .  16
+       4.3.8.  Queries . . . . . . . . . . . . . . . . . . . . . . .  17
+   5.  Taxonomy  . . . . . . . . . . . . . . . . . . . . . . . . . .  17
      5.1.  Orchestrator Registration . . . . . . . . . . . . . . . .  17
        5.1.1.  Topic . . . . . . . . . . . . . . . . . . . . . . . .  17
        5.1.2.  Interaction Type  . . . . . . . . . . . . . . . . . .  17
@@ -104,8 +106,6 @@ Table of Contents
        5.1.5.  Receiver  . . . . . . . . . . . . . . . . . . . . . .  17
        5.1.6.  Process Description . . . . . . . . . . . . . . . . .  17
        5.1.7.  Response Payload  . . . . . . . . . . . . . . . . . .  18
-       5.1.8.  Response Processing . . . . . . . . . . . . . . . . .  18
-     5.2.  Component Registration  . . . . . . . . . . . . . . . . .  18
 
 
 
@@ -114,20 +114,22 @@ Montville & Munyan      Expires 12 November 2020                [Page 2]
 Internet-Draft              SACM Architecture                   May 2020
 
 
+       5.1.8.  Response Processing . . . . . . . . . . . . . . . . .  18
+     5.2.  Component Registration  . . . . . . . . . . . . . . . . .  18
        5.2.1.  Topic . . . . . . . . . . . . . . . . . . . . . . . .  18
        5.2.2.  Interaction Type  . . . . . . . . . . . . . . . . . .  18
        5.2.3.  Initiator . . . . . . . . . . . . . . . . . . . . . .  18
        5.2.4.  Request Payload . . . . . . . . . . . . . . . . . . .  18
-       5.2.5.  Receiver  . . . . . . . . . . . . . . . . . . . . . .  18
+       5.2.5.  Receiver  . . . . . . . . . . . . . . . . . . . . . .  19
        5.2.6.  Process Description . . . . . . . . . . . . . . . . .  19
        5.2.7.  Response Payload  . . . . . . . . . . . . . . . . . .  19
        5.2.8.  Response Processing . . . . . . . . . . . . . . . . .  19
      5.3.  Orchestrator-to-Component Administrative Interface  . . .  19
-       5.3.1.  Capability Advertisement Handshake  . . . . . . . . .  19
-       5.3.2.  Directed Collection . . . . . . . . . . . . . . . . .  20
-       5.3.3.  Directed Evaluation . . . . . . . . . . . . . . . . .  20
-       5.3.4.  Heartbeat . . . . . . . . . . . . . . . . . . . . . .  20
-     5.4.  [Taxonomy Name] . . . . . . . . . . . . . . . . . . . . .  20
+       5.3.1.  Capability Advertisement Handshake  . . . . . . . . .  20
+       5.3.2.  Directed Collection . . . . . . . . . . . . . . . . .  21
+       5.3.3.  Directed Evaluation . . . . . . . . . . . . . . . . .  21
+       5.3.4.  Heartbeat . . . . . . . . . . . . . . . . . . . . . .  21
+     5.4.  [Taxonomy Name] . . . . . . . . . . . . . . . . . . . . .  21
        5.4.1.  Topic . . . . . . . . . . . . . . . . . . . . . . . .  21
        5.4.2.  Interaction Type  . . . . . . . . . . . . . . . . . .  21
        5.4.3.  Initiator . . . . . . . . . . . . . . . . . . . . . .  21
@@ -135,18 +137,18 @@ Internet-Draft              SACM Architecture                   May 2020
        5.4.5.  Receiver  . . . . . . . . . . . . . . . . . . . . . .  21
        5.4.6.  Process Description . . . . . . . . . . . . . . . . .  21
        5.4.7.  Response Payload  . . . . . . . . . . . . . . . . . .  21
-       5.4.8.  Response Processing . . . . . . . . . . . . . . . . .  21
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  21
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  21
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  21
+       5.4.8.  Response Processing . . . . . . . . . . . . . . . . .  22
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  22
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  22
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  22
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  22
      9.1.  Normative References  . . . . . . . . . . . . . . . . . .  22
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  22
-   Appendix A.  Security Domain Workflows  . . . . . . . . . . . . .  24
-     A.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  24
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  23
+   Appendix A.  Security Domain Workflows  . . . . . . . . . . . . .  25
+     A.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  25
        A.1.1.  Components, Capabilities and Workflow(s)  . . . . . .  25
-     A.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  25
-       A.2.1.  Components, Capabilities and Workflow(s)  . . . . . .  26
+     A.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  26
+       A.2.1.  Components, Capabilities and Workflow(s)  . . . . . .  27
      A.3.  Configuration Management  . . . . . . . . . . . . . . . .  27
        A.3.1.  Components, Capabilities and Workflow(s)  . . . . . .  28
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
@@ -159,8 +161,6 @@ Internet-Draft              SACM Architecture                   May 2020
    advantage by supporting a variety of collection systems, and intends
    to enable a cooperative ecosystem of tools from disparate sources
    with minimal operator configuration.
-
-
 
 
 
@@ -872,12 +872,33 @@ Internet-Draft              SACM Architecture                   May 2020
 
 4.3.5.  Initiate Ad-Hoc Evaluation
 
-   [TBD] ### Coordinate Periodic Evaluation [TBD] #### Schedule [TBD]
-   #### Cancel [TBD] ### Coordinate Change-based Evaluation [TBD] i.e.
-   if a posture attribute in the repository is changed, trigger an
-   evaluation of particular policy items
+   [TBD]
 
-4.3.6.  Queries
+4.3.6.  Coordinate Periodic Evaluation
+
+   [TBD]
+
+4.3.6.1.  Schedule
+
+   [TBD]
+
+4.3.6.2.  Cancel
+
+   [TBD]
+
+4.3.7.  Coordinate Change-based Evaluation
+
+   [TBD] i.e. if a posture attribute in the repository is changed,
+   trigger an evaluation of particular policy items
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 16]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
+4.3.8.  Queries
 
    [TBD] Queries should allow for a "freshness" time period, allowing
    the requesting entity to determine if/when posture attributes must be
@@ -886,17 +907,6 @@ Internet-Draft              SACM Architecture                   May 2020
    triggering re-collection regardless of the most recent collection.
 
 5.  Taxonomy
-
-
-
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 16]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
 5.1.  Orchestrator Registration
 
@@ -936,6 +946,14 @@ Internet-Draft              SACM Architecture                   May 2020
    *  Receive onboarding requests via the "/orchestrator/registration"
       topic,
 
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 17]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
    *  Generate, manage, and persist unique identifiers for all
       registered components,
 
@@ -945,14 +963,6 @@ Internet-Draft              SACM Architecture                   May 2020
    *  Support making directed requests to registered components over the
       component's administrative interface, as configured by the
       "/orchestrator/[component-unique-identifier]" topic.
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 17]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
    Administrative interfaces are to be re-established through the
    inventory of previously registered components, such as Posture
@@ -977,8 +987,6 @@ Internet-Draft              SACM Architecture                   May 2020
 
    "/orchestrator/registration"
 
-   "[component-type]" includes "pcs", "repository", "pes", and MORE TBD
-
 5.2.2.  Interaction Type
 
    Directed (Request/Response)
@@ -991,15 +999,7 @@ Internet-Draft              SACM Architecture                   May 2020
 
 5.2.4.  Request Payload
 
-   [TBD] Information Elements, such as - identifying-information -
-   component-type (pcs, pes, repository, etc) - name - description
-
-5.2.5.  Receiver
-
-   Orchestrator
-
-
-
+   [TBD] Information Elements, such as
 
 
 
@@ -1010,20 +1010,35 @@ Montville & Munyan      Expires 12 November 2020               [Page 18]
 Internet-Draft              SACM Architecture                   May 2020
 
 
+   *  identifying-information - component-type (i.e Posture Collection
+      Service, Posture Evaluation Service, Repository, etc.) - name -
+      description
+
+5.2.5.  Receiver
+
+   Orchestrator
+
 5.2.6.  Process Description
 
    When the Orchestrator receives the component's request for
-   onboarding, it will: - Generate a unique identifier, "[component-
-   unique-identifier]", for the onboarding component, - Persist required
-   information (TBD probably need more specifics), including the
-   "[component-unique-identifier]" to its component inventory, enabling
-   an up-to-date roster of components being orchestrated, - Establish
-   the administrative interface via the "/orchestrator/[component-
-   unique-identifier]" topic.
+   onboarding, it will:
+
+   *  Generate a unique identifier, "[component-unique-identifier]", for
+      the onboarding component,
+
+   *  Persist required information (TBD probably need more specifics),
+      including the "[component-unique-identifier]" to its component
+      inventory, enabling an up-to-date roster of components being
+      orchestrated,
+
+   *  Establish the administrative interface via the
+      "/orchestrator/[component-unique-identifier]" topic.
 
 5.2.7.  Response Payload
 
-   [TBD] Information Elements - component-unique-identifier
+   [TBD] Information Elements
+
+   *  component-unique-identifier
 
 5.2.8.  Response Processing
 
@@ -1044,6 +1059,13 @@ Internet-Draft              SACM Architecture                   May 2020
    Orchestrator and subsequently complemented by the onboarding
    component.
 
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 19]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
 5.3.1.  Capability Advertisement Handshake
 
    Capability advertisement, otherwise known as service discovery, is
@@ -1057,15 +1079,6 @@ Internet-Draft              SACM Architecture                   May 2020
 
    "/orchestrator/[component-unique-identifier]"
 
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 19]
-
-Internet-Draft              SACM Architecture                   May 2020
-
-
 5.3.1.2.  Interaction Type
 
    Directed (Request/Response)
@@ -1076,9 +1089,14 @@ Internet-Draft              SACM Architecture                   May 2020
 
 5.3.1.4.  Request Payload
 
-   [TBD] Information Elements - component-type - component-unique-
-   identifier - interaction-type (capability-advertisement): - list of
-   capabilities - list of endpoints/services
+   [TBD] Information Elements
+
+   *  component-type
+
+   *  component-unique-identifier
+
+   *  interaction-type (capability-advertisement): - list of
+      capabilities - list of endpoints/services
 
 5.3.1.5.  Receiver
 
@@ -1093,7 +1111,16 @@ Internet-Draft              SACM Architecture                   May 2020
 
 5.3.1.7.  Response Payload
 
-   [TBD] Information Elements - list of topics to subscribe
+   [TBD] Information Elements
+
+   *  a list of topics to which the receiver should subscribe
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 20]
+
+Internet-Draft              SACM Architecture                   May 2020
+
 
 5.3.1.8.  Response Processing
 
@@ -1110,17 +1137,6 @@ Internet-Draft              SACM Architecture                   May 2020
 5.4.  [Taxonomy Name]
 
    DESCRIPTION OF TAXONOMY
-
-
-
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 20]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
 5.4.1.  Topic
 
@@ -1152,6 +1168,16 @@ Internet-Draft              SACM Architecture                   May 2020
    DESCRIPTION OF INFORMATION MODEL OF RESPONSE PAYLOAD; i.e. what
    elements need to be in whatever format in the payload.
 
+
+
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 21]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
 5.4.8.  Response Processing
 
    [What the initiator does with any response, if there is one]
@@ -1168,15 +1194,6 @@ Internet-Draft              SACM Architecture                   May 2020
 
    [TBD] Revamp this section after the configuration assessment workflow
    is fleshed out.
-
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 21]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
    IANA tables can probably be used to make life a little easier.  We
    would like a place to enumerate:
@@ -1208,6 +1225,15 @@ Internet-Draft              SACM Architecture                   May 2020
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
 
+
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 22]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
    [RFC8412]  Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
               J. Fitzgerald-McKay, "Software Inventory Message and
               Attributes (SWIMA) for PA-TNC", RFC 8412,
@@ -1225,14 +1251,6 @@ Internet-Draft              SACM Architecture                   May 2020
    [CISCONTROLS]
               "CIS Controls v7.0", May 2020,
               <https://www.cisecurity.org/controls>.
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 22]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
    [draft-birkholz-sacm-yang-content]
               Birkholz, H. and N. Cam-Winget, "YANG subscribed
@@ -1264,6 +1282,14 @@ Internet-Draft              SACM Architecture                   May 2020
 
    [HACK99]   "IETF 99 Hackathon - Vulnerability Scenario EPCP", May
               2020,
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 23]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
               <https://www.github.com/sacmwg/vulnerability-scenario/
               ietf-hackathon>.
 
@@ -1282,13 +1308,6 @@ Internet-Draft              SACM Architecture                   May 2020
               Version 1.3", February 2018,
               <https://csrc.nist.gov/publications/detail/sp/800-126/rev-
               3/final>.
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 23]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
    [NISTIR7694]
               Halbardier, A., Waltermire, D., and M. Johnson, "NISTIR
@@ -1319,6 +1338,14 @@ Internet-Draft              SACM Architecture                   May 2020
    [XMPPEXT]  "XMPP Extensions", May 2020,
               <https://xmpp.org/extensions/>.
 
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 24]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
 Appendix A.  Security Domain Workflows
 
    This section describes three primary information security domains
@@ -1338,13 +1365,6 @@ A.1.  IT Asset Management
    software on the network so that only authorized software is installed
    and can execute, and that unauthorized and unmanaged software is
    found and prevented from installation or execution."
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 24]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
    In spirit, this covers all of the processing entities on your network
    (as opposed to things like network cables, dongles, adapters, etc.),
@@ -1372,6 +1392,16 @@ A.1.1.2.  Capabilities
 
    *  Represent cloud hybrid environments
 
+
+
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 25]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
 A.1.1.3.  Workflow(s)
 
    TBD
@@ -1393,15 +1423,6 @@ A.2.  Vulnerability Management
       capabilities through Evaluation Tasks.
 
    *  If the data possessed by the endpoint management capabilities is
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 25]
-
-Internet-Draft              SACM Architecture                   May 2020
-
-
       insufficient, a Collection Task is triggered and the necessary
       data is collected from the target endpoint.
 
@@ -1428,6 +1449,15 @@ Internet-Draft              SACM Architecture                   May 2020
    the endpoint management capabilities (e.g. there may be freshness
    requirements for information).
 
+
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 26]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
 A.2.1.  Components, Capabilities and Workflow(s)
 
    TBD
@@ -1443,20 +1473,6 @@ A.2.1.2.  Capabilities
 A.2.1.3.  Workflow(s)
 
    TBD
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 26]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
 A.3.  Configuration Management
 
@@ -1490,6 +1506,14 @@ A.3.  Configuration Management
    *  Optional: Configuration guidance is tailored for enterprise-
       specific needs
 
+
+
+
+Montville & Munyan      Expires 12 November 2020               [Page 27]
+
+Internet-Draft              SACM Architecture                   May 2020
+
+
    *  Configuration assessment tool queries asset inventory repository
       to retrieve a list of affected endpoints
 
@@ -1502,17 +1526,6 @@ A.3.  Configuration Management
    The SACM architecture needs to support varying deployment models to
    accommodate the current state of the industry, but should strongly
    encourage event-driven approaches to monitoring configuration.
-
-
-
-
-
-
-
-Montville & Munyan      Expires 12 November 2020               [Page 27]
-
-Internet-Draft              SACM Architecture                   May 2020
-
 
 A.3.1.  Components, Capabilities and Workflow(s)
 
@@ -1547,19 +1560,6 @@ A.3.1.1.  Components
    *  Configuration Assessment Results Repository: A component used for
       storing evaluation results.
 
-A.3.1.2.  Capabilities
-
-   Per [RFC8248], solutions MUST support capability negotiation.
-   Components implementing specific interfaces and operations (i.e.
-   interactions) will need a method of describing their capabilities to
-   other components participating in the ecosystem; for example, "As a
-   component in the ecosystem, I can assess the configuration of
-   Windows, MacOS, and AWS using OVAL".
-
-
-
-
-
 
 
 
@@ -1569,6 +1569,15 @@ Montville & Munyan      Expires 12 November 2020               [Page 28]
 
 Internet-Draft              SACM Architecture                   May 2020
 
+
+A.3.1.2.  Capabilities
+
+   Per [RFC8248], solutions MUST support capability negotiation.
+   Components implementing specific interfaces and operations (i.e.
+   interactions) will need a method of describing their capabilities to
+   other components participating in the ecosystem; for example, "As a
+   component in the ecosystem, I can assess the configuration of
+   Windows, MacOS, and AWS using OVAL".
 
 A.3.1.3.  Configuration Assessment Workflow
 
@@ -1610,21 +1619,19 @@ A.3.1.3.  Configuration Assessment Workflow
    1.   A policy feed provides a configuration assessment policy payload
         to the Integration Service.
 
-   2.   The Policy Repository, a consumer of Policy Feed information,
-        receives and persists the Policy Feed's payload.
-
-   3.   Orchestration component(s), either manually invoked, scheduled,
-        or event-based, publish a payload to begin the configuration
-        assessment process.
-
-
-
 
 
 Montville & Munyan      Expires 12 November 2020               [Page 29]
 
 Internet-Draft              SACM Architecture                   May 2020
 
+
+   2.   The Policy Repository, a consumer of Policy Feed information,
+        receives and persists the Policy Feed's payload.
+
+   3.   Orchestration component(s), either manually invoked, scheduled,
+        or event-based, publish a payload to begin the configuration
+        assessment process.
 
    4.   If necessary, Collection Sub-Architecture components may be
         invoked to collect neeeded posture attribute information.
@@ -1667,19 +1674,18 @@ Authors' Addresses
    Adam W. Montville
    Center for Internet Security
    31 Tech Valley Drive
-   East Greenbush, NY 12061
-   United States of America
-
-   Email: adam.montville.sdo@gmail.com
-
-
-
 
 
 
 Montville & Munyan      Expires 12 November 2020               [Page 30]
 
 Internet-Draft              SACM Architecture                   May 2020
+
+
+   East Greenbush, NY 12061
+   United States of America
+
+   Email: adam.montville.sdo@gmail.com
 
 
    Bill Munyan
@@ -1689,12 +1695,6 @@ Internet-Draft              SACM Architecture                   May 2020
    United States of America
 
    Email: bill.munyan.ietf@gmail.com
-
-
-
-
-
-
 
 
 
