@@ -530,7 +530,9 @@ Upon receipt of the component's capability advertisement, it SHOULD:
 Once the component has received the response to its capability advertisement, it should subscribe to the Orchestrator-provided topics.
 
 ### Directed Collection
+
 ### Directed Evaluation
+
 ### Heartbeat
 
 ## [Taxonomy Name]
@@ -538,18 +540,25 @@ DESCRIPTION OF TAXONOMY
 
 ### Topic
 `/name/of/topic`
+
 ### Interaction Type
 [Directed (Request/Response) -or- Publish/Subscribe]
+
 ### Initiator
 [Component sending/publishing the payload]
+
 ### Request Payload
 DESCRIPTION OF INFORMATION MODEL OF REQUEST PAYLOAD; i.e. what elements need to be in whatever format in the payload.
+
 ### Receiver
 [Component receiving/subscribed-to the payload]
+
 ### Process Description
 [What the receiver does with the payload]
+
 ### Response Payload
 DESCRIPTION OF INFORMATION MODEL OF RESPONSE PAYLOAD; i.e. what elements need to be in whatever format in the payload.
+
 ### Response Processing
 [What the initiator does with any response, if there is one]
 
