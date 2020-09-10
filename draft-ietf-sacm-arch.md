@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-08
+docname: draft-ietf-sacm-arch-07
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -715,7 +715,7 @@ periodic-collection:
 Upon receipt of the request to establish periodic collection, the Collector must first determine if the `collection-identifier` is unique.  If an existing periodic collection, using the same identifier, is already present, an error payload MUST be returned to the Orchestrator.  Once the collection identifier has been validated, the schedule is established within the scope of the Collector receiving the instructions.  If the `collect-upon-acknowledgement` flag is set to `true`, the Collector MUST perform an immediate ad-hoc collection based on the instructions passed in the payload and the collected posture attributes are provided to the `response-topic` per the `collection-instructions`.
 
 ##### Response Payload
-Essentially, two payloads could be provided in 
+Essentially, two payloads could be provided in
 ##### Response Processing
 
 #### Cancel Periodic Collection
