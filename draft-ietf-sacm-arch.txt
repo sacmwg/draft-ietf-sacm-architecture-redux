@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: 5 February 2021                                   4 August 2020
+Expires: 14 March 2021                                 10 September 2020
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 February 2021.
+   This Internet-Draft will expire on 14 March 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montville & Munyan       Expires 5 February 2021                [Page 1]
+Montville & Munyan        Expires 14 March 2021                 [Page 1]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    and restrictions with respect to this document.  Code Components
@@ -72,13 +72,14 @@ Table of Contents
      3.1.  SACM Role-based Architecture  . . . . . . . . . . . . . .   4
      3.2.  Architectural Roles/Components  . . . . . . . . . . . . .   5
        3.2.1.  Orchestrator(s) . . . . . . . . . . . . . . . . . . .   6
-       3.2.2.  Repositories/CMDBs  . . . . . . . . . . . . . . . . .   6
+       3.2.2.  Repositories/Configuration Management Databases
+               (CMDBs) . . . . . . . . . . . . . . . . . . . . . . .   6
        3.2.3.  Integration Service . . . . . . . . . . . . . . . . .   6
      3.3.  Downstream Uses . . . . . . . . . . . . . . . . . . . . .   7
        3.3.1.  Reporting . . . . . . . . . . . . . . . . . . . . . .   7
        3.3.2.  Analytics . . . . . . . . . . . . . . . . . . . . . .   7
      3.4.  Sub-Architectures . . . . . . . . . . . . . . . . . . . .   7
-       3.4.1.  Collection Sub-Architecture . . . . . . . . . . . . .   7
+       3.4.1.  Collection Sub-Architecture . . . . . . . . . . . . .   8
        3.4.2.  Evaluation Sub-Architecture . . . . . . . . . . . . .  10
    4.  Interactions  . . . . . . . . . . . . . . . . . . . . . . . .  12
      4.1.  Interaction Categories  . . . . . . . . . . . . . . . . .  12
@@ -105,44 +106,43 @@ Table of Contents
        5.1.5.  Response Processing . . . . . . . . . . . . . . . . .  21
      5.2.  Component Registration  . . . . . . . . . . . . . . . . .  21
        5.2.1.  Interaction . . . . . . . . . . . . . . . . . . . . .  21
-       5.2.2.  Request Payload . . . . . . . . . . . . . . . . . . .  21
 
 
 
-Montville & Munyan       Expires 5 February 2021                [Page 2]
+Montville & Munyan        Expires 14 March 2021                 [Page 2]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
+       5.2.2.  Request Payload . . . . . . . . . . . . . . . . . . .  21
        5.2.3.  Request Processing  . . . . . . . . . . . . . . . . .  22
        5.2.4.  Response Payload  . . . . . . . . . . . . . . . . . .  22
-       5.2.5.  Response Processing . . . . . . . . . . . . . . . . .  22
-     5.3.  Orchestrator-Component Administrative Interface . . . . .  22
+       5.2.5.  Response Processing . . . . . . . . . . . . . . . . .  23
+     5.3.  Orchestrator-Component Administrative Interface . . . . .  23
        5.3.1.  Capability Advertisement Handshake  . . . . . . . . .  23
-       5.3.2.  Heartbeat . . . . . . . . . . . . . . . . . . . . . .  24
-     5.4.  Collection  . . . . . . . . . . . . . . . . . . . . . . .  25
-       5.4.1.  Ad-Hoc  . . . . . . . . . . . . . . . . . . . . . . .  26
-       5.4.2.  Periodic  . . . . . . . . . . . . . . . . . . . . . .  27
-       5.4.3.  Observational/Event-based . . . . . . . . . . . . . .  27
-     5.5.  Evaluation  . . . . . . . . . . . . . . . . . . . . . . .  27
-       5.5.1.  Ad-Hoc  . . . . . . . . . . . . . . . . . . . . . . .  27
-       5.5.2.  Periodic  . . . . . . . . . . . . . . . . . . . . . .  27
-       5.5.3.  Change/Event-based  . . . . . . . . . . . . . . . . .  28
-     5.6.  TEST  . . . . . . . . . . . . . . . . . . . . . . . . . .  28
-   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  28
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  28
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  28
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  28
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  28
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  29
-   Appendix A.  Security Domain Workflows  . . . . . . . . . . . . .  30
-     A.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  31
-       A.1.1.  Components, Capabilities and Workflow(s)  . . . . . .  31
-     A.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  32
-       A.2.1.  Components, Capabilities and Workflow(s)  . . . . . .  32
-     A.3.  Configuration Management  . . . . . . . . . . . . . . . .  33
-       A.3.1.  Components, Capabilities and Workflow(s)  . . . . . .  34
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
+       5.3.2.  Heartbeat . . . . . . . . . . . . . . . . . . . . . .  25
+     5.4.  Collection  . . . . . . . . . . . . . . . . . . . . . . .  27
+       5.4.1.  Ad-Hoc  . . . . . . . . . . . . . . . . . . . . . . .  27
+       5.4.2.  Periodic  . . . . . . . . . . . . . . . . . . . . . .  29
+       5.4.3.  Observational/Event-based . . . . . . . . . . . . . .  31
+     5.5.  Evaluation  . . . . . . . . . . . . . . . . . . . . . . .  31
+       5.5.1.  Ad-Hoc  . . . . . . . . . . . . . . . . . . . . . . .  32
+       5.5.2.  Periodic  . . . . . . . . . . . . . . . . . . . . . .  32
+       5.5.3.  Change/Event-based  . . . . . . . . . . . . . . . . .  32
+   6.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  32
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  32
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  32
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  32
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  32
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  33
+   Appendix A.  Security Domain Workflows  . . . . . . . . . . . . .  34
+     A.1.  IT Asset Management . . . . . . . . . . . . . . . . . . .  35
+       A.1.1.  Components, Capabilities and Workflow(s)  . . . . . .  35
+     A.2.  Vulnerability Management  . . . . . . . . . . . . . . . .  36
+       A.2.1.  Components, Capabilities and Workflow(s)  . . . . . .  36
+     A.3.  Configuration Management  . . . . . . . . . . . . . . . .  37
+       A.3.1.  Components, Capabilities and Workflow(s)  . . . . . .  38
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  40
 
 1.  Introduction
 
@@ -165,9 +165,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021                [Page 3]
+Montville & Munyan        Expires 14 March 2021                 [Page 3]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 2.  Terms and Definitions
@@ -203,9 +203,9 @@ Internet-Draft              SACM Architecture                August 2020
 
                   Figure 1: Basic Architectural Structure
 
-   A provider can be described as an abstraction that refers to an
+   A Provider can be described as an abstraction that refers to an
    entity capable of sending SACM-relevant information to one or many
-   consumers.  Consumers can be described as an abstraction that refers
+   consumers.  A Consumer can be described as an abstraction that refers
    to an entity capable of receiving SACM-relevant information from one
    or many providers.  Different roles within a cooperative ecosystem
    may act as both providers and consumers of SACM-relevant information.
@@ -221,9 +221,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021                [Page 4]
+Montville & Munyan        Expires 14 March 2021                 [Page 4]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
       +-----------------+     +--------------------+
@@ -277,14 +277,14 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021                [Page 5]
+Montville & Munyan        Expires 14 March 2021                 [Page 5]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 3.2.1.  Orchestrator(s)
 
-   Orchestration components exists to aid in the automation of
+   Orchestrator components exists to aid in the automation of
    configuration, coordination, and management for the ecosystem of SACM
    components.  The Orchestrator performs control-plane operations,
    administration of an implementing organization's components
@@ -294,7 +294,12 @@ Internet-Draft              SACM Architecture                August 2020
    Orchestrator is the key administrative interface into the SACM
    architecture.
 
-3.2.2.  Repositories/CMDBs
+   Topic authorization policies established by the Integration Service
+   should dictate that only the component acting as the Orchestrator has
+   access to receive messages on the administrative topic(s) used for
+   component onboarding (i.e. the "/orchestrator/registration" topic).
+
+3.2.2.  Repositories/Configuration Management Databases (CMDBs)
 
    Figure 2 only includes a single reference to "Repositories/CMDBs",
    but in practice, a number of separate data repositories may exist,
@@ -311,10 +316,10 @@ Internet-Draft              SACM Architecture                August 2020
 
 3.2.3.  Integration Service
 
-   If each SACM component represents a set of capabilities, the
-   Integration Service represents the "fabric" by which all those
-   services are woven together.  The Integration Service acts as a
-   message broker, combining a set of common message categories and
+   If each SACM component represents a set of capabilities, then the
+   Integration Service represents the "fabric" by which SACM components
+   are woven together.  The Integration Service acts as a message
+   broker, combining a set of common message categories and
    infrastructure to allow SACM components to communicate using a shared
    set of interfaces.  The Integration Service's brokering capabilities
    enable the exchange of various information payloads, orchestration of
@@ -325,23 +330,23 @@ Internet-Draft              SACM Architecture                August 2020
    through native support for the integration implementation, or through
    the use of "adapters" which provide a proxied attachment.
 
+
+
+
+Montville & Munyan        Expires 14 March 2021                 [Page 6]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
    The Integration Service should provide mechanisms for both
-   synchronous and asynchronous "request/response"-style messaging, and
-   a publish/subscribe mechanism to implement event-based messaging.  It
+   synchronous and asynchronous request/response-style messaging, and a
+   publish/subscribe mechanism to implement event-based messaging.  It
    is the responsibility of the Integration Service to coordinate and
    manage the sending and receiving of messages.  The Integration
-
-
-
-Montville & Munyan       Expires 5 February 2021                [Page 6]
-
-Internet-Draft              SACM Architecture                August 2020
-
-
-   Service should allow components the ability to directly connect and
-   produce or consume messages, or connect via message translators which
-   can act as a proxy, transforming messages from a component format to
-   one implementing a SACM data model.
+   Service should allow components to directly connect and produce or
+   consume messages, or connect via message translators which can act as
+   a proxy, transforming messages from a component format to one
+   implementing a SACM data model.
 
    The Integration Service MUST provide routing capabilities for
    payloads between producers and consumers.  The Integration Service
@@ -377,6 +382,18 @@ Internet-Draft              SACM Architecture                August 2020
    involved in a cooperative ecosystem of SACM components: Collection
    and Evaluation.
 
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                 [Page 7]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
 3.4.1.  Collection Sub-Architecture
 
    The Collection sub-architecture is, in a SACM context, the mechanism
@@ -386,14 +403,6 @@ Internet-Draft              SACM Architecture                August 2020
    data collection via defined interactions, using the Integration
    Service as a message broker.  Instructions to perform endpoint data
    collection are directed to a Posture Collection Service capable of
-
-
-
-Montville & Munyan       Expires 5 February 2021                [Page 7]
-
-Internet-Draft              SACM Architecture                August 2020
-
-
    performing collection activities utilizing any number of methods,
    such as SNMP, NETCONF/RESTCONF, SSH, WinRM, packet capture, or host-
    based.
@@ -433,6 +442,14 @@ Internet-Draft              SACM Architecture                August 2020
 
               Figure 3: Decomposed Collection Sub-Architecture
 
+
+
+
+Montville & Munyan        Expires 14 March 2021                 [Page 8]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
 3.4.1.1.  Posture Collection Service
 
    The Posture Collection Service (PCS) is the SACM component
@@ -442,14 +459,6 @@ Internet-Draft              SACM Architecture                August 2020
    interact with the Integration Service to receive collection
    instructions and to provide collected posture data for persistence to
    the Posture Attribute Repository.  Collection instructions may be
-
-
-
-Montville & Munyan       Expires 5 February 2021                [Page 8]
-
-Internet-Draft              SACM Architecture                August 2020
-
-
    supplied in a variety of forms, including subscription to a publish/
    subscribe topic to which the Integration Service has published
    instructions, or via request/response-style messaging (either
@@ -489,22 +498,19 @@ Internet-Draft              SACM Architecture                August 2020
    length is an example of an attribute change which could trigger
    collection.
 
+
+
+
+Montville & Munyan        Expires 14 March 2021                 [Page 9]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
    External event-based collection can be described as a collector being
    subscribed to an external source of information, receiving events
    from that external source on a periodic or continuous basis.  An
    example of event-based collection is subscription to YANG Push
    notifications.
-
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021                [Page 9]
-
-Internet-Draft              SACM Architecture                August 2020
-
 
 3.4.1.2.  Endpoint
 
@@ -551,15 +557,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 10]
+Montville & Munyan        Expires 14 March 2021                [Page 10]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
                         +------------------+
@@ -613,9 +613,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 11]
+Montville & Munyan        Expires 14 March 2021                [Page 11]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 3.4.2.3.  Evaluation Results Repository
@@ -655,7 +655,7 @@ Internet-Draft              SACM Architecture                August 2020
 4.1.  Interaction Categories
 
    Two categories of interactions SHOULD be supported by the Integration
-   Service; broadcast and directed.  Broadcast interactions are
+   Service: broadcast and directed.  Broadcast interactions are
    asynchronous by default, and directed interactions may be invoked
    either synchronously or asynchronously.  Each interaction category
    SHOULD adhere to topic naming conventions described below.
@@ -669,17 +669,17 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 12]
+Montville & Munyan        Expires 14 March 2021                [Page 12]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 4.1.1.  Broadcast
 
-   A broadcast interaction, commonly known as "publish/subscribe",
-   allows for a wider distribution of a message payload.  When a payload
-   is published to a topic on the Integration Service, all subscribers
-   to that topic are alerted and may consume the message payload.  This
+   A broadcast interaction, commonly known as publish/subscribe, allows
+   for a wider distribution of a message payload.  When a payload is
+   published to a topic on the Integration Service, all subscribers to
+   that topic are alerted and may consume the message payload.  This
    category of interaction can also be described as a "unicast"
    interaction when a topic only has a single subscriber.  An example of
    a broadcast interaction could be to publish Linux OVAL objects to a
@@ -725,9 +725,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 13]
+Montville & Munyan        Expires 14 March 2021                [Page 13]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 4.1.2.2.  Asynchronous
@@ -751,10 +751,10 @@ Internet-Draft              SACM Architecture                August 2020
 4.2.1.  Orchestrator Onboarding
 
    The Orchestrator component, being a specialized role in the
-   architecture, onboards to the ecosystem in such a manner as to enable
-   the onboarding and capability management of the other component
-   roles.  The Orchestrator must support the set of capabilities needed
-   to manage the functions of the ecosystem.
+   architecture, onboards to the SACM ecosystem in such a manner as to
+   enable the onboarding and capability management of the other
+   component roles.  The Orchestrator must support the set of
+   capabilities needed to manage the functions of the ecosystem.
 
    With this in mind, the Orchestrator must first authenticate to the
    Integration Service.  Once authentication has succeeded, the
@@ -781,9 +781,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 14]
+Montville & Munyan        Expires 14 March 2021                [Page 14]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    *  The Orchestrator MUST have the capability to manage its roster's
@@ -812,9 +812,9 @@ Internet-Draft              SACM Architecture                August 2020
 4.2.2.  Component Onboarding
 
    Component onboarding describes how an individual component becomes
-   part of the ecosystem; registering with the orchestrator, advertising
-   capabilities, establishing its administrative interface, and
-   subscribing to relevant topics.
+   part of the SACM ecosystem; registering with the Orchestrator,
+   advertising capabilities, establishing its administrative interface,
+   and subscribing to relevant topics.
 
    The component onboarding workflow involves multiple steps:
 
@@ -837,9 +837,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 15]
+Montville & Munyan        Expires 14 March 2021                [Page 15]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    Once the component has onboarded and registered with the
@@ -849,7 +849,7 @@ Internet-Draft              SACM Architecture                August 2020
    capabilities to the Orchestrator and in return, allow the
    Orchestrator to direct capability-specific topic registration to the
    component.  This is performed using the "capability advertisement
-   handshake" (Section 5.6) taxonomy.  Further described below, the
+   handshake" (Section 5.3.1) taxonomy.  Further described below, the
    "capability advertisement handshake" first assumes the onboarding
    component has the ability to describe its capabilities so they may be
    understood by the Orchestrator (TBD on capability advertisement
@@ -878,10 +878,11 @@ Internet-Draft              SACM Architecture                August 2020
    The Orchestrator supplies a payload of collection instructions to a
    topic or set of topics to which Posture Collection Services are
    subscribed.  The receiving PCS components perform the required
-   collection based on their capabilities.  The PCS then forms a payload
-   of collected posture attributes (including endpoint identifying
-   information) and publishes that payload to the topic(s) to which the
-   Posture Attribute Repository is subscribed, for persistence.
+   collection based on their capabilities.  Each PCS then forms a
+   payload of collected posture attributes (including endpoint
+   identifying information) and publishes that payload to the topic(s)
+   to which the Posture Attribute Repository is subscribed, for
+   persistence.
 
 4.3.2.  Coordinate Periodic Collection
 
@@ -892,10 +893,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-
-Montville & Munyan       Expires 5 February 2021               [Page 16]
+Montville & Munyan        Expires 14 March 2021                [Page 16]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 4.3.2.1.  Schedule Periodic Collection
@@ -919,9 +919,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 4.3.3.  Coordinate Observational/Event-based Collection
 
-   In these scenarios, the "observer" acts as the Posture Collection
-   Service.  Interactions with the observer could specify a time period
-   of observation and potentially information intended to filter
+   In these scenarios, the Posture Collection Service acts as the
+   "observer".  Interactions with the observer could specify a time
+   period of observation and potentially information intended to filter
    observed posture attributes to aid the PCS in determining those
    attributes that are applicable for collection and persistence to the
    Posture Attribute Repository.
@@ -939,7 +939,7 @@ Internet-Draft              SACM Architecture                August 2020
    The Orchestrator supplies a payload of instructions to a topic or set
    of topics to which Posture Collection Services are subscribed.  The
    receiving PCS components cancel the identified observational/event-
-   based collection executing on that PCS.
+   based collection executing on those PCS components.
 
 
 
@@ -949,9 +949,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 17]
+Montville & Munyan        Expires 14 March 2021                [Page 17]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 4.3.4.  Persist Collected Posture Attributes
@@ -980,7 +980,7 @@ Internet-Draft              SACM Architecture                August 2020
    Additional information elements containing evaluation identification
    and periodicity are included.
 
-4.3.6.1.  Schedule
+4.3.6.1.  Schedule Periodic Evaluation
 
    To enable operations on periodic evaluation, the scheduling payload
    MUST include both a unique identifier for the set of evaluation
@@ -990,7 +990,7 @@ Internet-Draft              SACM Architecture                August 2020
    of the evaluation instructions, an evaluation will automatically be
    initiated prior to engagement of the scheduled evaluation.
 
-4.3.6.2.  Cancel
+4.3.6.2.  Cancel Periodic Evaluation
 
    The Orchestrator disables the periodic evaluation of posture
    attributes by supplying Posture Evaluation Service(s) the unique
@@ -1005,9 +1005,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 18]
+Montville & Munyan        Expires 14 March 2021                [Page 18]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 4.3.7.  Coordinate Change-based Evaluation
@@ -1017,14 +1017,14 @@ Internet-Draft              SACM Architecture                August 2020
    posture attribute values at the time of their collection and
    persistence to the Posture Attribute Repository.
 
-4.3.7.1.  Identify
+4.3.7.1.  Identify Attributes
 
    The Orchestrator enables change-based evaluation through a payload
    published to Posture Attribute Repository component(s).  This payload
    includes appropriate information elements describing the posture
    attributes on which changes in value will trigger posture evaluation.
 
-4.3.7.2.  Cancel
+4.3.7.2.  Cancel Change-based Evaluation
 
    An Orchestrator may disable change-based evaluation through a payload
    published to Posture Attribute Repository component(s), including
@@ -1033,11 +1033,11 @@ Internet-Draft              SACM Architecture                August 2020
 
 4.3.8.  Queries
 
-   [TBD] Queries should allow for a "freshness" time period, allowing
-   the requesting entity to determine if/when posture attributes must be
-   re-collected prior to performing evaluation.  This freshness time
-   period can be "zeroed out" for the purpose of automatically
-   triggering re-collection regardless of the most recent collection.
+   Queries should allow for a "freshness" time period, allowing the
+   requesting entity to determine if/when posture attributes must be re-
+   collected prior to performing evaluation.  This freshness time period
+   can be "zeroed out" for the purpose of automatically triggering re-
+   collection regardless of the most recent collection.
 
 5.  Taxonomy
 
@@ -1048,8 +1048,8 @@ Internet-Draft              SACM Architecture                August 2020
 5.1.  Orchestrator Registration
 
    The Orchestrator Registration taxonomy describes how an Orchestrator
-   onboards to the ecosystem, or how it returns from a non-operational
-   state.
+   onboards to the SACM ecosystem, or how it returns from a non-
+   operational state.
 
 
 
@@ -1061,9 +1061,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 19]
+Montville & Munyan        Expires 14 March 2021                [Page 19]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 5.1.1.  Interaction
@@ -1084,9 +1084,7 @@ Internet-Draft              SACM Architecture                August 2020
 
 5.1.2.  Request Payload
 
-   N/A; [TBD] How can the ecosystem AUTHORIZE a component as an
-   Orchestrator.  Dont want any ol' component to say they're an
-   orchestrator and have that be OK.
+   N/A;
 
 5.1.3.  Request Processing
 
@@ -1117,9 +1115,11 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 20]
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 20]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 5.1.4.  Response Payload
@@ -1133,9 +1133,9 @@ Internet-Draft              SACM Architecture                August 2020
 5.2.  Component Registration
 
    Component onboarding describes how an individual component becomes
-   part of the ecosystem; registering with the orchestrator, advertising
-   capabilities, establishing its administrative interface, and
-   subscribing to relevant topics.
+   part of the SACM ecosystem; registering with the orchestrator,
+   advertising capabilities, establishing its administrative interface,
+   and subscribing to relevant topics.
 
 5.2.1.  Interaction
 
@@ -1160,23 +1160,48 @@ Internet-Draft              SACM Architecture                August 2020
 
 5.2.2.  Request Payload
 
-   [TBD] Information Elements, such as
-
-   *  identifying-information
-
-      -  component-type (i.e Posture Collection Service, Posture
-         Evaluation Service, Repository, etc.)
-
-      -  name
-
-      -  description
+   When a component registers with the Orchestrator and enters the
+   ecosystem, it must first identify itself to the Orchestrator.
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 21]
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 21]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
+
+   component-registration-request:
+     component-unique-identifier (if re-establishing communication)
+     #-OR-#
+     {:component-identification:}
+
+   component-identification:
+     component-type {:component-type:}
+     component-name
+     component-description (optional)
+
+   component-type:
+     enumeration:
+       - posture-collection-service
+       - posture-evaluation-service
+       - repository
+       - orchestrator
+       - others?
+
+   When registering for the first time, the component will send
+   identifying information including the component type and a name.  If
+   the component is reestablishing communications, for example after a
+   restart of the component or deployment of a new version, the
+   component only needs to supply its previously generated unique
+   identifier.
 
 5.2.3.  Request Processing
 
@@ -1196,9 +1221,21 @@ Internet-Draft              SACM Architecture                August 2020
 
 5.2.4.  Response Payload
 
-   [TBD] Information Elements
+   The Orchestrator will respond to the component with a payload
+   including the component's unique identifier.  At this point, the
+   Orchestrator is aware of the component's existence in the ecosystem,
+   and the component is self-aware by virtue of receiving its unique
+   identifier.
 
-   *  component-unique-identifier
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 22]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
+   component-registration-response:
+     component-unique-identifier: [component-unique-identifier]
 
 5.2.5.  Response Processing
 
@@ -1208,7 +1245,7 @@ Internet-Draft              SACM Architecture                August 2020
    establish its end of the administrative interface with the
    Orchestrator, using the "/orchestrator/[component-unique-identifier]"
    topic.  Given this administrative interface, the component can then
-   initiate the Section 5.6
+   initiate the Section 5.3.1
 
 5.3.  Orchestrator-Component Administrative Interface
 
@@ -1218,21 +1255,6 @@ Internet-Draft              SACM Architecture                August 2020
    onboarding, this direct channel is established first by the
    Orchestrator and subsequently complemented by the component entering
    the ecosystem.
-
-
-
-
-
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 22]
-
-Internet-Draft              SACM Architecture                August 2020
-
 
 5.3.1.  Capability Advertisement Handshake
 
@@ -1260,6 +1282,14 @@ Internet-Draft              SACM Architecture                August 2020
     |                  | Orchestrator)                               |
     +------------------+---------------------------------------------+
     | Target           | Orchestrator                                |
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 23]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
     | Component(s)     |                                             |
     +------------------+---------------------------------------------+
 
@@ -1267,47 +1297,75 @@ Internet-Draft              SACM Architecture                August 2020
 
 5.3.1.2.  Request Payload
 
-   [TBD] Information Elements
+   capability-advertisement-request:
+     component-unique-identifier: [component-unique-identifier]
+     component-type: {:component-type:}
+     capabilities:
+       capability-urn: [urn]
+       capability-urn: [urn]
+       capability-urn: [urn]
+       ...
 
-   *  component-type
-
-   *  component-unique-identifier
-
-   *  interaction-type (capability-advertisement):
-
-      -  list of capabilities
-
-      -  list of endpoints/services
-
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 23]
-
-Internet-Draft              SACM Architecture                August 2020
-
+   [TBD] Start adding capability URNs to IANA considerations section?
 
 5.3.1.3.  Request Processing
 
    Upon receipt of the component's capability advertisement, it SHOULD:
-   - Persist the component's capabilities to the Orchestrator's
-   inventory - Coordinate, based on the supplied capabilities, a list of
-   topics to which the component should subscribe
+
+   *  Persist the component's capabilities to the Orchestrator's
+      inventory
+
+   *  Coordinate, based on the supplied capabilities, a list of topics
+      to which the component should subscribe
+
+   [TBD] What if the component supplies a "capability-urn" that the
+   Orchestrator doesn't know about?
 
 5.3.1.4.  Response Payload
 
-   [TBD] Information Elements
+   When responding, the Orchestrator will indicate to the component,
+   which capabilities were successfully registered, and the topics to
+   which those capabilities apply.  Any failures to register
+   capabilities will also be noted per capability URN, including any
+   relevant error messages.
 
-   *  a list of topics to which the receiver should subscribe
+
+
+
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 24]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
+   capability-advertisement-response:
+     capabilities:
+       capability:
+         capability-urn: [urn]
+         registration-status: (success | failure)
+         capability-topic: /capability/topic/name
+         messages: [messages]
+       capability:
+         capability-urn: [urn]
+         registration-status: (success | failure)
+         capability-topic: /capability/topic/name
+         messages: [messages]
+       ...
 
 5.3.1.5.  Response Processing
 
    Once the component has received the response to its capability
    advertisement, it should subscribe to the Orchestrator-provided
-   topics.
+   topics.  Once the applicable topics have been subscribed, the
+   component is considered fully onboarded to the ecosystem.
 
 5.3.2.  Heartbeat
 
@@ -1339,11 +1397,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 24]
+Montville & Munyan        Expires 14 March 2021                [Page 25]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 5.3.2.2.  Request Payload
@@ -1359,27 +1415,48 @@ Internet-Draft              SACM Architecture                August 2020
    determine based on action, the processing required.  A simple "ping"
    request indicates the target component need only respond that it is
    operational and connected to the integration service.  This is a
-   simple "Are you listening?  Yes, I am" interaction.
+   simple "Are you listening?  Yes, I am" interaction.  The heartbeat
+   request from the Orchestrator should be made with an appropriately
+   small timeout indicator; only an operational component will be able
+   to respond to the request, so if that component is offline and cannot
+   respond, the Orchestrator should not be kept waiting for an extended
+   amount of time.
 
    When the requested action is "ping-with-capabilities", the receiving
-   component is instructed to respond that it is operational and include
-   its current list of operational capabilities, so it may be refreshed
-   in the Orchestrator's inventory.
+   component is instructed to respond that it is operational and to
+   immediately follow the response with a re-initiation of the
+   Section 5.3.1 process.  This interaction enables an Orchestrator the
+   ability to perform capability discovery from components.
 
 5.3.2.4.  Response Payload
 
-   heartbeat-response:
-     response: success
-     capabilities:
-       [format TBD]
+   When responding to the heartbeat request, the initial response
+   payload will simply indicate success: ~~~~~~ heartbeat-response:
+   response: success ~~~~~~
+
+   If the "ping-with-capabilities" action was requested, the responding
+   component will immediately initiate the Section 5.3.1 process.
 
 5.3.2.5.  Response Processing
 
    Upon receipt of the "heartbeat-response" payload, the Orchestrator
    will update its inventory of currently operational components with
-   the timestamp of the receipt.  If the response includes component
-   capabilities, the additional processing of updating the Orchestrators
-   capability inventory must take place.
+   the timestamp of the receipt.  If the Orchestrator originally
+   requested the component's capabilities as well, further interactions
+   will initiate and complete the Section 5.3.1 process.
+
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 26]
+
+Internet-Draft              SACM Architecture             September 2020
+
 
 5.4.  Collection
 
@@ -1390,18 +1467,6 @@ Internet-Draft              SACM Architecture                August 2020
    collected, as well as the various methods of collection used by those
    collectors.
 
-
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 25]
-
-Internet-Draft              SACM Architecture                August 2020
-
-
 5.4.1.  Ad-Hoc
 
    Collection components support ad-hoc collection activities when
@@ -1411,65 +1476,83 @@ Internet-Draft              SACM Architecture                August 2020
    collection may potentially be invoked by a number of components,
    including Orchestrators or even Posture Evaluation Services, and may
    be requested of Collectors either directly or through the Collector's
-   subscription to certain topics.
+   subscription to topics as established by the Section 5.3.1 process.
 
 5.4.1.1.  Interaction
 
-        +==============+==========================================+
-        | Property     | Value                                    |
-        +==============+==========================================+
-        | Type         | Directed or Broadcast                    |
-        +--------------+------------------------------------------+
-        | Topic        | "/[component-unique-identifier]/collect" |
-        |              | or through subscriptions such as         |
-        |              | "/collection/[collection-type]"          |
-        +--------------+------------------------------------------+
-        | Source       | Orchestrator, Posture Evaluation Service |
-        | Component    |                                          |
-        +--------------+------------------------------------------+
-        | Target       | Collector                                |
-        | Component(s) |                                          |
-        +--------------+------------------------------------------+
+   +==============+===================================================+
+   | Property     | Value                                             |
+   +==============+===================================================+
+   | Type         | Directed or Broadcast                             |
+   +--------------+---------------------------------------------------+
+   | Topic        | <ul><li>The Orchestrator-Component Administrative |
+   |              | Interface: "/orchestrator/[component-unique-      |
+   |              | identifier]",</li><li>Component-specific          |
+   |              | Collection topic: "/[component-unique-            |
+   |              | identifier]/collect", or</li><li>Through          |
+   |              | subscriptions such as "/collection/[collection-   |
+   |              | type]"</li></ul>                                  |
+   +--------------+---------------------------------------------------+
+   | Source       | Orchestrator, Posture Evaluation Service          |
+   | Component    |                                                   |
+   +--------------+---------------------------------------------------+
+   | Target       | Collector                                         |
+   | Component(s) |                                                   |
+   +--------------+---------------------------------------------------+
 
-                                  Table 5
+                                 Table 5
+
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 27]
+
+Internet-Draft              SACM Architecture             September 2020
+
 
 5.4.1.2.  Request Payload
 
    Ad-Hoc collection requests take the form of collection instructions
-   corresponding to the SACM information model.  Instructions should be
-   in the language of a collection system supported by the receiving
-   Collector.
+   corresponding to the SACM information model.  Collection instruction
+   payloads MAY be serialized as a specific collection language
+   supported by the Collector (taking into account any implementation-
+   specific payload size limitations), as a generic serialization to be
+   interpreted by the Collector, or as ID references to content
+   persisted in a Repository.
 
-   [TBD] Need IM for "collection-instructions" [TBD] Instructions MAY
-   include a "response topic" to which collection results are published/
-   directed.  This can allow the requesting component to direct a
-   Collector (or Collectors) to publish results directly to a Posture
-   Attribute Repository component, or to simply respond to the
-   requesting component.
+   Instructions MAY include a "response topic" to which collection
+   results are published/directed.  This can allow the requesting
+   component to direct a Collector (or Collectors) to publish results
+   directly to a Posture Attribute Repository component, or to simply
+   respond to the requesting component.
 
-
-
-
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 26]
-
-Internet-Draft              SACM Architecture                August 2020
-
+   collection-request:
+     [TBD]
+     response-topic: [response-topic]
 
 5.4.1.3.  Request Processing
 
-   [TBD] More is needed here:
+   Upon receipt of collection instructions, the Collector will need to
+   determine whether or not any normalization or retrieval of specific
+   instructions is required.  This normalization may be required if
+   collection instructions are not formatted specifically to the
+   capabilities of the Collector.  For example, if a payload is
+   delivered containing a set of OVAL "object" IDs, the Collector would
+   need to retrieve the instructions from the Repository and format them
+   into a well-formed, valid OVAL definitions serialization for
+   processing.
 
-   *  receive instructions
-
-   *  (optional) translate normalized payload into capability-specific
-      format
-
-   *  perform collection
-
-   *  assemble results
+   Once the collection instructions have been received and any pre-
+   processing/normalization has occurred, the Collector will perform the
+   actual retrieval of posture attributes.  Once collected, posture
+   attributes will need to be published back to the topic named in the
+   request payload.  This response topic could represent a callback to
+   the component invoking collection, or a destination for the posture
+   attributes to be persisted, i.e. a Repository.
 
 5.4.1.4.  Response Payload
 
@@ -1479,15 +1562,27 @@ Internet-Draft              SACM Architecture                August 2020
    *  Collection results using the data model supported by the
       collection system indicated in the collection instructions.  For
       example, if the collection instructions were formatted as OVAL
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 28]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
       definitions (or more specifically OVAL objects), then collection
-      results would be formatted as OVAL system characteristics.
+      results would be formatted as OVAL system characteristics.  Each
+      collector is responsible for maintaining the capabilities
+      necessary to produce results formats based on its collection
+      capabilities.
 
    *  Collection results using a "normalized" [TBD] format as defined by
       the SACM information model/data models.
 
 5.4.1.5.  Response Processing
 
-   [TBD] Response could be provided to various components:
+   Handling a payload of collected posture attributes will vary based on
+   the component receiving that payload:
 
    *  Posture Attribute Repository: If collection results are not
       "normalized" the Repository component MUST be able to perform
@@ -1498,25 +1593,156 @@ Internet-Draft              SACM Architecture                August 2020
 
 5.4.2.  Periodic
 
+   Periodic collection builds upon Ad-Hoc collection by allowing
+   Orchestration of collection activities given a periodicity.
+   Architecturally, periodic collection is orchestrated through either
+   the scheduling of collection or canceling an already-existing
+   schedule.  Modifications to a scheduled collection MUST be made by
+   first canceling the existing schedule and establishing the updated
+   schedule.
+
+5.4.2.1.  Schedule Periodic Collection
+
+   Scheduling periodic collection is established by an Orchestrator
+   delivering collection instructions and the collection periodicity to
+   a Collector.  These instructions may be received by the Collector
+   through a number of topics, described below.
+
+5.4.2.1.1.  Interaction
+
+   +==============+===================================================+
+   | Property     | Value                                             |
+   +==============+===================================================+
+   | Type         | Directed or Broadcast                             |
+   +--------------+---------------------------------------------------+
+   | Topic        | <ul><li>The Orchestrator-Component Administrative |
+   |              | Interface: "/orchestrator/[component-unique-      |
+   |              | identifier]",</li><li>Component-specific          |
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 29]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
+   |              | Collection topic: "/[component-unique-            |
+   |              | identifier]/collect", or</li><li>Through          |
+   |              | subscriptions such as "/collection/[collection-   |
+   |              | type]"</li></ul>                                  |
+   +--------------+---------------------------------------------------+
+   | Source       | Orchestrator                                      |
+   | Component    |                                                   |
+   +--------------+---------------------------------------------------+
+   | Target       | Collector                                         |
+   | Component(s) |                                                   |
+   +--------------+---------------------------------------------------+
+
+                                 Table 6
+
+5.4.2.1.2.  Request Payload
+
+   The request to schedule periodic collection is represented as a
+   wrapper of the collection instructions used to initiate ad-hoc
+   collection.  Additional elements indicate the establishment of the
+   schedule, the collection schedule itself, and whether or not to
+   perform an immediate collection upon receipt of the payload.
+
+   periodic-collection:
+     collection-identifier: 12345
+     operation: schedule
+     collection-schedule:
+       TBD (cron formatted? other scheduling formats?)
+     collect-upon-acknowledgement: true/false
+     collection-instructions:
+       # Formatted per Ad-Hoc Collection taxonomy
+
+5.4.2.1.3.  Request Processing
+
+   Upon receipt of the request to establish periodic collection, the
+   Collector must first determine if the "collection-identifier" is
+   unique.  If an existing periodic collection, using the same
+   identifier, is already present, an error payload MUST be returned to
+   the Orchestrator.  Once the collection identifier has been validated,
+   the schedule is established within the scope of the Collector
+   receiving the instructions.  If the "collect-upon-acknowledgement"
+   flag is set to "true", the Collector MUST perform an immediate ad-hoc
+   collection based on the instructions passed in the payload and the
+   collected posture attributes are provided to the "response-topic" per
+   the "collection-instructions".
+
+
+
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 30]
+
+Internet-Draft              SACM Architecture             September 2020
+
+
+5.4.2.1.4.  Response Payload
+
+   Essentially, two payloads could be provided in ##### Response
+   Processing
+
+5.4.2.2.  Cancel Periodic Collection
+
+   TBD
+
+5.4.2.2.1.  Interaction
+
+   +==============+===================================================+
+   | Property     | Value                                             |
+   +==============+===================================================+
+   | Type         | Directed or Broadcast                             |
+   +--------------+---------------------------------------------------+
+   | Topic        | <ul><li>The Orchestrator-Component Administrative |
+   |              | Interface: "/orchestrator/[component-unique-      |
+   |              | identifier]",</li><li>Component-specific          |
+   |              | Collection topic: "/[component-unique-            |
+   |              | identifier]/collect", or</li><li>Through          |
+   |              | subscriptions such as "/collection/[collection-   |
+   |              | type]"</li></ul>                                  |
+   +--------------+---------------------------------------------------+
+   | Source       | Orchestrator                                      |
+   | Component    |                                                   |
+   +--------------+---------------------------------------------------+
+   | Target       | Collector                                         |
+   | Component(s) |                                                   |
+   +--------------+---------------------------------------------------+
+
+                                 Table 7
+
+5.4.2.2.2.  Request Payload
+
+   periodic-collection:
+     collection-identifier: 12345
+     operation: cancel
+     collect-upon-acknowledgement: true/false
+
+5.4.2.2.3.  Request Processing
+
+   ##### Response Payload ##### Response Processing
+
 5.4.3.  Observational/Event-based
 
 5.5.  Evaluation
+
+
+
+
+Montville & Munyan        Expires 14 March 2021                [Page 31]
+
+Internet-Draft              SACM Architecture             September 2020
+
 
 5.5.1.  Ad-Hoc
 
 5.5.2.  Periodic
 
-
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 27]
-
-Internet-Draft              SACM Architecture                August 2020
-
-
 5.5.3.  Change/Event-based
-
-5.6.  TEST
 
 6.  Privacy Considerations
 
@@ -1563,11 +1789,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-
-
-Montville & Munyan       Expires 5 February 2021               [Page 28]
+Montville & Munyan        Expires 14 March 2021                [Page 32]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    [RFC8412]  Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
@@ -1621,9 +1845,9 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 29]
+Montville & Munyan        Expires 14 March 2021                [Page 33]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    [I-D.ietf-sacm-terminology]
@@ -1677,9 +1901,9 @@ Appendix A.  Security Domain Workflows
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 30]
+Montville & Munyan        Expires 14 March 2021                [Page 34]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 A.1.  IT Asset Management
@@ -1733,9 +1957,9 @@ A.1.1.3.  Workflow(s)
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 31]
+Montville & Munyan        Expires 14 March 2021                [Page 35]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 A.2.  Vulnerability Management
@@ -1789,9 +2013,9 @@ A.2.1.  Components, Capabilities and Workflow(s)
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 32]
+Montville & Munyan        Expires 14 March 2021                [Page 36]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 A.2.1.1.  Components
@@ -1845,9 +2069,9 @@ A.3.  Configuration Management
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 33]
+Montville & Munyan        Expires 14 March 2021                [Page 37]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    *  Configuration assessment tool queries configuration state
@@ -1901,9 +2125,9 @@ A.3.1.1.  Components
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 34]
+Montville & Munyan        Expires 14 March 2021                [Page 38]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
 A.3.1.2.  Capabilities
@@ -1957,9 +2181,9 @@ A.3.1.3.  Configuration Assessment Workflow
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 35]
+Montville & Munyan        Expires 14 March 2021                [Page 39]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    2.   The Policy Repository, a consumer of Policy Feed information,
@@ -2013,9 +2237,9 @@ Authors' Addresses
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 36]
+Montville & Munyan        Expires 14 March 2021                [Page 40]
 
-Internet-Draft              SACM Architecture                August 2020
+Internet-Draft              SACM Architecture             September 2020
 
 
    East Greenbush, NY 12061
@@ -2069,4 +2293,4 @@ Internet-Draft              SACM Architecture                August 2020
 
 
 
-Montville & Munyan       Expires 5 February 2021               [Page 37]
+Montville & Munyan        Expires 14 March 2021                [Page 41]
