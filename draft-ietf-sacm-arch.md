@@ -123,6 +123,7 @@ WORKING GROUP: The source for this draft is maintained in GitHub.  Suggested cha
 --- middle
 
 # Introduction
+
 The purpose of this draft is to define an architectural approach for a SACM Domain, based on the spirit of use cases found in {{RFC7632}} and requirements found in {{RFC8248}}. This approach gains the most advantage by supporting a variety of collection systems, and intends to enable a cooperative ecosystem of tools from disparate sources with minimal operator configuration.
 
 ## Requirements notation
