@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-09
+docname: draft-ietf-sacm-arch-10
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -167,7 +167,6 @@ A Consumer can be described as an abstraction that refers to an entity capable o
 ## Integration Service
 The Integration Service acts as the broker between Producers and Consumers; acting as the destination for Producers to publish payloads, and as the source for Consumers subscribing to those payloads.
 
-# Interactions
 SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the architectural level, as the combination of interfaces with their supported operations.  Each interaction will convey a classified payload of information. This classification of payload information allows Consumers to subscribe to only the classifications to which they are capable of handling.  The payload information should contain subdomain-specific characteristics and/or instructions.
 
 ## Payload/Message
@@ -202,7 +201,7 @@ Synchronous, request/response style interaction requires that the requesting com
 #### Asynchronous
 An asynchronous interaction involves the payload producer directing the message to a consumer, but not blocking or waiting for an immediate response.  This style of interaction allows the producer to continue on to other activities without the need to wait for responses.  This style is particularly useful when the interaction payload invokes a potentially long-running task, such as data collection, report generation, or policy evaluation.  The receiving component may reply later via callbacks or further interactions, but it is not mandatory.
 
-## SACM Role-based Architecture
+# SACM Role-based Architecture
 Within the cooperative SACM ecosystem, a number of roles act in coordination to provide relevant policy/guidance, perform data collection, storage, evaluation, and support downstream analytics and reporting.
 
 ~~~~~~~~~~
@@ -265,10 +264,10 @@ The Reporting component represents capabilities outside of the SACM architecture
 The Analytics component represents capabilities outside of the SACM architecture scope dealing with the discovery, interpretation, and communication of any meaningful patterns of data in order to inform effective decision making within the organization.
 
 ## Sub-Architectures
-{{fig-notional}} shows two components representing sub-architectural roles involved in a cooperative ecosystem of SACM components: Collection and Evaluation.
+{{fig-notional}} shows two components representing sub-architectural roles involved in a cooperative ecosystem of SACM components for the purpose of posture assessment: Collection and Evaluation.
 
 ### Collection Sub-Architecture
-The Collection sub-architecture is, in a SACM context, the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Orchestration components will choreograph endpoint data collection via defined interactions, using the Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of methods, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, packet capture, or host-based.
+The Collection sub-architecture is, in a SACM context, the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Control plane functions initiated by the Manager will coordinate the necessary orchestration components, who will choreograph endpoint data collection via defined interactions, using the Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of protocols, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, packet capture, or host-based.  Instructions are orchestrated with the appropriate Posture Collection Services using serializations supported according to the collector's capabilities.
 
 ~~~~~~~~~~
   +----------------------------------------------------------+
@@ -388,45 +387,58 @@ The Evaluation Results Repository persists the information representing the resu
 Posture evaluation is orchestrated through the Integration Service to the appropriate Posture Evaluation Service (PES).  The PES will, using interactions defined by the applicable taxonomy, query both the Posture Attribute Repository and the Policy Repository to obtain relevant state data for comparison.  If necessary, the PES may be required to invoke further posture collection.  Once all relevant posture information has been collected, it is compared to expected state based on applicable policy.  Comparison results are then persisted to an evaluation results repository for further downstream use and analysis.
 
 
-# Management Plane Functions
-{: #management-plane-functions title="Management Plane Functions"}
-Mangement plane functions describe a component's interactions with the ecosystem itself, not necessarily relating to collection, evaluation, or downstream analytical processes.
+# Ecosystem Interactions
+{: #ecosystem-interactions title="Ecosystem Interactions"}
+Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others.  The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capability-to-topic relationships, etc. (MAYBE MORE TODO)
 
-## Orchestrator Onboarding
-The Orchestrator component, being a specialized role in the architecture, onboards to the SACM ecosystem in such a manner as to enable the onboarding and capability management of the other component roles.  The Orchestrator must support the set of capabilities needed to manage the functions of the ecosystem.
+## Manager
+The Manager, being a specialized role in the architecture, enables the onboarding and capability management of the various SACM component roles.  The Manager must support the set of capabilities needed to operate the SACM ecosystem.
 
-With this in mind, the Orchestrator must first authenticate to the Integration Service.  Once authentication has succeeded, the Orchestrator must establish "service handlers" per the component registration taxonomy ({{component-registration-taxonomy}}).  Once "service handlers" have been established, the Orchestrator is then equipped to handle component registration, onboarding, capability discovery, and topic subscription policy.
+With this in mind, the Manager must first authenticate to the Integration Service.  Once authentication has succeeded, the Manager MUST establish a service handler, listening on the `/action/manager/component/registration` topic, in order to handle SACM component registration/onboarding activities ({{component-registration-taxonomy}}).  The Manager MUST also establish a subscription to the `/notification/manager/status` topic, in order to receive published status updates from the SACM ecosystem.
 
-The following requirements exist for the Orchestrator to establish "service handlers" supporting the component registration taxonomy ({{component-registration-taxonomy}}):
+The following requirements exist for the Manager to establish service handlers supporting the component registration taxonomy ({{component-registration-taxonomy}}):
 
-- The Orchestrator MUST enable the capability to receive onboarding requests via the `/orchestrator/registration` topic,
-- The Orchestrator MUST have the capability to generate, manage, and persist unique identifiers for all registered components,
-- The Orchestrator MUST have the capability to inventory and manage its "roster" (the list of registered components),
-- The Orchestrator MUST have the capability to manage its roster's advertised capabilities, including those endpoints to which those capabilities apply.
+- The Manager MUST enable the capability to receive onboarding requests via the /action/manager/component/registration topic,
+- The Manager MUST have the capability to generate, manage, and persist unique identifiers for all registered components,
+- The Manager MUST maintain the relationships between capabilities and topic names, 
+- The Manager MUST have the capability to inventory and manage its "roster" (the list of registered components),
+- The Manager MUST have the capability to manage its roster's advertised capabilities, including those endpoints to which those capabilities apply.
+- In addition to supporting component registration, the Manager is responsible for many of the operational functions of the architecture, including initiating collection or evaluation, queries for repository data, or the assembly of information for downstream use.
+- The Manager MUST support making directed requests to registered components over the component's administrative interface, as configured by the /action/manager/[component-unique-identifier] topic.  Administrative interface functions are described by their taxonomy, below.
 
-In addition to supporting component registration, Orchestrators are responsible for many of the operational functions of the architecture, including initiating collection or evaluation, queries for repository data, or the assembly of information for downstream use.
+- The Manager MUST support the publication of broadcast messages to topics configured by implementations of this ecosystem.
+- The Manager MUST support the subscription to topics configured by implementations of this ecosystem as needed.
 
-- The Orchestrator MUST support making directed requests to registered components over the component's administrative interface, as configured by the `/orchestrator/[component-unique-identifier]` topic.  Administrative interface functions are described by their taxonomy, below.
-- The Orchestrator MUST support the publication of broadcast messages to topics configured by implementations of this ecosystem.
-- The Orchestrator MUST support the subscription to topics configured by implementations of this ecosystem as needed.
-
-### Component Onboarding
-Component onboarding describes how an individual component becomes part of the SACM ecosystem; registering with the Orchestrator, advertising capabilities, establishing its administrative interface, and subscribing to relevant topics.
+## Component Onboarding
+Component onboarding describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, establishing its administrative interface, advertising capabilities, and subscribing to relevant topics.
 
 The component onboarding workflow involves multiple steps:
 
-- The component first authenticates to the Integration Service, and
-- The component initiates registration with the Orchestrator, per the component registration taxonomy ({{component-registration-taxonomy}}).
+- The component first authenticates to the Integration Service.
+- The component initiates registration with the Manager, per the component registration taxonomy ({{component-registration-taxonomy}}), including the component’s “capability advertisement”.
+- The Manager receives the component's capabilities, persists them, and assembles the list of topics to which the component should subscribe, in order to receive notifications, instructions, or other directives intended to invoke the component's supported capabilities.
+- The component handles the response from the Manager to configure the Manager-to-Component administrative interface as well as service handlers (for receiving directed messages) and subscriptions (for receiving broadcast notifications) to the topics relevant to its capabilities.
 
-Once the component has onboarded and registered with the Orchestrator, its administrative interface will have been established via the `/orchestrator/[component-unique-identifier]` topic.  This administrative interface allows the component to advertise its capabilities to the Orchestrator and in return, allow the Orchestrator to direct capability-specific topic registration to the component.  This is performed using the "capability advertisement handshake" ({{capability-advertisement-taxonomy}}) taxonomy.  Further described below, the "capability advertisement handshake" first assumes the onboarding component has the ability to describe its capabilities so they may be understood by the Orchestrator (TBD on capability advertisement methodology).
+## Administrative Interface
+The administrative interface represents a direct communication channel between the Manager and a specific Component.  This interface allows the Manager to make directed requests to a component in order to perform specific actions.
 
-- The component sends a message with its operational capabilities over the administrative interface: `/orchestrator/[component-unique-identifier]`
-- The Orchestrator receives the component's capabilities, persists them, and responds with the list of topics to which the component should subscribe, in order to receive notifications, instructions, or other directives intended to invoke the component's supported capabilities.
-- The component then subscribes to the topics provided by the Orchestrator in order to enable receipt of broadcast instructions.
+### Heartbeat
+The administrative “heartbeat” request SHOULD be made periodically either from the Manager to specific components or from the components to the Manager to request or indicate presence in the ecosystem.  This interface is meant to allow the Manager to maintain its roster of onboarded components, and to possibly alert users or other systems when components are no longer present.
 
+### Capability-specific Requests
+Any number of capability-specific requests can be enabled through the administrative interface that allow the Manager to direct actions to be performed by a specific component.  Utilizing the interface from a component to the Manager, this interface can be used to indicate a component has come back online, or to provide an updated capability advertisement, potentially resulting in updates to topic subscriptions or service handlers.
+
+## Status Notifications
+A generic status notifications topic SHOULD be configured to which (a) the Manager is subscribed, and (b) all onboarded components can publish.  Status notifications may be used by the Manager to update user interfaces, to provide notification of the start, finish, success or failure of ecosystem operations, or as events to trigger subsequent activities.
 
 ## Component Interactions
 Component interactions describe functionality between components relating to collection, evaluation, or other downstream processes.
+
+
+The following component interactions begin with the Manager providing a set of instructions to an Orchestrator or Orchestrators that have registered with the SACM ecosystem indicating the appropriate capabilities, such as collection or evaluation.
+
+### Collection
+Manager provides instructions to Orchestrator(s) who have collection orchestration capabilities.  Those Orchestrators translate/manipulate/massage collection instructions according to the supported collection data models/serializations they support.
 
 ### Initiate Ad-Hoc Collection
 The Orchestrator supplies a payload of collection instructions to a topic or set of topics to which Posture Collection Services are subscribed.  The receiving PCS components perform the required collection based on their capabilities.  Each PCS then forms a payload of collected posture attributes (including endpoint identifying information) and publishes that payload to the topic(s) to which the Posture Attribute Repository is subscribed, for persistence.
@@ -480,52 +492,17 @@ Queries should allow for a "freshness" time period, allowing the requesting enti
 # Taxonomy
 The following sections describe a number of operations required to enable a cooperative ecosystem of posture attribute collection and evaluation functions.
 
-## Orchestrator Registration
-{: #orchestrator-registration-taxonomy title="Orchestrator Registration"}
-The Orchestrator Registration taxonomy describes how an Orchestrator onboards to the SACM ecosystem, or how it returns from a non-operational state.
-
-### Interaction
-
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed (Request/Response) |
-| Topic               | N/A |
-| Source Component    | Orchestrator |
-| Target Component(s) | N/A |
-
-### Request Payload
-N/A;
-
-
-### Request Processing
-Once the Orchestrator has authenticated to the Integration Service, it must establish (or re-establish) any service handlers interacting with administrative interfaces and/or general operational interfaces.
-
-For initial registration, the Orchestrator MUST enable capabilities to:
-
-- Receive onboarding requests via the `/orchestrator/registration` topic,
-- Generate, manage, and persist unique identifiers for all registered components,
-- Inventory and manage its "roster" (the list of registered components), and
-- Support making directed requests to registered components over the component's administrative interface, as configured by the `/orchestrator/[component-unique-identifier]` topic.
-
-Administrative interfaces are to be re-established through the inventory of previously registered components, such as Posture Collection Services, Repositories, or Posture Evaluation Services.
-
-### Response Payload
-N/A
-
-### Response Processing
-N/A
-
 
 ## Component Registration
 {: #component-registration-taxonomy title="Component Registration"}
-Component onboarding describes how an individual component becomes part of the SACM ecosystem; registering with the orchestrator, advertising capabilities, establishing its administrative interface, and subscribing to relevant topics.
+Component registration describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, advertising capabilities, establishing its administrative interface, and subscribing to relevant topics.
 
 ### Interaction
 
 | Property            | Value                                                |
 |---------------------|------------------------------------------------------|
 | Type                | Directed (Request/Response) |
-| Topic               | `/orchestrator/registration` |
+| Topic               | `/action/manager/component/registration` |
 | Source Component    | Any component wishing to join the ecosystem, such as  Posture Collection Services, Repositories (policy, collection content, posture attribute, evaluation results, etc.), Posture Evaluation Services and more.  |
 | Target Component(s) | Orchestrator |
 
