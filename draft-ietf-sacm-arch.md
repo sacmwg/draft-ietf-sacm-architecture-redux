@@ -409,8 +409,8 @@ The following requirements exist for the Manager to establish service handlers s
 - The Manager MUST support the publication of broadcast messages to topics configured by implementations of this ecosystem.
 - The Manager MUST support the subscription to topics configured by implementations of this ecosystem as needed.
 
-## Component Onboarding
-Component onboarding describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, establishing its administrative interface, advertising capabilities, and subscribing to relevant topics.
+## Component Registration
+Component registration describes how an individual component becomes part of the SACM ecosystem; authenticating to the Integration Service, establishing communication channels with the Manager, establishing its administrative interface, advertising capabilities, and subscribing to relevant topics.
 
 The component onboarding workflow involves multiple steps:
 
@@ -432,13 +432,7 @@ Any number of capability-specific requests can be enabled through the administra
 A generic status notifications topic SHOULD be configured to which (a) the Manager is subscribed, and (b) all onboarded components can publish.  Status notifications may be used by the Manager to update user interfaces, to provide notification of the start, finish, success or failure of ecosystem operations, or as events to trigger subsequent activities.
 
 ## Component Interactions
-Component interactions describe functionality between components relating to collection, evaluation, or other downstream processes.
-
-
-The following component interactions begin with the Manager providing a set of instructions to an Orchestrator or Orchestrators that have registered with the SACM ecosystem indicating the appropriate capabilities, such as collection or evaluation.
-
-### Collection
-Manager provides instructions to Orchestrator(s) who have collection orchestration capabilities.  Those Orchestrators translate/manipulate/massage collection instructions according to the supported collection data models/serializations they support.
+Component interactions describe functionality between components relating to collection, evaluation, or other downstream processes.  The following component interactions begin with the Manager providing a set of instructions to an Orchestrator or set of Orchestrators that have registered with the SACM ecosystem indicating the appropriate capabilities, such as collection or evaluation.  Subscribing Orchestrator(s) MAY translate, manipulate, augment, or otherwise transform the Manager's instructions into content supported through the Orchestrator's capabilities.
 
 ### Initiate Ad-Hoc Collection
 The Orchestrator supplies a payload of collection instructions to a topic or set of topics to which Posture Collection Services are subscribed.  The receiving PCS components perform the required collection based on their capabilities.  Each PCS then forms a payload of collected posture attributes (including endpoint identifying information) and publishes that payload to the topic(s) to which the Posture Attribute Repository is subscribed, for persistence.
@@ -489,7 +483,7 @@ An Orchestrator may disable change-based evaluation through a payload published 
 Queries should allow for a "freshness" time period, allowing the requesting entity to determine if/when posture attributes must be re-collected prior to performing evaluation.  This freshness time period can be "zeroed out" for the purpose of automatically triggering re-collection regardless of the most recent collection.
 
 
-# Taxonomy
+# Operations
 The following sections describe a number of operations required to enable a cooperative ecosystem of posture attribute collection and evaluation functions.
 
 
