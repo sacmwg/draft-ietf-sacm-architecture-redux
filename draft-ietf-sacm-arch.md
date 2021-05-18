@@ -508,6 +508,9 @@ component-registration-request:
   component-unique-identifier (if re-establishing communication)
   #-OR-#
   {:component-identification:}
+  capabilities:
+    urn1
+    urn2
 
 component-identification:
   component-type {:component-type:}
