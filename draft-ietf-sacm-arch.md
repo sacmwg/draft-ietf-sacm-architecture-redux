@@ -46,6 +46,7 @@ normative:
   mandm-sacm-endpoint-attribute-data-model-registry:
   I-D.ietf-sacm-ecp: ecp
   RFC8600: xmppgrid
+  RFC6120: XMPP
 
 informative:
   I-D.ietf-sacm-terminology: sacmt
@@ -64,6 +65,9 @@ informative:
   CISCONTROLS:
     target: https://www.cisecurity.org/controls
     title: CIS Controls v7.1
+  MQTT:
+    target: https://mqtt.org/mqtt-specification/
+    title: MQTT
   NIST800126:
     target: https://csrc.nist.gov/publications/detail/sp/800-126/rev-3/final
     title: SP 800-126 Rev. 3 - The Technical Specification for the Security Content Automation Protocol (SCAP) - SCAP Version 1.3
@@ -170,12 +174,22 @@ The Integration Service acts as the broker between Producers and Consumers; acti
 SACM Components are intended to interact with other SACM Components. These interactions can be thought of, at the architectural level, as the combination of interfaces with their supported operations.  Each interaction will convey a classified payload of information. This classification of payload information allows Consumers to subscribe to only the classifications to which they are capable of handling.  The payload information should contain subdomain-specific characteristics and/or instructions.
 
 ## Payload/Message
-The payload (sometimes referred to as a message) is the unit of data involved in any given interaction between two SACM components.  Analogous to a database row or record, the payload is simply an array of bytes as far as the Integration Service is concerned, so the data contained within it does not have a specific format or meaning to the Integration Service.  The serialization of the payload combined with the interaction topic gives the payload meaning within the SACM context.
+The payload (sometimes referred to as a "message" or "message payload") is the unit of data involved in any given interaction between two SACM components.  The payload MAY be used to convey the semantic meaning of the operation to be performed.  Protocols such as {{RFC6120}} achieves this meaning through XML namespace identification within a `<message/>` or `<iq/>` stanza.  Topic-centric protocols such as {{MQTT}} convey the meaning of payloads through topic naming techniques.  Both methods require connected components to verify message payloads according to their respective capabilities.
 
-## Topics
-Within the SACM ecosystem, topics provide the categorization of the various payloads distributed between Producers and Consumers.  The closest analogies for a topic are a filesystem folder or database table.  In this context, a Producer's role is to create message payloads and publish them to a specific topic.  A Consumer's role is to subscribe to one or more topics, read the message payloads published to them, and act upon those messages according to it's role and capabilities.
+With respect to the Integration Service, the payload is simply an array of bytes, so the data contained within it is not required to convey a specific format or meaning to the Integration Service.  The serialization of the payload combined with the payload categorization provides meaning within the SACM context.
 
-When interacting using message payloads, topics, and the Integration Service, topic naming conventions SHOULD provide an adequate amount of information to be deterministic regarding the purpose of the interaction.  
+## Payload Categorization
+Within the SACM ecosystem, categorization of payloads and their transport provide the context through which various capabilities are achieved.  Two types of payload categorization can be described.
+
+### Topic-centric
+Topic-centric payload categorization allows for a broad spectrum of payloads by characterizing those payloads through the Integration Service topic.  In this categorization, the topic name becomes a label attached to the payload to which the Integration Service matches against known subscriptions.  The topic becomes the operational context for the payload.  Topic-centric categorization allows for any payload to be sent to any topic, but requires that SACM consumers parse the payloads to determine whether or not they have the capability to act on those payloads.
+
+When interacting using a topic-centric payload categorization, topic naming conventions SHOULD provide an adequate amount of information to be deterministic regarding the purpose of the interaction.  For example, a topic named `/notification/collection/oval` would indicate that (a) the topic is a broadcast/notification (publish/subscribe) topic, (b) subscribers to this topic are performing a "collection" action, and (c) the payloads published to the topic are represented using the OVAL serialization format.
+
+### Payload-centric
+Payload-centric categorization encapsulates the intent of an interaction within the message payload itself, using an identifying token, tag, or namespace identifier.  This method allows for the limitation of message types, and therefore increases the extensibility of message payloads.
+
+Payload-centric categorization allows for modularization and specification of extensions, and for plugin-based support of capabilities based the categorization.  {{XMPP}} is an example of utilization of payload-centric categorization, allowing only three distinct "stanzas" (`<message/>`, `<presence/>`, and `<iq/>`), using payloads defined by the various extension protocols maintained by the XMPP standards foundation.
 
 ## Capabilities
 SACM components interact with each other based on their capacity to perform specific actions.  In advertising its capabilities, a SACM component indicates its competence to understand message payloads, perform any payload translation or normalization, and act upon that message.  For example, an Orchestration component receives a message to initiate posture attribute collection.  The Orchestrator may then normalize those instructions to a particular collection system's serialization.  The normalized instructions are then published to the Integration Service, notifying the appropriate subscribers.
@@ -186,14 +200,10 @@ Capabilities are described using Uniform Resource Names (URNs), which will be ma
 Two categories of interactions SHOULD be supported by the Integration Service: broadcast and directed.  Broadcast interactions are asynchronous by default, and directed interactions may be invoked either synchronously or asynchronously.
 
 ### Broadcast
-A broadcast interaction, commonly known as publish/subscribe, allows for a wider distribution of a message payload.  When a payload is published to a topic on the Integration Service, all subscribers to that topic are alerted and may consume the message payload.  This category of interaction can also be described as a "unicast" interaction when a topic only has a single subscriber.  An example of a broadcast interaction could be to publish Linux OVAL objects to a posture collection topic.  Subscribing consumers receive the notification, and proceed to collect endpoint configuration posture based on the supplied message payload.
-
-When interacting via broadcast, topic naming conventions should provide an adequate amount of information to be deterministic regarding the purpose of the interaction.  For example, a topic named `/notification/collection/oval` would indicate that (a) the topic is a broadcast/notification (pub/sub) topic, (b) subscribers to this topic are performing a "collection" action, and (c) the payloads published to the topic are represented using the OVAL serialization format.
+A broadcast interaction, commonly referred to as publish/subscribe, allows for a wider distribution of a message payload.  When a payload is published to the Integration Service, all subscribers to that payload are alerted and may consume the message payload.  This category of interaction can also be described as a "unicast" interaction when only a single subscriber exists.  An example of a broadcast interaction could be to publish Linux OVAL objects to a posture collection topic.  Subscribing consumers receive the notification, and proceed to collect endpoint configuration posture based on the supplied message payload.
 
 ### Directed
-The intent of a directed interaction is to enable point-to-point communications between a producer and consumer, through the standard interfaces provided by the Integration Service.  The provider component indicates which consumer is intended to receive the payload, and the Integration Service routes the payload directly to that consumer.  Two "styles" of directed interaction exist, differing only by the response from the payload consumer.
-
-When interacting via directed messaging, topic naming conventions should provide an adequate amount of information to be deterministic regarding the operation(s) to be performed, and the component performing them.  For example, a topic named `/action/manager/component-1` would indicate a directed action message between the Manager and the SACM component identified as "component-1".
+The intent of a directed interaction is to enable point-to-point communications between a producer and consumer, through the standard interfaces provided by the Integration Service.  The provider component indicates which consumer is intended to receive the payload, and the Integration Service routes the payload directly to that consumer.  Two "styles" of directed interaction exist, differing only by the response from the payload consumer.  
 
 #### Synchronous
 Synchronous, request/response style interaction requires that the requesting component block and wait for the receiving component to respond, or to time out when that response is delayed past a given time threshold.  A synchronous interaction example may be querying a CMDB for posture attribute information in order to perform an evaluation.
@@ -237,7 +247,7 @@ This document suggests a variety of players in a cooperative ecosystem; known as
 ### Manager
 The Manager acts as the control plane for the SACM ecosystem; a sort of high level component capable of coordinating the actions, notifications, and events between components.  The manager controls the administrative interfaces with the various components of the ecosystem, acting as the central point to which all other components will register and advertise their capabilities.  It is the responsibility of the manager to control a component’s access to the ecosystem, maintain an inventory of components attached to the ecosystem, and to initiate the various workflows involved in the collection and/or evaluation of posture attributes.
 
-The manager should maintain the master set of capabilities that can be supported within the ecosystem.  These are the various collection, evaluation, and persistence capabilities with which components may register.  The manager is responsible for assigning topics for each of the capabilities that are supported, as registering components subsequently subscribe to, or configure service handlers for, those topics.
+The manager should maintain the master set of capabilities that can be supported within the ecosystem.  These are the various collection, evaluation, and persistence capabilities with which components may register.  The manager MAY be responsible for assigning topics for each of the capabilities that are supported, as registering components subsequently subscribe to, or configure service handlers for, those topics.
 
 The manager may act as the user interface to the ecosystem, providing user dashboards, inventories, component management, or operational controls within the boundary of responsibility.
 
@@ -250,7 +260,7 @@ Orchestration components provide the manager with resources for delegating work 
 ### Integration Service
 If each SACM component represents a set of capabilities, then the Integration Service represents the "fabric" by which SACM components are woven together.  The Integration Service acts as a message broker, combining a set of common message categories and infrastructure to allow SACM components to communicate using a shared set of interfaces.  The Integration Service's brokering capabilities enable the exchange of various information payloads, orchestration of component capabilities, message routing and reliable delivery.  The Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.  SACM components will "attach" to the Integration Service either through native support for the integration implementation, or through the use of "adapters" which provide a proxied attachment.
 
-The Integration Service should provide mechanisms for both synchronous and asynchronous request/response-style messaging, and a publish/subscribe mechanism to implement event-based messaging.  It is the responsibility of the Integration Service to coordinate and manage the sending and receiving of messages.  The Integration Service should allow components to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.
+The Integration Service should provide mechanisms for both synchronous and asynchronous request/response-style messaging, and a publish/subscribe mechanism to implement an event-based architecture.  It is the responsibility of the Integration Service to coordinate and manage the sending and receiving of messages.  The Integration Service should allow components to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.
 
 The Integration Service MUST provide routing capabilities for payloads between producers and consumers.  The Integration Service MAY provide further capabilities within the payload delivery pipeline.  Examples of these capabilities include, but are not limited to, intermediate processing, message transformation, type conversion, validation, or other enterprise integration patterns.
 
@@ -267,7 +277,7 @@ The Analytics component represents capabilities outside of the SACM architecture
 {{fig-notional}} shows two components representing sub-architectural roles involved in a cooperative ecosystem of SACM components for the purpose of posture assessment: Collection and Evaluation.
 
 ### Collection Sub-Architecture
-The Collection sub-architecture is, in a SACM context, the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Control plane functions initiated by the Manager will coordinate the necessary orchestration components, who will choreograph endpoint data collection via defined interactions, using the Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of protocols, such as SNMP, NETCONF/RESTCONF, SSH, WinRM, packet capture, or host-based.  Instructions are orchestrated with the appropriate Posture Collection Services using serializations supported according to the collector's capabilities.
+The Collection sub-architecture is, in a SACM context, the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Control plane functions initiated by the Manager will coordinate the necessary orchestration components, who will choreograph endpoint data collection via defined interactions, using the Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of protocols, such as SNMP, NETCONF/RESTCONF, SCAP, SSH, WinRM, packet capture, or host-based.  Instructions are orchestrated with the appropriate Posture Collection Services using serializations supported according to the collector's capabilities.
 
 ~~~~~~~~~~
   +----------------------------------------------------------+
@@ -389,53 +399,59 @@ Posture evaluation is orchestrated through the Integration Service to the approp
 
 # Ecosystem Interactions
 {: #ecosystem-interactions title="Ecosystem Interactions"}
-Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others.  The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capability-to-topic relationships, etc. (MAYBE MORE TODO)
+Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others.  The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capabilities, and more.
 
 ## Manager
 The Manager, being a specialized role in the architecture, enables the onboarding and capability management of the various SACM component roles.  The Manager must support the set of capabilities needed to operate the SACM ecosystem.
 
-With this in mind, the Manager must first authenticate to the Integration Service.  Once authentication has succeeded, the Manager MUST establish a service handler, listening on the `/action/manager/component/registration` topic, in order to handle SACM component registration/onboarding activities ({{component-registration-taxonomy}}).  The Manager MUST also establish a subscription to the `/notification/manager/status` topic, in order to receive published status updates from the SACM ecosystem.
+With this in mind, the Manager must first authenticate to the Integration Service.  Once authentication has succeeded, the Manager MUST establish a service handler capable of performing SACM component registration/onboarding activities ({{component-registration-op}}).  The Manager MUST also establish a subscription to an ecosystem-wide status notification mechanism,  in order to receive published status updates from other SACM components.
 
-The following requirements exist for the Manager to establish service handlers supporting the component registration taxonomy ({{component-registration-taxonomy}}):
+The following requirements exist for the Manager to establish service handlers supporting the component registration taxonomy ({{component-registration-op}}):
 
-- The Manager MUST enable the capability to receive onboarding requests via the /action/manager/component/registration topic,
+- The Manager MUST enable the capability to receive onboarding requests,
 - The Manager MUST have the capability to generate, manage, and persist unique identifiers for all registered components,
-- The Manager MUST maintain the relationships between capabilities and topic names, 
+- The Manager MUST maintain the relationships between capabilities and payload categorizations (such as topic names or specific payload identifiers), 
 - The Manager MUST have the capability to inventory and manage its "roster" (the list of registered components),
 - The Manager MUST have the capability to manage its roster's advertised capabilities, including those endpoints to which those capabilities apply.
 - In addition to supporting component registration, the Manager is responsible for many of the operational functions of the architecture, including initiating collection or evaluation, queries for repository data, or the assembly of information for downstream use.
-- The Manager MUST support making directed requests to registered components over the component's administrative interface, as configured by the /action/manager/[component-unique-identifier] topic.  Administrative interface functions are described by their taxonomy, below.
-
-- The Manager MUST support the publication of broadcast messages to topics configured by implementations of this ecosystem.
-- The Manager MUST support the subscription to topics configured by implementations of this ecosystem as needed.
+- The Manager MUST support making directed requests to registered components over the component's administrative interface.  Administrative interface functions are described by their taxonomy, below.
+- The Manager MUST support each of the interaction categories as described above.
 
 ## Component Registration
-Component registration describes how an individual component becomes part of the SACM ecosystem; authenticating to the Integration Service, establishing communication channels with the Manager, establishing its administrative interface, advertising capabilities, and subscribing to relevant topics.
+Component registration describes how an individual component becomes part of the SACM ecosystem; authenticating to the Integration Service, registering and establishing its administrative interface with, the Manager.
 
 The component onboarding workflow involves multiple steps:
 
 - The component first authenticates to the Integration Service.
-- The component initiates registration with the Manager, per the component registration taxonomy ({{component-registration-taxonomy}}), including the component’s “capability advertisement”.
-- The Manager receives the component's capabilities, persists them, and assembles the list of topics to which the component should subscribe, in order to receive notifications, instructions, or other directives intended to invoke the component's supported capabilities.
-- The component handles the response from the Manager to configure the Manager-to-Component administrative interface as well as service handlers (for receiving directed messages) and subscriptions (for receiving broadcast notifications) to the topics relevant to its capabilities.
+- The component initiates registration with the Manager, per the component registration operation ({{component-registration-op}}).
+- The component handles the response from the Manager to configure a service handler allowing the component to receive directed messages over the  administrative interface with the Manager.
 
 ## Administrative Interface
-The administrative interface represents a direct communication channel between the Manager and a specific Component.  This interface allows the Manager to make directed requests to a component in order to perform specific actions.
+The administrative interface represents a direct communication channel between the Manager and any registered Component.  This interface allows the Manager to make directed requests to a component in order to perform specific actions.
+
+### Capability Advertisement Handshake
+Capability Advertisement is the mechanism by which components initially indicate their capabilities to the Manager. This handshake is completed using the administrative interface with the Manager.  It becomes the Manager's responsibility to persist component/capability relationships, and to provide the component the information necessary to receive and process message payloads specific to the supported capabilities.
+
+### Health Check
+The administrative "health check" is a mechanism by which the Manager queries for the "liveness" of its roster of components, and to possibly alert users or other systems when components are no longer present.  The Manager MAY enable a periodic message to each component to determine if that component is still listening to the Administrative Interface. The Health Check interaction MAY include a request for "Capability Refresh", to reinitiate the Capability Advertisement Handshake. This interaction is similar to the "Heartbeat" interaction, but is initiated by the Manager.
+
+#### Capability Refresh
+As part of the Health Check interaction, the Manager MAY periodically request an up-to-date list of the Component's capabilities.  When a Component receives a Health Check request including a capability refresh, the Component SHOULD respond with a Capability Advertisement payload for the Manager to process and update in it's roster.
 
 ### Heartbeat
-The administrative “heartbeat” request SHOULD be made periodically either from the Manager to specific components or from the components to the Manager to request or indicate presence in the ecosystem.  This interface is meant to allow the Manager to maintain its roster of onboarded components, and to possibly alert users or other systems when components are no longer present.
+The administrative “heartbeat” is a mechanism by which a Component indicates to the Manager that the Component remains connected to the ecosystem. The Heartbeat differs from the Health Check interaction in that the Component initiates the interaction, and that no response from the Manager is required.
 
 ### Capability-specific Requests
-Any number of capability-specific requests can be enabled through the administrative interface that allow the Manager to direct actions to be performed by a specific component.  Utilizing the interface from a component to the Manager, this interface can be used to indicate a component has come back online, or to provide an updated capability advertisement, potentially resulting in updates to topic subscriptions or service handlers.
+Any number of capability-specific requests can be enabled through the administrative interface that allow the Manager to direct actions to be performed by a specific component.  Utilizing the interface from a component to the Manager, this interface can be used to indicate a component has come back online, or to provide an updated capability advertisement, potentially resulting in updates to subscriptions or service handlers.
 
 ## Status Notifications
-A generic status notifications topic SHOULD be configured to which (a) the Manager is subscribed, and (b) all onboarded components can publish.  Status notifications may be used by the Manager to update user interfaces, to provide notification of the start, finish, success or failure of ecosystem operations, or as events to trigger subsequent activities.
+A generic status notifications mechanism SHOULD be configured to which (a) the Manager is subscribed, and (b) all onboarded components can publish.  Status notifications may be used by the Manager to update user interfaces, to provide notification of the start, finish, success or failure of ecosystem operations, or as events to trigger subsequent activities.
 
 ## Component Interactions
-Component interactions describe functionality between components relating to collection, evaluation, or other downstream processes.  The following component interactions begin with the Manager providing a set of instructions to an Orchestrator or set of Orchestrators that have registered with the SACM ecosystem indicating the appropriate capabilities, such as collection or evaluation.  Subscribing Orchestrator(s) MAY translate, manipulate, augment, or otherwise transform the Manager's instructions into content supported through the Orchestrator's capabilities.
+Component interactions describe functionality between components relating to collection, evaluation, or other downstream processes.  The following component interactions begin with the Manager providing a set of instructions to an Orchestrator or set of Orchestrators that have registered with the SACM ecosystem indicating the appropriate capabilities, such as collection or evaluation.  Subscribing Orchestrator(s) MAY translate, manipulate, filter, augment, or otherwise transform the Manager's instructions into content supported through the Orchestrator's capabilities.
 
 ### Initiate Ad-Hoc Collection
-The Orchestrator supplies a payload of collection instructions to a topic or set of topics to which Posture Collection Services are subscribed.  The receiving PCS components perform the required collection based on their capabilities.  Each PCS then forms a payload of collected posture attributes (including endpoint identifying information) and publishes that payload to the topic(s) to which the Posture Attribute Repository is subscribed, for persistence.
+The Orchestrator supplies a payload of collection instructions to a Posture Collection Service either through direct or broadcast mechanisms.  The receiving PCS components perform the required collection based on their capabilities.  Each PCS then forms a payload of collected posture attributes (including endpoint identifying information) and provides that payload to the Posture Attribute Repository interface, for persistence.
 
 ### Coordinate Periodic Collection
 Similar to ad-hoc collection, the Orchestrator supplies a payload of collection instructions similar to those of ad-hoc collection.  Additional information elements containing collection identification and periodicity are included.
@@ -459,7 +475,7 @@ The Orchestrator supplies a payload of instructions to a topic or set of topics 
 Following successful collection, Posture Collection Services (PCS) will supply the payload of collected posture attributes to the interface(s) supporting the persistent storage of those attributes to the Posture Attribute Repository.  Information in this payload should include identifying information of the computing resource(s) for which attributes were collected.
 
 ### Initiate Ad-Hoc Evaluation
-The Orchestrator supplies a payload of evaluation instructions to a topic or set of topics to which Posture Evaluation Services (PES) are subscribed.  The receiving PES components perform the required evaluation based on their capabilities.  The PES generates a payload of posture evaluation results and publishes that payload to the appropriate topic(s), to which the Evaluation Results Repository is subscribed, for persistence.
+The Orchestrator supplies a payload of evaluation instructions to a Posture Evaluation Services (PES) either through direct or broadcast mechanisms.  The receiving PES components perform the required evaluation based on their capabilities.  The PES generates a payload of posture evaluation results and publishes that payload to the Evaluation Results Repository interface, for persistence.
 
 ### Coordinate Periodic Evaluation
 Similar to ad-hoc evaluation, the Orchestrator supplies a payload of evaluation instructions similar to those of ad-hoc evaluation.  Additional information elements containing evaluation identification and periodicity are included.
@@ -486,30 +502,25 @@ Queries should allow for a "freshness" time period, allowing the requesting enti
 # Operations
 The following sections describe a number of operations required to enable a cooperative ecosystem of posture attribute collection and evaluation functions.
 
-
 ## Component Registration
-{: #component-registration-taxonomy title="Component Registration"}
-Component registration describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, advertising capabilities, establishing its administrative interface, and subscribing to relevant topics.
+{: #component-registration-op title="Component Registration"}
 
-### Interaction
+Component registration describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, and establishing the administrative interface.
 
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed (Request/Response) |
-| Topic               | `/action/manager/component/registration` |
-| Source Component    | Any component wishing to join the ecosystem, such as  Posture Collection Services, Repositories (policy, collection content, posture attribute, evaluation results, etc.), Posture Evaluation Services and more.  |
-| Target Component(s) | Orchestrator |
+- Interaction Type: Directed (Request/Response)
+- Source Component: Any component wishing to join the ecosystem, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
+- Target Component(s): Manager
 
 ### Request Payload
-When a component registers with the Orchestrator and enters the ecosystem, it must first identify itself to the Orchestrator.
+When a component onboards with the ecosystem, it must identify itself to the Manager, using either descriptive information or an already-existing component unique identifier.
 
 ~~~~~~
 component-registration-request:
-  component-unique-identifier (if re-establishing communication)
-  #-OR-#
   {:component-identification:}
 
 component-identification:
+  component-unique-identifier (if re-establishing communication)
+    #-OR-#
   component-type {:component-type:}
   component-name
   component-description (optional)
@@ -518,22 +529,22 @@ component-type:
   enumeration:
     - posture-collection-service
     - posture-evaluation-service
-    - repository
+    - repository-interface
     - orchestrator
     - others?
 ~~~~~~
 
-When registering for the first time, the component will send identifying information including the component type and a name.  If the component is reestablishing communications, for example after a restart of the component or deployment of a new version, the component only needs to supply its previously generated unique identifier.
+When registering for the first time, the component will send identifying information including the component type and a name.  If the component is reestablishing communications, for example after a restart of the component or deployment of a new version, the component only needs to supply its previously generated (and persisted) [component-unique-identifier].
 
 ### Request Processing
-When the Orchestrator receives the component's request for onboarding, it will:
+When the Manager receives the component's request for onboarding, it will:
 
 - Generate a unique identifier, `[component-unique-identifier]`, for the onboarding component,
-- Persist required information (TBD probably need more specifics), including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being orchestrated,
-- Establish the administrative interface via the `/orchestrator/[component-unique-identifier]` topic.
+- Persist identifying information, including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being managed, 
+- Establish the administrative interface to the onboarded component by enabling a service handler to listen for directed messages from the component.
 
 ### Response Payload
-The Orchestrator will respond to the component with a payload including the component's unique identifier.  At this point, the Orchestrator is aware of the component's existence in the ecosystem, and the component is self-aware by virtue of receiving its unique identifier.
+The Manager will respond to the component with a payload including the component's unique identifier.  At this point, the Manager is aware of the component's existence in the ecosystem, and the component can self-identify by virtue of receiving its unique identifier.
 
 ~~~~~~
 component-registration-response:
@@ -541,32 +552,30 @@ component-registration-response:
 ~~~~~~
 
 ### Response Processing
-Successful receipt of the Orchestrator's response, including the `[component-unique-identifier]` indicates the component is onboarded to the ecosystem.  Using the response payload, the component can then establish its end of the administrative interface with the Orchestrator, using the `/orchestrator/[component-unique-identifier]` topic.  Given this administrative interface, the component can then initiate the {{capability-advertisement-taxonomy}}
+Successful receipt of the Manager's response, including the `[component-unique-identifier]`, indicates the component is onboarded to the ecosystem.  Using the response payload, the component can then establish it's end of the administrative interface with the Manager.  The component must then persist it's unique identifier for use when re-establishing communication with the Manager after failure recovery or restart.
 
 
-## Orchestrator-Component Administrative Interface
-{: #orchestrator-component-direct-taxonomy title="Orchestrator-Component Administrative Interface"}
-A number of functions may take place which, instead of being published to a multi-subscriber topic, may require direct interaction between an Orchestrator and a registered component.  During component onboarding, this direct channel is established first by the Orchestrator and subsequently complemented by the component entering the ecosystem.
+## Administrative Interface
+{: #administrative-interface title="Administrative Interface"}
+A number of functions may take place which, instead of being published to multiple subscribers, may require direct interaction between the Manager and a registered component (and vice-versa).  During component onboarding, this direct channel, known as the Administrative Interface, is established first by the Manager and subsequently complemented by the component onboarding the SACM ecosystem.  Three operations are defined for the administrative interface, but any number of application or capability-specific operations MAY be enabled using the directed messaging provided by this interface.
+
 
 ### Capability Advertisement Handshake
-{: #capability-advertisement-taxonomy title="Capability Advertisement Handshake"}
-Capability advertisement, otherwise known as service discovery, is necessary to establish and maintain a cooperative ecosystem of tools by allowing components to register and maintain supported capabilities with the orchestrator.  Using this capability advertisement "handshake", the Orchestrator becomes knowledgeable of a component's operational capabilities, the endpoints/services with which the component interacts, and establishes a direct mode of contact for invoking those capabilities.  Once initially established, orchestrators and components can maintain this capability matrix using the administrative interface.
+{: #capability-advertisement-op title="Capability Advertisement Handshake"}
+Capability advertisement represents the ability of any registered component to inform the Manager of that component's capacity for performing certain operations. For example, a Posture Collection Service component may advertise its capability to perform collection using a particular collection system/serialization.  This capability advertisement is important for the Manager to persist in order for the Manager to correctly classify components registered within the SACM ecosystem, and therefore provide the ability to publish messages to components in accordance with their capabilities.
 
-#### Interaction
 
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed (Request/Response) |
-| Topic               | `/orchestrator/[component-unique-identifier]` |
-| Source Component    | Any ecosystem component (minus the Orchestrator) |
-| Target Component(s) | Orchestrator |
+REMOVE ME: If the Manager receives the component's capabilities, it persists them, and coordinates the interfaces to which the component should support, in order to receive notifications, instructions, or other directives intended to invoke the component's supported capabilities.
+
+- Interaction Type: Directed (Request/Response)
+- Source Component: Any registered component, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
+- Target Component(s): Manager
 
 #### Request Payload
+The component's capability advertisement request payload will include a list of "Capability URNs" (TBD IANA SECTION) that represent it's supported operational capabilities.
 
 ~~~~~~
-capability-advertisement-request:
-  component-unique-identifier: [component-unique-identifier]
-  component-type: {:component-type:}
+capability-advertisement:
   capabilities:
     capability-urn: [urn]
     capability-urn: [urn]
@@ -574,18 +583,14 @@ capability-advertisement-request:
     ...
 ~~~~~~
 
-[TBD] Start adding capability URNs to IANA considerations section?
-
 #### Request Processing
-Upon receipt of the component's capability advertisement, it SHOULD:
+Upon receipt of the component's capability advertisement, the Manager SHOULD:
 
-- Persist the component's capabilities to the Orchestrator's inventory
-- Coordinate, based on the supplied capabilities, a list of topics to which the component should subscribe
-
-[TBD] What if the component supplies a `capability-urn` that the Orchestrator doesn't know about?
+- Persist the component's capabilities to the Manager's inventory
+- Coordinate, based on the supplied capabilities, the service handlers (for directed messages) and/or event listeners (for broadcast messages) to which the component should support.
 
 #### Response Payload
-When responding, the Orchestrator will indicate to the component, which capabilities were successfully registered, and the topics to which those capabilities apply.  Any failures to register capabilities will also be noted per capability URN, including any relevant error messages.
+The response payload delivered to the component should include the appropriate service handling/event listening information required for the component to handle further interactions based on each advertised capability.  If a capability was not registered successfully, appropriate error messages SHOULD be supplied to inform the component of the failure(s).
 
 ~~~~~~
 capability-advertisement-response:
@@ -593,186 +598,101 @@ capability-advertisement-response:
     capability:
       capability-urn: [urn]
       registration-status: (success | failure)
-      capability-topic: /capability/topic/name
+      service-handler-or-event-listener: [info]
       messages: [messages]
     capability:
       capability-urn: [urn]
       registration-status: (success | failure)
-      capability-topic: /capability/topic/name
+      service-handler-or-event-listener: [info]
       messages: [messages]
-    ...
 ~~~~~~
-
 
 #### Response Processing
-Once the component has received the response to its capability advertisement, it should subscribe to the Orchestrator-provided topics.  Once the applicable topics have been subscribed, the component is considered fully onboarded to the ecosystem.
+Once the component has received the response to its capability advertisement, it should configure the capability-specific service handler(s) or event listener(s). Once these handlers/listeners have been configured, the component is considered fully onboarded to the SACM ecosystem.
 
 
-### Heartbeat
-{: #heartbeat-taxonomy title="Heartbeat"}
-As time passes and ecosystem components which have previously registered with the ecosystem are brought offline (perhaps for maintenance or redeployment) and back online, it is important that the Orchestrator maintains knowledge of all registered component's current operational status.  The heartbeat taxonomy describes the efforts taken by an Orchestrator to maintain the most up-to-date inventory of operational components, and to potentially alert users or other outside systems of unavailable components.
+### Health Check
+{: #health-check-op title="Health Check"}
+As time passes, it is important that the Manager maintains knowledge of all registered component's current operational status.  The health check operation describes the efforts taken by the Manager to maintain the most up-to-date inventory of it's component roster, and to potentially alert users or other outside systems of unavailable components.
 
-#### Interaction
-
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed (Request/Response) |
-| Topic               | `/orchestrator/[component-unique-identifier]` |
-| Source Component    | Orchestrator |
-| Target Component(s) | Any non-Orchestrator component maintained in the current operational inventory |
+- Interaction Type: Directed (Request/Response)
+- Source Component: Manager
+- Target Component(s): Any registered component, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
 
 #### Request Payload
-The request payload defines the hearbeat action to be taken:
+The request for the health check is a simple "ping".
 
 ~~~~~~
-heartbeat-request:
-  action: (ping | ping-with-capabilities)
+health-check-request:
+  action: ping
 ~~~~~~
 
 #### Request Processing
-When the target component receives the heartbeat request, it will determine based on action, the processing required.  A simple "ping" request indicates the target component need only respond that it is operational and connected to the integration service.  This is a simple "Are you listening?  Yes, I am" interaction.  The heartbeat request from the Orchestrator should be made with an appropriately small timeout indicator; only an operational component will be able to respond to the request, so if that component is offline and cannot respond, the Orchestrator should not be kept waiting for an extended amount of time.
-
-When the requested action is "ping-with-capabilities", the receiving component is instructed to respond that it is operational and to immediately follow the response with a re-initiation of the {{capability-advertisement-taxonomy}} process.  This interaction enables an Orchestrator the ability to perform capability discovery from components.
+When the target component receives the health check request, the target component need only respond that it is operational and connected to the integration service.  This is a simple "Hello component, are you listening?  Yes, I am" interaction.  The health check request from the Manager should be made with an appropriately small timeout indicator; only an operational component will be able to respond to the request, so if that component is offline and cannot respond, the Manager should not be kept waiting for an extended amount of time.
 
 #### Response Payload
-When responding to the heartbeat request, the initial response payload will simply indicate success:
+When responding to the health check request, the response payload will simply indicate success:
+~~~~~~
+health-check-response:
+  response: success
+~~~~~~
+
+#### Response Processing
+Upon receipt of the "health-check-response" payload, the Manager will update its inventory of currently operational components with the timestamp of the receipt.  Manager implementations may raise alerts, inform users, or take other actions when health checks are unsuccessful, at their discretion.
+
+
+### Heartbeat
+{: #heartbeat-op title="Heartbeat"}
+As time passes and SACM ecosystem components which have previously registered are brought offline (perhaps for maintenance or redeployment) and back online, it is important that registered components maintain administrative contact with the Manager. The heartbeat operation describes the efforts taken by a registered component to determine the status of contact with the Manager, and to take appropriate action if such contact cannot be made.
+
+- Interaction Type: Directed (Request/Response)
+- Source Component: Any registered component, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
+- Target Component(s): Manager
+
+#### Request Payload
+The request payload simply defines the hearbeat action:
+
+~~~~~~
+heartbeat-request:
+  action: pulse
+~~~~~~
+
+#### Request Processing
+When the Manager receives the heartbeat request, it need only respond that it is operational and connected to the integration service.  This is a simple "Hello Manager, are you listening?  Yes, I am" interaction.  The heartbeat request from the component should be made with an appropriately small timeout indicator; only an operational Manager will be able to respond to the request, so if it is offline and cannot respond, the component should not be kept waiting for an extended amount of time.
+
+#### Response Payload
+When responding to the heartbeat request, the response payload will simply indicate success:
 ~~~~~~
 heartbeat-response:
   response: success
 ~~~~~~
 
-If the "ping-with-capabilities" action was requested, the responding component will immediately initiate the {{capability-advertisement-taxonomy}} process.
-
 #### Response Processing
-Upon receipt of the "heartbeat-response" payload, the Orchestrator will update its inventory of currently operational components with the timestamp of the receipt.  If the Orchestrator originally requested the component's capabilities as well, further interactions will initiate and complete the {{capability-advertisement-taxonomy}} process.
-
-## Collection
-The following sections detail the interactions supporting the collection of posture attributes from one or many endpoints within the SACM ecosystem.  Collector capabilities will determine both the set of endpoints from which posture attributes may be collected, as well as the various methods of collection used by those collectors.
-
-### Ad-Hoc
-{: #ad-hoc-collection-taxonomy title="Ad-Hoc Collection"}
-Collection components support ad-hoc collection activities when receiving collection instructions from an Orchestrator and by acting upon those instructions immediately, collecting posture attributes as they exist on targeted endpoints at the moment of collection.  Ad-Hoc collection may potentially be invoked by a number of components, including Orchestrators or even Posture Evaluation Services, and may be requested of Collectors either directly or through the Collector's subscription to topics as established by the {{capability-advertisement-taxonomy}} process.
-
-#### Interaction
-
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed or Broadcast |
-| Topic(s)            | `/orchestrator/[component-unique-identifier]`        |
-|                     | `/[component-unique-identifier]/collect`             |
-| Subscription(s)     | `/collection/[collection-type]`       |
-| Source Component    | Orchestrator, Posture Evaluation Service |
-| Target Component(s) | Collector |
-
-#### Request Payload
-Ad-Hoc collection requests take the form of collection instructions corresponding to the SACM information model.  Collection instruction payloads MAY be serialized as a specific collection language supported by the Collector (taking into account any implementation-specific payload size limitations), as a generic serialization to be interpreted by the Collector, or as ID references to content persisted in a Repository.
-
-Instructions MAY include a "response topic" to which collection results are published/directed.  This can allow the requesting component to direct a Collector (or Collectors) to publish results directly to a Posture Attribute Repository component, or to simply respond to the requesting component.
-
-~~~~~~
-collection-request:
-  [TBD]
-  response-topic: [response-topic]
-~~~~~~
+Upon receipt of the "heartbeat-response" payload, the component may reset its heartbeat timer and continue normal operations, awaiting incoming message payloads.  Component implementations may raise alerts, inform users, or take other actions when heartbeat requests are unsuccessful (potentially indicating a downed Manager), at their discretion.
 
 
-#### Request Processing
+## Status Notification
+{: #-op title=""}
 
-Upon receipt of collection instructions, the Collector will need to determine whether or not any normalization or retrieval of specific instructions is required.  This normalization may be required if collection instructions are not formatted specifically to the capabilities of the Collector.  For example, if a payload is delivered containing a set of OVAL "object" IDs, the Collector would need to retrieve the instructions from the Repository and format them into a well-formed, valid OVAL definitions serialization for processing.
+## Initiate Ad-Hoc Collection
+### Manager to Orchestrator
+{: #-op title=""}
 
-Once the collection instructions have been received and any pre-processing/normalization has occurred, the Collector will perform the actual retrieval of posture attributes.  Once collected, posture attributes will need to be published back to the topic named in the request payload.  This response topic could represent a callback to the component invoking collection, or a destination for the posture attributes to be persisted, i.e. a Repository.
+### Orchestrator to Posture Collection Service
+{: #-op title=""}
 
-#### Response Payload
-The response payload generated by the Collector may take one of 2 forms:
+### Posture Collection Service to Posture Attribute Repository
+{: #-op title=""}
 
-- Collection results using the data model supported by the collection system indicated in the collection instructions.  For example, if the collection instructions were formatted as OVAL definitions (or more specifically OVAL objects), then collection results would be formatted as OVAL system characteristics.  Each collector is responsible for maintaining the capabilities necessary to produce results formats based on its collection capabilities.
-- Collection results using a "normalized" [TBD] format as defined by the SACM information model/data models.
+## Initiate Ad-Hoc Evaluation
+### Manager to Orchestrator
+{: #-op title=""}
 
-#### Response Processing
-Handling a payload of collected posture attributes will vary based on the component receiving that payload:
+### Orchestrator to Evaluator
+{: #-op title=""}
 
-- Posture Attribute Repository:  If collection results are not "normalized" the Repository component MUST be able to perform normalization processing prior to persisting the results.
-- Non-Repository Components: The receiving component must also be capable of "normalizing" collected posture attributes
-
-### Periodic
-{: #periodic-collection-taxonomy title="Periodic Collection"}
-Periodic collection builds upon Ad-Hoc collection by allowing Orchestration of collection activities given a periodicity.  Architecturally, periodic collection is orchestrated through either the scheduling of collection or canceling an already-existing schedule.  Modifications to a scheduled collection MUST be made by first canceling the existing schedule and establishing the updated schedule.
-
-#### Schedule Periodic Collection
-Scheduling periodic collection is established by an Orchestrator delivering collection instructions and the collection periodicity to a Collector.  These instructions may be received by the Collector through a number of topics, described below.
-
-##### Interaction
-
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed or Broadcast |
-| Topic(s)            | `/orchestrator/[component-unique-identifier]`        |
-|                     | `/[component-unique-identifier]/collect`             |
-| Subscription(s)     | `/collection/[collection-type]`       |
-| Source Component    | Orchestrator |
-| Target Component(s) | Collector |
-
-##### Request Payload
-The request to schedule periodic collection is represented as a wrapper of the collection instructions used to initiate ad-hoc collection.  Additional elements indicate the establishment of the schedule, the collection schedule itself, and whether or not to perform an immediate collection upon receipt of the payload.
-
-~~~~~~
-periodic-collection:
-  collection-identifier: 12345
-  operation: schedule
-  collection-schedule:
-    TBD (cron formatted? other scheduling formats?)
-  collect-upon-acknowledgement: true/false
-  collection-instructions:
-    # Formatted per Ad-Hoc Collection taxonomy
-~~~~~~
-
-##### Request Processing
-Upon receipt of the request to establish periodic collection, the Collector must first determine if the `collection-identifier` is unique.  If an existing periodic collection, using the same identifier, is already present, an error payload MUST be returned to the Orchestrator.  Once the collection identifier has been validated, the schedule is established within the scope of the Collector receiving the instructions.  If the `collect-upon-acknowledgement` flag is set to `true`, the Collector MUST perform an immediate ad-hoc collection based on the instructions passed in the payload and the collected posture attributes are provided to the `response-topic` per the `collection-instructions`.
-
-##### Response Payload
-Essentially, two payloads could be provided in 
-##### Response Processing
-
-#### Cancel Periodic Collection
-TBD
-
-##### Interaction
-
-| Property            | Value                                                |
-|---------------------|------------------------------------------------------|
-| Type                | Directed or Broadcast |
-| Topic(s)            | `/orchestrator/[component-unique-identifier]`        |
-|                     | `/[component-unique-identifier]/collect`             |
-| Subscription(s)     | `/collection/[collection-type]`       |
-| Source Component    | Orchestrator |
-| Target Component(s) | Collector |
-
-##### Request Payload
-
-~~~~~~
-periodic-collection:
-  collection-identifier: 12345
-  operation: cancel
-  collect-upon-acknowledgement: true/false
-~~~~~~
-
-##### Request Processing
-##### Response Payload
-##### Response Processing
-
-### Observational/Event-based
-{: #observational-collection-taxonomy title="Operational/Event-based Collection"}
-
-## Evaluation
-
-### Ad-Hoc
-{: #ad-hoc-evaluation-taxonomy title="Ad-Hoc Evaluation"}
-
-### Periodic
-{: #periodic-evaluation-taxonomy title="Periodic Evaluation"}
-
-### Change/Event-based
-{: #change-based-evaluation-taxonomy title="Change/Event-based Evaluation"}
+### Evaluator to Posture Evaluation Repository
+{: #-op title=""}
 
 
 # Privacy Considerations
