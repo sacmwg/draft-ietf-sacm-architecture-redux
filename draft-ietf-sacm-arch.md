@@ -194,7 +194,7 @@ Payload-centric categorization allows for modularization and specification of ex
 ## Capabilities
 SACM components interact with each other based on their capacity to perform specific actions.  In advertising its capabilities, a SACM component indicates its competence to understand message payloads, perform any payload translation or normalization, and act upon that message.  For example, an Orchestration component receives a message to initiate posture attribute collection.  The Orchestrator may then normalize those instructions to a particular collection system's serialization.  The normalized instructions are then published to the Integration Service, notifying the appropriate subscribers.
 
-Capabilities are described using Uniform Resource Names (URNs), which will be maintained and enhanced via IANA tables ({{iana-considerations}}).  Capability URNs SHOULD be associated with Integration Service topics to which publishers, subscribers, and service handlers, will interact.  Topic naming conventions are considered implementation details and are not considered for standardization.
+Capabilities are described using Uniform Resource Names (URNs), which will be maintained and enhanced via IANA tables ({{iana-considerations}}). Using topic-centric categorization of message payloads, capability URNs SHOULD be associated with Integration Service topics to which publishers, subscribers, and service handlers, will interact.  Topic naming conventions are considered implementation details and are not considered for standardization.  Given a payload-centric categorization of message payloads, capability URNs SHOULD be used as the identifying token, tag, or namespace in order to distinguish specific payloads.
 
 ## Interaction Categories
 Two categories of interactions SHOULD be supported by the Integration Service: broadcast and directed.  Broadcast interactions are asynchronous by default, and directed interactions may be invoked either synchronously or asynchronously.
@@ -435,9 +435,6 @@ Capability Advertisement is the mechanism by which components initially indicate
 ### Health Check
 The administrative "health check" is a mechanism by which the Manager queries for the "liveness" of its roster of components, and to possibly alert users or other systems when components are no longer present.  The Manager MAY enable a periodic message to each component to determine if that component is still listening to the Administrative Interface. The Health Check interaction MAY include a request for "Capability Refresh", to reinitiate the Capability Advertisement Handshake. This interaction is similar to the "Heartbeat" interaction, but is initiated by the Manager.
 
-#### Capability Refresh
-As part of the Health Check interaction, the Manager MAY periodically request an up-to-date list of the Component's capabilities.  When a Component receives a Health Check request including a capability refresh, the Component SHOULD respond with a Capability Advertisement payload for the Manager to process and update in it's roster.
-
 ### Heartbeat
 The administrative “heartbeat” is a mechanism by which a Component indicates to the Manager that the Component remains connected to the ecosystem. The Heartbeat differs from the Health Check interaction in that the Component initiates the interaction, and that no response from the Manager is required.
 
@@ -517,9 +514,6 @@ When a component onboards with the ecosystem, it must identify itself to the Man
 ~~~~~~
 component-registration-request:
   {:component-identification:}
-  capabilities:
-    urn1
-    urn2
 
 component-identification:
   component-unique-identifier (if re-establishing communication)
@@ -537,7 +531,7 @@ component-type:
     - others?
 ~~~~~~
 
-When registering for the first time, the component will send identifying information including the component type and a name.  If the component is reestablishing communications, for example after a restart of the component or deployment of a new version, the component only needs to supply its previously generated (and persisted) [component-unique-identifier].
+When registering for the first time, the component will send identifying information including the component type and a name.  If the component is re-establishing communications, for example after a restart of the component or deployment of a new version, the component only needs to supply its previously generated (and persisted) [component-unique-identifier].
 
 ### Request Processing
 When the Manager receives the component's request for onboarding, it will:
