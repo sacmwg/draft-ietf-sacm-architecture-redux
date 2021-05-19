@@ -561,9 +561,6 @@ A number of functions may take place which, instead of being published to multip
 {: #capability-advertisement-op title="Capability Advertisement Handshake"}
 Capability advertisement represents the ability of any registered component to inform the Manager of that component's capacity for performing certain operations. For example, a Posture Collection Service component may advertise its capability to perform collection using a particular collection system/serialization.  This capability advertisement is important for the Manager to persist in order for the Manager to correctly classify components registered within the SACM ecosystem, and therefore provide the ability to publish messages to components in accordance with their capabilities.
 
-
-REMOVE ME: If the Manager receives the component's capabilities, it persists them, and coordinates the interfaces to which the component should support, in order to receive notifications, instructions, or other directives intended to invoke the component's supported capabilities.
-
 - Interaction Type: Directed (Request/Response)
 - Source Component: Any registered component, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
 - Target Component(s): Manager
@@ -669,7 +666,34 @@ Upon receipt of the "heartbeat-response" payload, the component may reset its he
 
 
 ## Status Notification
-{: #-op title=""}
+{: #status-notification-op title="Status Notification"}
+
+From time to time during the performance of any given operation, a component may need to supply status information to the Manager (or any other concerned component), for use in display to users, or to trigger other events within the SACM ecosystem.  The status notification operation is designed to allow any component to broadcast status message payloads to any subscribers with the need to know. For example, a collection component could broadcast to the Manager that it has initiated collection, subsequent collection progress updates, and finally completion or error conditions.
+
+- Interaction Type: Broadcast (Publish/Subscribe)
+- Source Component: Any registered component, such as Posture Collection Services, Repository Interfaces, Posture Evaluation Services and more.
+- Target Component(s): Typically the Manager, but any registered component may subscribe to status notifications.
+
+
+### Request Payload
+At a minimum, the payload broadcast for a status notification MUST include the status message and the publishing component's `component-unique-identifier`. Further identifying information, such as status codes, operation indicators, etc., MAY be provided by implementing components.
+
+~~~~~~
+status-notification:
+  publisher: [component-unique-identifier]
+  message: [message]
+  [additional information]
+~~~~~~
+
+### Request Processing
+When subscribers are notified of the status message, respective components may act upon them in component/application-specific ways, including persisting those messages to repositories, forwarding to log aggregation tools, displaying on user interfaces, and so on. Potential for use of component status notifications is only limited by application implementations.
+
+### Response Payload
+N/A
+
+### Response Processing
+N/A
+
 
 ## Initiate Ad-Hoc Collection
 ### Manager to Orchestrator
@@ -701,15 +725,40 @@ Upon receipt of the "heartbeat-response" payload, the component may reset its he
 # IANA Considerations
 {: #iana-considerations title="IANA Considerations"}
 
-[TBD] Revamp this section after the configuration assessment workflow is fleshed out.
+[TBD] Some boilerplate code...
 
-IANA tables can probably be used to make life a little easier. We would like a place to enumerate:
+## Component Types
 
-* Capability/operation semantics
-* SACM Component implementation identifiers
-* SACM Component versions
-* Associations of SACM Components (and versions) to specific Capabilities
-* Collection sub-architecture Identification
+URI: `urn:ietf:sacm:component-type`
+Description: The allowed enumeration of the various component types permitted to utilize the SACM ecosystem.
+
+- Manager
+- Orchestrator
+- Collector
+- Evaluator
+- Repository Interface
+- [MORE]
+
+## Component Capabilities
+### Health Check
+A URN representing a component's capability to initiate Health Check operations and to process any provided response payloads.
+
+URI: `urn:ietf:sacm:capability:action:health-check`
+
+### Heartbeat
+A URN representing a component's capability to initiate Heartbeat operations and to process any provided response payloads.
+
+URI: `urn:ietf:sacm:capability:action:heartbeat`
+
+### Status Notification (Publish)
+A URN representing a component's capability to publish status notifications.
+
+URI: `urn:ietf:sacm:capability:publish:status-notification`
+
+### Status Notification (Subscribe)
+A URN representing a component's capability to subscribe to status notification events.
+
+URI: `urn:ietf:sacm:capability:subscribe:status-notification`
 
 
 --- back
