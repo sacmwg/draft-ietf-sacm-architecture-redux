@@ -189,12 +189,12 @@ When interacting using a topic-centric payload categorization, topic naming conv
 ### Payload-centric
 Payload-centric categorization encapsulates the intent of an interaction within the message payload itself, using an identifying token, tag, or namespace identifier.  This method allows for the limitation of message types, and therefore increases the extensibility of message payloads.
 
-Payload-centric categorization allows for modularization and specification of extensions, and for plugin-based support of capabilities based the categorization.  {{XMPP}} is an example of utilization of payload-centric categorization, allowing only three distinct "stanzas" (`<message/>`, `<presence/>`, and `<iq/>`), using payloads defined by the various extension protocols maintained by the XMPP standards foundation.
+Payload-centric categorization allows for modularization and specification of extensions, and for plugin-based support of capabilities based the categorization.  XMPP is an example of utilization of payload-centric categorization, allowing only three distinct "stanzas" (`<message/>`, `<presence/>`, and `<iq/>`), using payloads defined by the various extension protocols maintained by the XMPP standards foundation.
 
 ## Capabilities
 SACM components interact with each other based on their capacity to perform specific actions.  In advertising its capabilities, a SACM component indicates its competence to understand message payloads, perform any payload translation or normalization, and act upon that message.  For example, an Orchestration component receives a message to initiate posture attribute collection.  The Orchestrator may then normalize those instructions to a particular collection system's serialization.  The normalized instructions are then published to the Integration Service, notifying the appropriate subscribers.
 
-Capabilities are described using Uniform Resource Names (URNs), which will be maintained and enhanced via IANA tables ({{iana-considerations}}). Using topic-centric categorization of message payloads, capability URNs SHOULD be associated with Integration Service topics to which publishers, subscribers, and service handlers, will interact.  Topic naming conventions are considered implementation details and are not considered for standardization.  Given a payload-centric categorization of message payloads, capability URNs SHOULD be used as the identifying token, tag, or namespace in order to distinguish specific payloads.
+Capabilities are described using Uniform Resource Names (URNs), which will be maintained and enhanced via IANA tables (IANA Considerations). Using topic-centric categorization of message payloads, capability URNs SHOULD be associated with Integration Service topics to which publishers, subscribers, and service handlers, will interact.  Topic naming conventions are considered implementation details and are not considered for standardization.  Given a payload-centric categorization of message payloads, capability URNs SHOULD be used as the identifying token, tag, or namespace in order to distinguish specific payloads.
 
 ## Interaction Categories
 Two categories of interactions SHOULD be supported by the Integration Service: broadcast and directed.  Broadcast interactions are asynchronous by default, and directed interactions may be invoked either synchronously or asynchronously.
@@ -398,19 +398,19 @@ Posture evaluation is orchestrated through the Integration Service to the approp
 
 
 # Ecosystem Interactions
-{: #ecosystem-interactions title="Ecosystem Interactions"}
+<>{: #ecosystem-interactions title="Ecosystem Interactions"}
 Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others.  The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capabilities, and more.
 
 ## Manager
 The Manager, being a specialized role in the architecture, enables the onboarding and capability management of the various SACM component roles.  The Manager must support the set of capabilities needed to operate the SACM ecosystem.
 
-With this in mind, the Manager must first authenticate to the Integration Service.  Once authentication has succeeded, the Manager MUST establish a service handler capable of performing SACM component registration/onboarding activities ({{component-registration-op}}).  The Manager MUST also establish a subscription to an ecosystem-wide status notification mechanism,  in order to receive published status updates from other SACM components.
+With this in mind, the Manager must first authenticate to the Integration Service.  Once authentication has succeeded, the Manager MUST establish a service handler capable of performing SACM component registration/onboarding activities (Component Registration Operation).  The Manager MUST also establish a subscription to an ecosystem-wide status notification mechanism,  in order to receive published status updates from other SACM components.
 
-The following requirements exist for the Manager to establish service handlers supporting the component registration taxonomy ({{component-registration-op}}):
+The following requirements exist for the Manager to establish service handlers supporting the component registration taxonomy (Component Registration Operation):
 
 - The Manager MUST enable the capability to receive onboarding requests,
 - The Manager MUST have the capability to generate, manage, and persist unique identifiers for all registered components,
-- The Manager MUST maintain the relationships between capabilities and payload categorizations (such as topic names or specific payload identifiers), 
+- The Manager MUST maintain the relationships between capabilities and payload categorizations (such as topic names or specific payload identifiers),
 - The Manager MUST have the capability to inventory and manage its "roster" (the list of registered components),
 - The Manager MUST have the capability to manage its roster's advertised capabilities, including those endpoints to which those capabilities apply.
 - In addition to supporting component registration, the Manager is responsible for many of the operational functions of the architecture, including initiating collection or evaluation, queries for repository data, or the assembly of information for downstream use.
@@ -423,7 +423,7 @@ Component registration describes how an individual component becomes part of the
 The component onboarding workflow involves multiple steps:
 
 - The component first authenticates to the Integration Service.
-- The component initiates registration with the Manager, per the component registration operation ({{component-registration-op}}).
+- The component initiates registration with the Manager, per the component registration operation (Component Registration Operation).
 - The component handles the response from the Manager to configure a service handler allowing the component to receive directed messages over the  administrative interface with the Manager.
 
 ## Administrative Interface
@@ -537,7 +537,7 @@ When registering for the first time, the component will send identifying informa
 When the Manager receives the component's request for onboarding, it will:
 
 - Generate a unique identifier, `[component-unique-identifier]`, for the onboarding component,
-- Persist identifying information, including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being managed, 
+- Persist identifying information, including the `[component-unique-identifier]` to its component inventory, enabling an up-to-date roster of components being managed,
 - Establish the administrative interface to the onboarded component by enabling a service handler to listen for directed messages from the component.
 
 ### Response Payload
@@ -553,12 +553,12 @@ Successful receipt of the Manager's response, including the `[component-unique-i
 
 
 ## Administrative Interface
-{: #administrative-interface title="Administrative Interface"}
+<>{: #administrative-interface title="Administrative Interface"}
 A number of functions may take place which, instead of being published to multiple subscribers, may require direct interaction between the Manager and a registered component (and vice-versa).  During component onboarding, this direct channel, known as the Administrative Interface, is established first by the Manager and subsequently complemented by the component onboarding the SACM ecosystem.  Three operations are defined for the administrative interface, but any number of application or capability-specific operations MAY be enabled using the directed messaging provided by this interface.
 
 
 ### Capability Advertisement Handshake
-{: #capability-advertisement-op title="Capability Advertisement Handshake"}
+<>{: #capability-advertisement-op title="Capability Advertisement Handshake"}
 Capability advertisement represents the ability of any registered component to inform the Manager of that component's capacity for performing certain operations. For example, a Posture Collection Service component may advertise its capability to perform collection using a particular collection system/serialization.  This capability advertisement is important for the Manager to persist in order for the Manager to correctly classify components registered within the SACM ecosystem, and therefore provide the ability to publish messages to components in accordance with their capabilities.
 
 - Interaction Type: Directed (Request/Response)
@@ -606,7 +606,7 @@ Once the component has received the response to its capability advertisement, it
 
 
 ### Health Check
-{: #health-check-op title="Health Check"}
+<>{: #health-check-op title="Health Check"}
 As time passes, it is important that the Manager maintains knowledge of all registered component's current operational status.  The health check operation describes the efforts taken by the Manager to maintain the most up-to-date inventory of it's component roster, and to potentially alert users or other outside systems of unavailable components.
 
 - Interaction Type: Directed (Request/Response)
@@ -636,7 +636,7 @@ Upon receipt of the "health-check-response" payload, the Manager will update its
 
 
 ### Heartbeat
-{: #heartbeat-op title="Heartbeat"}
+<>{: #heartbeat-op title="Heartbeat"}
 As time passes and SACM ecosystem components which have previously registered are brought offline (perhaps for maintenance or redeployment) and back online, it is important that registered components maintain administrative contact with the Manager. The heartbeat operation describes the efforts taken by a registered component to determine the status of contact with the Manager, and to take appropriate action if such contact cannot be made.
 
 - Interaction Type: Directed (Request/Response)
@@ -666,7 +666,7 @@ Upon receipt of the "heartbeat-response" payload, the component may reset its he
 
 
 ## Status Notification
-{: #status-notification-op title="Status Notification"}
+<>{: #status-notification-op title="Status Notification"}
 
 From time to time during the performance of any given operation, a component may need to supply status information to the Manager (or any other concerned component), for use in display to users, or to trigger other events within the SACM ecosystem.  The status notification operation is designed to allow any component to broadcast status message payloads to any subscribers with the need to know. For example, a collection component could broadcast to the Manager that it has initiated collection, subsequent collection progress updates, and finally completion or error conditions.
 
@@ -697,7 +697,7 @@ N/A
 
 ## Initiate Ad-Hoc Collection
 ### Manager to Orchestrator
-{: #-op title=""}
+<>{: #-op title=""}
 
 ### Orchestrator to Posture Collection Service
 {: #-op title=""}
@@ -723,7 +723,7 @@ N/A
 [TBD]
 
 # IANA Considerations
-{: #iana-considerations title="IANA Considerations"}
+<>{: #iana-considerations title="IANA Considerations"}
 
 [TBD] Some boilerplate code...
 
