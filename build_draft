@@ -1,0 +1,6 @@
+#! /bin/bash
+
+kramdown-rfc2629 draft-ietf-sacm-arch.md > draft-ietf-sacm-arch.xml2
+xml2rfc --v2v3 draft-ietf-sacm-arch.xml
+mv draft-ietf-sacm-arch.v2v3.xml draft-ietf-sacm-arch.xml
+xml2rfc draft-ietf-sacm-arch.xml --path . --html --text

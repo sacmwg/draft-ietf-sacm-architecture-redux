@@ -66,7 +66,7 @@
       <t>The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect <xref target="RFC7632" format="default"/> and <xref target="RFC8248" format="default"/>. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.  Different roles within a cooperative ecosystem may act as both Producers and Consumers of SACM-relevant information.</t>
       <figure anchor="fig-basic">
         <name>Basic Architectural Structure</name>
-        <artwork name="" type="" align="left" alt=""><![CDATA[
+        <artwork name="" type="" align="left" alt="">
        +----------------+
        | SACM Component |
        |   (Producer)   |
@@ -82,7 +82,7 @@
        | SACM Component |
        |   (Consumer)   |
        +----------------+
-]]></artwork>
+</artwork>
       </figure>
       <section anchor="producer" numbered="true" toc="default">
         <name>Producer</name>
@@ -147,7 +147,7 @@
       <t>Within the cooperative SACM ecosystem, a number of roles act in coordination to provide relevant policy/guidance, perform data collection, storage, evaluation, and support downstream analytics and reporting.</t>
       <figure anchor="fig-notional">
         <name>Notional Role-based Architecture</name>
-        <artwork name="" type="" align="left" alt=""><![CDATA[
+        <artwork name="" type="" align="left" alt="">
   +-------------------------------------------+
   |                 Manager                   |
   +-------------------^-----------------------+
@@ -159,7 +159,7 @@
             |         |             |                |  Downstream Uses   |
             |         |             |                | +----------------+ |
   +---------v---------v-------------v---------+      | |   Analytics    | |
-  |             Integration Service           <------> +----------------+ |
+  |             Integration Service           &lt;------&gt; +----------------+ |
   +-----------^--------------------------^----+      | +----------------+ |
               |                          |           | |   Reporting    | |
               |                          |           | +----------------+ |
@@ -169,7 +169,7 @@
                          +---------------v---------------+
                          |  Evaluation Sub-Architecture  |
                          +-------------------------------+
-]]></artwork>
+</artwork>
       </figure>
       <t>As shown in <xref target="fig-notional" format="default"/>, the SACM role-based architecture consists of some basic SACM Components communicating using an integration service. The integration service is expected to maximally align with the requirements described in <xref target="RFC8248" format="default"/>, which means that the integration service will support brokered (i.e. point-to-point) and proxied data exchange.</t>
       <section anchor="architectural-rolescomponents" numbered="true" toc="default">
@@ -216,7 +216,7 @@
           <t>The Collection sub-architecture is, in a SACM context, the mechanism by which posture attributes are collected from applicable endpoints and persisted to a repository, such as a configuration management database (CMDB).  Control plane functions initiated by the Manager will coordinate the necessary orchestration components, who will choreograph endpoint data collection via defined interactions, using the Integration Service as a message broker.  Instructions to perform endpoint data collection are directed to a Posture Collection Service capable of performing collection activities utilizing any number of protocols, such as SNMP, NETCONF/RESTCONF, SCAP, SSH, WinRM, packet capture, or host-based.  Instructions are orchestrated with the appropriate Posture Collection Services using serializations supported according to the collector's capabilities.</t>
           <figure anchor="fig-collection">
             <name>Decomposed Collection Sub-Architecture</name>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
   +----------------------------------------------------------+
   |                       Manager                            |
   +-----------+----------------------------------------------+
@@ -254,7 +254,7 @@
   +----------------------------+
 (PCS does not reside on Endpoint)
 
-]]></artwork>
+</artwork>
           </figure>
           <section anchor="posture-collection-service" numbered="true" toc="default">
             <name>Posture Collection Service</name>
@@ -296,7 +296,7 @@
           <t>The Evaluation Sub-Architecture, in the SACM context, is the mechanism by which policy, expressed in the form of expected state, is compared with collected posture attributes to yield an evaluation result, that result being contextually dependent on the policy being evaluated.</t>
           <figure anchor="fig-evaluation">
             <name>Decomposed Evaluation Sub-Architecture</name>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
 +------------------+
 |     Manager      |
 +-------+----------+
@@ -326,7 +326,7 @@
    +------------+          | Repository |
                            +------------+
 
-]]></artwork>
+</artwork>
           </figure>
           <section anchor="posture-evaluation-service" numbered="true" toc="default">
             <name>Posture Evaluation Service</name>
@@ -484,7 +484,7 @@ Ecosystem interactions describe the various functions between SACM components, i
         <section anchor="request-payload" numbered="true" toc="default">
           <name>Request Payload</name>
           <t>When a component onboards with the ecosystem, it must identify itself to the Manager, using either descriptive information or an already-existing component unique identifier.</t>
-          <artwork name="" type="" align="left" alt=""><![CDATA[
+          <artwork name="" type="" align="left" alt="">
 component-registration-request:
   {:component-identification:}
 
@@ -502,7 +502,7 @@ component-type:
     - repository-interface
     - orchestrator
     - others?
-]]></artwork>
+</artwork>
           <t>When registering for the first time, the component will send identifying information including the component type and a name.  If the component is re-establishing communications, for example after a restart of the component or deployment of a new version, the component only needs to supply its previously generated (and persisted) [component-unique-identifier].</t>
         </section>
         <section anchor="request-processing" numbered="true" toc="default">
@@ -517,10 +517,10 @@ component-type:
         <section anchor="response-payload" numbered="true" toc="default">
           <name>Response Payload</name>
           <t>The Manager will respond to the component with a payload including the component's unique identifier.  At this point, the Manager is aware of the component's existence in the ecosystem, and the component can self-identify by virtue of receiving its unique identifier.</t>
-          <artwork name="" type="" align="left" alt=""><![CDATA[
+          <artwork name="" type="" align="left" alt="">
 component-registration-response:
   component-unique-identifier: [component-unique-identifier]
-]]></artwork>
+</artwork>
         </section>
         <section anchor="response-processing" numbered="true" toc="default">
           <name>Response Processing</name>
@@ -543,14 +543,14 @@ Capability advertisement represents the ability of any registered component to i
           <section anchor="request-payload-1" numbered="true" toc="default">
             <name>Request Payload</name>
             <t>The component's capability advertisement request payload will include a list of "Capability URNs" (TBD IANA SECTION) that represent it's supported operational capabilities.</t>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
 capability-advertisement:
   capabilities:
     capability-urn: [urn]
     capability-urn: [urn]
     capability-urn: [urn]
     ...
-]]></artwork>
+</artwork>
           </section>
           <section anchor="request-processing-1" numbered="true" toc="default">
             <name>Request Processing</name>
@@ -563,7 +563,7 @@ capability-advertisement:
           <section anchor="response-payload-1" numbered="true" toc="default">
             <name>Response Payload</name>
             <t>The response payload delivered to the component should include the appropriate service handling/event listening information required for the component to handle further interactions based on each advertised capability.  If a capability was not registered successfully, appropriate error messages SHOULD be supplied to inform the component of the failure(s).</t>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
 capability-advertisement-response:
   capabilities:
     capability:
@@ -576,7 +576,7 @@ capability-advertisement-response:
       registration-status: (success | failure)
       service-handler-or-event-listener: [info]
       messages: [messages]
-]]></artwork>
+</artwork>
           </section>
           <section anchor="response-processing-1" numbered="true" toc="default">
             <name>Response Processing</name>
@@ -595,10 +595,10 @@ As time passes, it is important that the Manager maintains knowledge of all regi
           <section anchor="request-payload-2" numbered="true" toc="default">
             <name>Request Payload</name>
             <t>The request for the health check is a simple "ping".</t>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
 health-check-request:
   action: ping
-]]></artwork>
+</artwork>
           </section>
           <section anchor="request-processing-2" numbered="true" toc="default">
             <name>Request Processing</name>
@@ -629,10 +629,10 @@ As time passes and SACM ecosystem components which have previously registered ar
           <section anchor="request-payload-3" numbered="true" toc="default">
             <name>Request Payload</name>
             <t>The request payload simply defines the hearbeat action:</t>
-            <artwork name="" type="" align="left" alt=""><![CDATA[
+            <artwork name="" type="" align="left" alt="">
 heartbeat-request:
   action: pulse
-]]></artwork>
+</artwork>
           </section>
           <section anchor="request-processing-3" numbered="true" toc="default">
             <name>Request Processing</name>
@@ -664,12 +664,12 @@ heartbeat-response:
         <section anchor="request-payload-4" numbered="true" toc="default">
           <name>Request Payload</name>
           <t>At a minimum, the payload broadcast for a status notification MUST include the status message and the publishing component's <tt>component-unique-identifier</tt>. Further identifying information, such as status codes, operation indicators, etc., MAY be provided by implementing components.</t>
-          <artwork name="" type="" align="left" alt=""><![CDATA[
+          <artwork name="" type="" align="left" alt="">
 status-notification:
   publisher: [component-unique-identifier]
   message: [message]
   [additional information]
-]]></artwork>
+</artwork>
         </section>
         <section anchor="request-processing-4" numbered="true" toc="default">
           <name>Request Processing</name>
@@ -1197,7 +1197,7 @@ A URN representing a component's capability to initiate Health Check operations 
             <t>This section describes the components and interactions in a basic configuration assessment workflow. For simplicity, error conditions are recognized as being necessary and are not depicted. When one component messages another component, the message is expected to be handled appropriately unless there is an error condition, or other notification, messaged in return.</t>
             <figure anchor="fig-configassess">
               <name>Configuration Assessment Component Interactions</name>
-              <artwork name="" type="" align="left" alt=""><![CDATA[
+              <artwork name="" type="" align="left" alt="">
 +-------------+  +----------------+  +------------------+  +------------+
 | Policy Feed |  |  Orchestrator  |  |    Evaluation    |  | Evaluation |
 +------+------+  +-------+--------+  | Sub-Architecture |  |   Results  |
@@ -1220,7 +1220,7 @@ A URN representing a component's capability to initiate Health Check operations 
 | Repository |                       | Sub-Architecture |  | Attribute  |
 +------------+                       +------------------+  | Repository |
                                                            +------------+
-]]></artwork>
+</artwork>
             </figure>
             <t><xref target="fig-configassess" format="default"/> depicts configuration assessment components and their interactions, which are further described below.</t>
             <ol spacing="normal" type="1"><li>A policy feed provides a configuration assessment policy payload to the Integration Service.</li>
