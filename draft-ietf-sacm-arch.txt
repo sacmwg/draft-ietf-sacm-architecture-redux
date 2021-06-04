@@ -5,7 +5,7 @@
 SACM Working Group                                          A. Montville
 Internet-Draft                                                 B. Munyan
 Intended status: Standards Track                                     CIS
-Expires: 29 November 2021                                    28 May 2021
+Expires: 6 December 2021                                     4 June 2021
 
 
    Security Automation and Continuous Monitoring (SACM) Architecture
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 November 2021.
+   This Internet-Draft will expire on 6 December 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 1]
+Montville & Munyan       Expires 6 December 2021                [Page 1]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    and restrictions with respect to this document.  Code Components
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 2]
+Montville & Munyan       Expires 6 December 2021                [Page 2]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
        5.5.4.  Persist Collected Posture Attributes  . . . . . . . .  22
@@ -165,9 +165,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 3]
+Montville & Munyan       Expires 6 December 2021                [Page 3]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 1.  Introduction
@@ -221,9 +221,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 4]
+Montville & Munyan       Expires 6 December 2021                [Page 4]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
                   Figure 1: Basic Architectural Structure
@@ -277,9 +277,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 5]
+Montville & Munyan       Expires 6 December 2021                [Page 5]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    techniques.  Both methods require connected components to verify
@@ -333,9 +333,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 6]
+Montville & Munyan       Expires 6 December 2021                [Page 6]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    distinct "stanzas" ("<message/>", "<presence/>", and "<iq/>"), using
@@ -389,9 +389,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 7]
+Montville & Munyan       Expires 6 December 2021                [Page 7]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 3.7.2.  Directed
@@ -445,9 +445,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 8]
+Montville & Munyan       Expires 6 December 2021                [Page 8]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
   +-------------------------------------------+
@@ -501,9 +501,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021                [Page 9]
+Montville & Munyan       Expires 6 December 2021                [Page 9]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 4.1.1.  Manager
@@ -557,9 +557,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 10]
+Montville & Munyan       Expires 6 December 2021               [Page 10]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    repositories may be as distinct as their intended purpose, such as
@@ -613,9 +613,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 11]
+Montville & Munyan       Expires 6 December 2021               [Page 11]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 4.2.1.  Reporting
@@ -669,9 +669,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 12]
+Montville & Munyan       Expires 6 December 2021               [Page 12]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
      +----------------------------------------------------------+
@@ -725,9 +725,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 13]
+Montville & Munyan       Expires 6 December 2021               [Page 13]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    supplied in a variety of forms, including subscription to a publish/
@@ -781,9 +781,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 14]
+Montville & Munyan       Expires 6 December 2021               [Page 14]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 4.3.1.2.  Endpoint
@@ -837,9 +837,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 15]
+Montville & Munyan       Expires 6 December 2021               [Page 15]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 +------------------+
@@ -893,9 +893,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 16]
+Montville & Munyan       Expires 6 December 2021               [Page 16]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 4.3.2.3.  Evaluation Results Repository
@@ -925,20 +925,20 @@ Internet-Draft              SACM Architecture                   May 2021
 
 5.  Ecosystem Interactions
 
-   <>{: #ecosystem-interactions title="Ecosystem Interactions"}
    Ecosystem interactions describe the various functions between SACM
    components, including manager requirements, the onboarding of
    components, capability advertisement, administrative actions, and
-   status updates, among others.  The Manager component acts as the
-   administrative "lead" for the SACM ecosystem, and must maintain
-   records of registered components, manage capabilities, and more.
+   status updates, among others.  Section 5 The Manager component acts
+   as the administrative "lead" for the SACM ecosystem, and must
+   maintain records of registered components, manage capabilities, and
+   more.
 
 5.1.  Manager
 
    The Manager, being a specialized role in the architecture, enables
    the onboarding and capability management of the various SACM
    component roles.  The Manager must support the set of capabilities
-   needed to operate the SACM ecosystem.
+   needed to operate the SACM ecosystem.  Section 4.1.1
 
 
 
@@ -949,9 +949,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 17]
+Montville & Munyan       Expires 6 December 2021               [Page 17]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    With this in mind, the Manager must first authenticate to the
@@ -1005,9 +1005,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 18]
+Montville & Munyan       Expires 6 December 2021               [Page 18]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 5.2.  Component Registration
@@ -1061,9 +1061,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 19]
+Montville & Munyan       Expires 6 December 2021               [Page 19]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 5.3.3.  Heartbeat
@@ -1117,9 +1117,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 20]
+Montville & Munyan       Expires 6 December 2021               [Page 20]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 5.5.2.  Coordinate Periodic Collection
@@ -1173,9 +1173,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 21]
+Montville & Munyan       Expires 6 December 2021               [Page 21]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 5.5.3.2.  Cancel Observational/Event-based Collection
@@ -1229,9 +1229,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 22]
+Montville & Munyan       Expires 6 December 2021               [Page 22]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 5.5.6.2.  Cancel Periodic Evaluation
@@ -1285,9 +1285,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 23]
+Montville & Munyan       Expires 6 December 2021               [Page 23]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 6.1.  Component Registration
@@ -1341,9 +1341,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 24]
+Montville & Munyan       Expires 6 December 2021               [Page 24]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 6.1.2.  Request Processing
@@ -1397,9 +1397,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 25]
+Montville & Munyan       Expires 6 December 2021               [Page 25]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    operations MAY be enabled using the directed messaging provided by
@@ -1453,9 +1453,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 26]
+Montville & Munyan       Expires 6 December 2021               [Page 26]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 6.2.1.3.  Response Payload
@@ -1509,9 +1509,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 27]
+Montville & Munyan       Expires 6 December 2021               [Page 27]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 6.2.2.1.  Request Payload
@@ -1565,9 +1565,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 28]
+Montville & Munyan       Expires 6 December 2021               [Page 28]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    *  Source Component: Any registered component, such as Posture
@@ -1621,9 +1621,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 29]
+Montville & Munyan       Expires 6 December 2021               [Page 29]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    broadcast status message payloads to any subscribers with the need to
@@ -1677,9 +1677,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 30]
+Montville & Munyan       Expires 6 December 2021               [Page 30]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 6.4.1.  Orchestrator to Posture Collection Service
@@ -1733,9 +1733,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 31]
+Montville & Munyan       Expires 6 December 2021               [Page 31]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 9.2.  Component Capabilities
@@ -1789,9 +1789,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 32]
+Montville & Munyan       Expires 6 December 2021               [Page 32]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    [RFC8412]  Schmidt, C., Haynes, D., Coffin, C., Waltermire, D., and
@@ -1845,9 +1845,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 33]
+Montville & Munyan       Expires 6 December 2021               [Page 33]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    [I-D.ietf-sacm-terminology]
@@ -1901,9 +1901,9 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 34]
+Montville & Munyan       Expires 6 December 2021               [Page 34]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 Appendix A.  Security Domain Workflows
@@ -1957,9 +1957,9 @@ A.1.1.2.  Capabilities
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 35]
+Montville & Munyan       Expires 6 December 2021               [Page 35]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 A.1.1.3.  Workflow(s)
@@ -2013,9 +2013,9 @@ A.2.  Vulnerability Management
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 36]
+Montville & Munyan       Expires 6 December 2021               [Page 36]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 A.2.1.  Components, Capabilities and Workflow(s)
@@ -2069,9 +2069,9 @@ A.3.  Configuration Management
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 37]
+Montville & Munyan       Expires 6 December 2021               [Page 37]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    *  Configuration assessment tool queries asset inventory repository
@@ -2125,9 +2125,9 @@ A.3.1.1.  Components
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 38]
+Montville & Munyan       Expires 6 December 2021               [Page 38]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
 A.3.1.2.  Capabilities
@@ -2181,9 +2181,9 @@ A.3.1.3.  Configuration Assessment Workflow
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 39]
+Montville & Munyan       Expires 6 December 2021               [Page 39]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    2.   The Policy Repository, a consumer of Policy Feed information,
@@ -2237,9 +2237,9 @@ Authors' Addresses
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 40]
+Montville & Munyan       Expires 6 December 2021               [Page 40]
 
-Internet-Draft              SACM Architecture                   May 2021
+Internet-Draft              SACM Architecture                  June 2021
 
 
    East Greenbush, NY 12061
@@ -2293,4 +2293,4 @@ Internet-Draft              SACM Architecture                   May 2021
 
 
 
-Montville & Munyan      Expires 29 November 2021               [Page 41]
+Montville & Munyan       Expires 6 December 2021               [Page 41]

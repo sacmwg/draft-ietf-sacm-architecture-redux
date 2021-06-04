@@ -137,7 +137,140 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 2119, BCP 14 {{RFC2119}}.
 
 # Terms and Definitions
-This draft defers to {{-sacmt}} for terms and definitions.
+
+Assessment:
+
+: Defined in {{RFC5209}} as "the process of collecting posture for a set of capabilities on the endpoint (e.g., host-based firewall) such that the appropriate validators may evaluate the posture against compliance policy."
+
+Asset:
+
+: Is a system resource, as defined in {{RFC4949}}, that may be composed of other assets.
+
+: Examples of Assets include: Endpoints, Software, Guidance, or X.509 public key certificates. An asset is not necessarily owned by an organization.
+
+Asset Management:
+
+: The IT process by which assets are provisioned, updated, maintained and deprecated.
+
+Attribute:
+
+: Is a data element, as defined in {{RFC5209}}, that is atomic.
+
+: In the context of SACM, attributes are "atomic" information elements and an equivalent to attribute-value-pairs.  Attributes can be components of Subjects.
+
+Capability:
+
+: A set of features that are available from a SACM Component.
+
+: See also "capability" in {{-i2nsft}}.
+
+Collector:
+
+: A piece of software that acquires information about one or more target endpoints by conducting collection tasks.
+
+: A collector can be distributed across multiple endpoints, e.g. across a target endpoint and a SACM component.  The separate parts of the collector can communicate with a specialized protocol, such as PA-TNC [RFC5792].  At least one part of a distributed collector has to take on the role of a provider of information by providing SACM interfaces to propagate capabilities and to provide SACM content in the form of collection results.
+
+Configuration:
+
+: A non-volatile subset of the endpoint attributes of a endpoint that is intended to be unaffected by a normal reboot-cycle.
+
+: Configuration is a type of imperative guidance that is stored in files (files dedicated to contain configuration and/ or files that are software components), directly on block devices, or on specific hardware components that can be accessed via corresponding software components.  Modification of configuration can be conducted manually or automatically via management (plane) interfaces that support management protocols, such as SNMP or WMI. A change of configuration can occur during both run-time and down- time of an endpoint.  It is common practice to scheduled a change of configuration during or directly after the completion of a boot-cycle via corresponding software components located on the target endpoint itself.
+
+Consumer:
+
+: A SACM Role that requires a SACM Component to include SACM Functions enabling it to receive information from other SACM Components.
+
+Endpoint:
+
+: Defined in {{RFC5209}} as "any computing device that can be connected to a network."
+
+: Additional Information - The {{RFC5209}} definition continues, "Such devices normally are associated with a particular link layer address before joining the network and potentially an IP address once on the network.  This includes: laptops, desktops, servers, cell phones, or any device that may have an IP address."
+
+: To further clarify the {{RFC5209}} definition, an endpoint is any physical or virtual device that may have a network address.  Note that, network infrastructure devices (e.g. switches, routers, firewalls), which fit the definition, are also considered to be endpoints within this document.
+
+: Physical endpoints are always composites that are composed of hardware components and software components. Virtual endpoints are composed entirely of software components and rely on software components that provide functions equivalent to hardware components.
+
+: The SACM architecture differentiates two essential categories of endpoints: Endpoints whose security posture is intended to be assessed (target endpoints) and endpoints that are specifically excluded from endpoint posture assessment (excluded endpoints).
+
+: Based on the definition of an asset, an endpoint is a type of asset.
+
+
+Endpoint Attribute:
+
+: Is a discreet endpoint characteristic that is computably observable.
+
+: Endpoint Attributes typically constitute Attributes that can be bundled into Subject (e.g. information about a specific network interface can be represented via a set of multiple AVP).
+
+Endpoint Characteristics:
+
+: The state, configuration and composition of the software components and (virtual) hardware components a target endpoint is composed of, including observable behavior, e.g. sys-calls, log-files, or PDU emission on a network.
+
+: In SACM work-flows, (Target) Endpoint Characteristics are represented via Information Elements.
+
+
+Posture:
+
+: Defined in {{RFC5209}} as "configuration and/or status of hardware or software on an endpoint as it pertains to an organization's security policy."
+
+: This term is used within the scope of SACM to represent the configuration and state information that is collected from a target endpoint in the form of endpoint attributes (e.g. software/hardware inventory, configuration settings, dynamically assigned addresses).  This information may constitute one or more posture attributes.
+
+
+Posture Attributes:
+
+: Defined in {{RFC5209}} as "attributes describing the configuration or status (posture) of a feature of the endpoint.  A Posture Attribute represents a single property of an observed state.  For example, a Posture Attribute might describe the version of the operating system installed on the system."
+
+: Within this document this term represents a specific assertion about endpoint configuration or state (e.g. configuration setting, installed software, hardware) represented via endpoint attributes.  The phrase "features of the endpoint" highlighted above refers to installed software or software components.
+
+
+Provider:
+
+: A provider is a SACM role assigned to a SACM component that provides role-specific functions to provide information to other SACM components.
+
+
+Repository:
+
+: A repository is a controller that contains functions to consume, store and provide information of a particular kind.
+
+: Such information is typically data transported on the data plane, but potentially also data and metadata from the control and management plane.  A single repository may provide the functions of more than one specific repository type (i.e. configuration baseline repository, assessment results repository, etc.)
+
+
+Security Automation:
+
+: The process of which security alerts can be automated through the use of different components to monitor, analyze and assess endpoints and network traffic for the purposes of detecting misconfigurations, misbehaviors or threats.
+
+: Security Automation is intended to identify target endpoints that cannot be trusted (see "trusted" in {{RFC4949}}. This goal is achieved by creating and processing evidence (assessment statements) that a target endpoint is not a trusted system {{RFC4949}}.
+
+
+State:
+
+: A volatile set of endpoint attributes of a (target) endpoint that is affected by a reboot-cycle.
+
+: Local state is created by the interaction of components with other components via the control plane, via processing data plane payload, or via the functional properties of local hardware and software components. Dynamic configuration (e.g.  IP address distributed dynamically via an address distribution and management services, such as DHCP) is considered state that is the result of the interaction with another component (e.g. provided by a DHCP server with a specific configuration).
+
+
+Target Endpoint:
+
+: Is an endpoint that is under assessment at some point in, or region of, time.
+
+: Every endpoint that is not specifically designated as an excluded endpoint is a target endpoint.  A target endpoint is not part of a SACM domain unless it contains a SACM component (e.g. a SACM component that publishes collection results coming from an internal collector).
+
+: A target endpoint is similar to a device that is a Target of Evaluation (TOE) as defined in Common Criteria and as referenced by {{RFC4949}.
+
+
+Vulnerability Assessment:  
+
+: An assessment specifically tailored to determining whether a set of endpoints is vulnerable according to the information contained in the vulnerability description information.
+
+
+Workflow:
+
+: A workflow is a modular composition of tasks that can contain loops, conditionals, multiple starting points and multiple endpoints.
+
+: The most prominent workflow in SACM is the assessment workflow.
+
+
+
+
 
 # Architectural Overview
 The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.  Different roles within a cooperative ecosystem may act as both Producers and Consumers of SACM-relevant information.
@@ -398,8 +531,7 @@ Posture evaluation is orchestrated through the Integration Service to the approp
 
 
 # Ecosystem Interactions
-<>{: #ecosystem-interactions title="Ecosystem Interactions"}
-Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others.  The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capabilities, and more.
+Ecosystem interactions describe the various functions between SACM components, including manager requirements, the onboarding of components, capability advertisement, administrative actions, and status updates, among others. The Manager component acts as the administrative "lead" for the SACM ecosystem, and must maintain records of registered components, manage capabilities, and more.
 
 ## Manager
 The Manager, being a specialized role in the architecture, enables the onboarding and capability management of the various SACM component roles.  The Manager must support the set of capabilities needed to operate the SACM ecosystem.
