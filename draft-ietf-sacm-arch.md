@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-11
+docname: draft-ietf-sacm-arch-12
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -62,6 +62,11 @@ informative:
   RFC7632:
   RFC8248:
   RFC5023:
+  RFC3444:
+  RFC4949:
+  RFC5209:
+  RFC6192:
+  I-D.ietf-i2nsf-terminology: i2nsft
   CISCONTROLS:
     target: https://www.cisecurity.org/controls
     title: CIS Controls v7.1
@@ -139,21 +144,18 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 # Terms and Definitions
 
 Assessment:
-
 : Defined in {{RFC5209}} as "the process of collecting posture for a set of capabilities on the endpoint (e.g., host-based firewall) such that the appropriate validators may evaluate the posture against compliance policy."
 
-Asset:
 
+Asset:
 : Is a system resource, as defined in {{RFC4949}}, that may be composed of other assets.
 
 : Examples of Assets include: Endpoints, Software, Guidance, or X.509 public key certificates. An asset is not necessarily owned by an organization.
 
 Asset Management:
-
 : The IT process by which assets are provisioned, updated, maintained and deprecated.
 
 Attribute:
-
 : Is a data element, as defined in {{RFC5209}}, that is atomic.
 
 : In the context of SACM, attributes are "atomic" information elements and an equivalent to attribute-value-pairs.  Attributes can be components of Subjects.
@@ -261,7 +263,7 @@ Target Endpoint:
 
 : Every endpoint that is not specifically designated as an excluded endpoint is a target endpoint.  A target endpoint is not part of a SACM domain unless it contains a SACM component (e.g. a SACM component that publishes collection results coming from an internal collector).
 
-: A target endpoint is similar to a device that is a Target of Evaluation (TOE) as defined in Common Criteria and as referenced by {{RFC4949}.
+: A target endpoint is similar to a device that is a Target of Evaluation (TOE) as defined in Common Criteria and as referenced by {{RFC4949}}.
 
 
 Vulnerability Assessment:  
@@ -275,6 +277,7 @@ Workflow:
 
 : The most prominent workflow in SACM is the assessment workflow.
 
+-->
 
 # Architectural Overview
 The generic approach proposed herein recognizes the need to obtain information from existing and future state collection systems, and makes every attempt to respect {{RFC7632}} and {{RFC8248}}. At the foundation of any architecture are entities, or components, that need to communicate. They communicate by sharing information, where, in a given flow, one or more components are consumers of information and one or more components are providers of information.  Different roles within a cooperative ecosystem may act as both Producers and Consumers of SACM-relevant information.
@@ -379,7 +382,7 @@ Within the cooperative SACM ecosystem, a number of roles act in coordination to 
 As shown in {{fig-notional}}, the SACM role-based architecture consists of some basic SACM Components communicating using an integration service. The integration service is expected to maximally align with the requirements described in {{RFC8248}}, which means that the integration service will support brokered (i.e. point-to-point) and proxied data exchange.
 
 ## Architectural Roles/Components
-This document suggests a variety of players in a cooperative ecosystem; known as SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Roles may act as providers of information, consumers of information, or both provider and consumer.  {{fig-notional}} depicts a number of SACM components which are architecturally significant and therefore warrant discussion and clarification. Each role depicted in {{fig-notional}} represents the interface to the component(s) fulfilling that role, not necessarily any specific implementation.  For example, the "Repository" figure represents the interface to persistent storage, and not any particular persistent storage mechanism. 
+This document suggests a variety of players in a cooperative ecosystem; known as SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Roles may act as providers of information, consumers of information, or both provider and consumer.  {{fig-notional}} depicts a number of SACM components which are architecturally significant and therefore warrant discussion and clarification. Each role depicted in {{fig-notional}} represents the interface to the component(s) fulfilling that role, not necessarily any specific implementation.  For example, the "Repository" figure represents the interface to persistent storage, and not any particular persistent storage mechanism.
 
 ### Manager
 The Manager acts as the control plane for the SACM ecosystem; a sort of high level component capable of coordinating the actions, notifications, and events between components.  The manager controls the administrative interfaces with the various components of the ecosystem, acting as the central point to which all other components will register and advertise their capabilities.  It is the responsibility of the manager to control a component’s access to the ecosystem, maintain an inventory of components attached to the ecosystem, and to initiate the various workflows involved in the collection and/or evaluation of posture attributes.
