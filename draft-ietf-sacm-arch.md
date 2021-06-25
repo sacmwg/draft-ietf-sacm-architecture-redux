@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-10
+docname: draft-ietf-sacm-arch-11
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -240,6 +240,13 @@ Security Automation:
 
 : Security Automation is intended to identify target endpoints that cannot be trusted (see "trusted" in {{RFC4949}}. This goal is achieved by creating and processing evidence (assessment statements) that a target endpoint is not a trusted system {{RFC4949}}.
 
+SIEM:
+
+: TBD
+
+SOAR:
+
+: TBD
 
 State:
 
@@ -267,9 +274,6 @@ Workflow:
 : A workflow is a modular composition of tasks that can contain loops, conditionals, multiple starting points and multiple endpoints.
 
 : The most prominent workflow in SACM is the assessment workflow.
-
-
-
 
 
 # Architectural Overview
@@ -336,7 +340,7 @@ Two categories of interactions SHOULD be supported by the Integration Service: b
 A broadcast interaction, commonly referred to as publish/subscribe, allows for a wider distribution of a message payload.  When a payload is published to the Integration Service, all subscribers to that payload are alerted and may consume the message payload.  This category of interaction can also be described as a "unicast" interaction when only a single subscriber exists.  An example of a broadcast interaction could be to publish Linux OVAL objects to a posture collection topic.  Subscribing consumers receive the notification, and proceed to collect endpoint configuration posture based on the supplied message payload.
 
 ### Directed
-The intent of a directed interaction is to enable point-to-point communications between a producer and consumer, through the standard interfaces provided by the Integration Service.  The provider component indicates which consumer is intended to receive the payload, and the Integration Service routes the payload directly to that consumer.  Two "styles" of directed interaction exist, differing only by the response from the payload consumer.  
+The intent of a directed interaction is to enable point-to-point communications between a producer and consumer, through the standard interfaces provided by the Integration Service.  The provider component indicates which consumer is intended to receive the payload, and the Integration Service routes the payload directly to that consumer.  Two "styles" of directed interaction exist, differing only by the response from the consumer.  
 
 #### Synchronous
 Synchronous, request/response style interaction requires that the requesting component block and wait for the receiving component to respond, or to time out when that response is delayed past a given time threshold.  A synchronous interaction example may be querying a CMDB for posture attribute information in order to perform an evaluation.
@@ -348,34 +352,34 @@ An asynchronous interaction involves the payload producer directing the message 
 Within the cooperative SACM ecosystem, a number of roles act in coordination to provide relevant policy/guidance, perform data collection, storage, evaluation, and support downstream analytics and reporting.
 
 ~~~~~~~~~~
-  +-------------------------------------------+
-  |                 Manager                   |
-  +-------------------^-----------------------+
-                      |
-  +-----------------+ |  +--------------------+
-  | Orchestrator(s) | |  | Repositories/CMDBs |
-  +---------+-------+ |  +----------+---------+
-            |         |             |                +--------------------+
-            |         |             |                |  Downstream Uses   |
-            |         |             |                | +----------------+ |
-  +---------v---------v-------------v---------+      | |   Analytics    | |
-  |             Integration Service           <------> +----------------+ |
-  +-----------^--------------------------^----+      | +----------------+ |
-              |                          |           | |   Reporting    | |
-              |                          |           | +----------------+ |
-  +-----------v-------------------+      |           +--------------------+
-  |  Collection Sub-Architecture  |      |
-  +-------------------------------+      |
-                         +---------------v---------------+
-                         |  Evaluation Sub-Architecture  |
-                         +-------------------------------+
+ +-------------------------------------------+
+ |                 Manager                   |
+ +-------------------^-----------------------+
+                     |
+ +-----------------+ |  +--------------------+
+ | Orchestrator(s) | |  |  Repository(-ies)  |
+ +---------^-------+ |  +----------^---------+
+           |         |             |                +--------------------+
+           |         |             |                |  Downstream Uses   |
+           |         |             |                | +----------------+ |
+ +---------v---------v-------------v---------+      | |   Analytics    | |
+ |             Integration Service           <------> +----------------+ |
+ +-----------^--------------------------^----+      | +----------------+ |
+             |                          |           | |   Reporting    | |
+             |                          |           | +----------------+ |
+ +-----------v-------------------+      |           +--------------------+
+ |  Collection Sub-Architecture  |      |
+ +-------------------------------+      |
+                        +---------------v---------------+
+                        |  Evaluation Sub-Architecture  |
+                        +-------------------------------+
 ~~~~~~~~~~
 {: #fig-notional title="Notional Role-based Architecture"}
 
 As shown in {{fig-notional}}, the SACM role-based architecture consists of some basic SACM Components communicating using an integration service. The integration service is expected to maximally align with the requirements described in {{RFC8248}}, which means that the integration service will support brokered (i.e. point-to-point) and proxied data exchange.
 
 ## Architectural Roles/Components
-This document suggests a variety of players in a cooperative ecosystem; known as SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Roles may act as providers of information, consumers of information, or both provider and consumer.  {{fig-notional}} depicts a number of SACM components which are architecturally significant and therefore warrant discussion and clarification.
+This document suggests a variety of players in a cooperative ecosystem; known as SACM Components. SACM Components may be composed of other SACM Components, and each SACM Component plays one, or more, of several roles relevant to the ecosystem. Roles may act as providers of information, consumers of information, or both provider and consumer.  {{fig-notional}} depicts a number of SACM components which are architecturally significant and therefore warrant discussion and clarification. Each role depicted in {{fig-notional}} represents the interface to the component(s) fulfilling that role, not necessarily any specific implementation.  For example, the "Repository" figure represents the interface to persistent storage, and not any particular persistent storage mechanism. 
 
 ### Manager
 The Manager acts as the control plane for the SACM ecosystem; a sort of high level component capable of coordinating the actions, notifications, and events between components.  The manager controls the administrative interfaces with the various components of the ecosystem, acting as the central point to which all other components will register and advertise their capabilities.  It is the responsibility of the manager to control a component’s access to the ecosystem, maintain an inventory of components attached to the ecosystem, and to initiate the various workflows involved in the collection and/or evaluation of posture attributes.
@@ -387,8 +391,10 @@ The manager may act as the user interface to the ecosystem, providing user dashb
 ### Orchestrator(s)
 Orchestration components provide the manager with resources for delegating work across the SACM ecosystem.  Orchestrators are responsible for receiving messages from the manager, e.g. posture attribute collection instructions, and routing those messages to the appropriate “actions”.  For example, an orchestrator may support the capability of translating posture collection instructions using the Open Vulnerability and Assessment Language (OVAL) and providing those instructions to OVAL collectors.  An orchestrator may support the capability of initiating policy evaluation.  Where the Manager is configured to ask a particular set of questions, those questions are delegated to Orchestrators, who are then capable of asking those questions using specific dialects.
 
-### Repositories/Configuration Management Databases (CMDBs)
-{{fig-notional}} only includes a single reference to "Repositories/CMDBs", but in practice, a number of separate data repositories may exist, including posture attribute repositories, policy repositories, local vulnerability definition data repositories, and state assessment results repositories.  These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems (RDBMS) or graph/map implementations focused on the relationships between data elements.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).
+### Repositories
+{{fig-notional}} only includes a single reference to "Repository(-ies)", but in practice, a number of separate data repositories may exist, including posture attribute repositories, policy repositories, local vulnerability definition data repositories, and state assessment results repositories. The diagrammed notion of a repository within the SACM context represents an interface in which payloads are provided (based on the capabilities of the producer), normalized, and persisted.
+
+These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems (RDBMS), filesystem-based storage, or graph/map implementations.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).
 
 ### Integration Service
 If each SACM component represents a set of capabilities, then the Integration Service represents the "fabric" by which SACM components are woven together.  The Integration Service acts as a message broker, combining a set of common message categories and infrastructure to allow SACM components to communicate using a shared set of interfaces.  The Integration Service's brokering capabilities enable the exchange of various information payloads, orchestration of component capabilities, message routing and reliable delivery.  The Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.  SACM components will "attach" to the Integration Service either through native support for the integration implementation, or through the use of "adapters" which provide a proxied attachment.
@@ -632,8 +638,6 @@ Queries should allow for a "freshness" time period, allowing the requesting enti
 The following sections describe a number of operations required to enable a cooperative ecosystem of posture attribute collection and evaluation functions.
 
 ## Component Registration
-{: #component-registration-op title="Component Registration"}
-
 Component registration describes how an individual component becomes part of the SACM ecosystem; registering with the Manager, and establishing the administrative interface.
 
 - Interaction Type: Directed (Request/Response)
@@ -685,12 +689,10 @@ Successful receipt of the Manager's response, including the `[component-unique-i
 
 
 ## Administrative Interface
-<>{: #administrative-interface title="Administrative Interface"}
 A number of functions may take place which, instead of being published to multiple subscribers, may require direct interaction between the Manager and a registered component (and vice-versa).  During component onboarding, this direct channel, known as the Administrative Interface, is established first by the Manager and subsequently complemented by the component onboarding the SACM ecosystem.  Three operations are defined for the administrative interface, but any number of application or capability-specific operations MAY be enabled using the directed messaging provided by this interface.
 
 
 ### Capability Advertisement Handshake
-<>{: #capability-advertisement-op title="Capability Advertisement Handshake"}
 Capability advertisement represents the ability of any registered component to inform the Manager of that component's capacity for performing certain operations. For example, a Posture Collection Service component may advertise its capability to perform collection using a particular collection system/serialization.  This capability advertisement is important for the Manager to persist in order for the Manager to correctly classify components registered within the SACM ecosystem, and therefore provide the ability to publish messages to components in accordance with their capabilities.
 
 - Interaction Type: Directed (Request/Response)
@@ -738,8 +740,7 @@ Once the component has received the response to its capability advertisement, it
 
 
 ### Health Check
-<>{: #health-check-op title="Health Check"}
-As time passes, it is important that the Manager maintains knowledge of all registered component's current operational status.  The health check operation describes the efforts taken by the Manager to maintain the most up-to-date inventory of it's component roster, and to potentially alert users or other outside systems of unavailable components.
+As time passes, it is important that the Manager maintains knowledge of all registered component's current operational status.  The health check operation describes the efforts taken by the Manager to maintain the most up-to-date inventory of it's component roster, and to potentially trigger events to users or outside systems (e.g. a SIEM or SOAR) indicating unavailable components.
 
 - Interaction Type: Directed (Request/Response)
 - Source Component: Manager
@@ -768,7 +769,6 @@ Upon receipt of the "health-check-response" payload, the Manager will update its
 
 
 ### Heartbeat
-<>{: #heartbeat-op title="Heartbeat"}
 As time passes and SACM ecosystem components which have previously registered are brought offline (perhaps for maintenance or redeployment) and back online, it is important that registered components maintain administrative contact with the Manager. The heartbeat operation describes the efforts taken by a registered component to determine the status of contact with the Manager, and to take appropriate action if such contact cannot be made.
 
 - Interaction Type: Directed (Request/Response)
@@ -798,8 +798,6 @@ Upon receipt of the "heartbeat-response" payload, the component may reset its he
 
 
 ## Status Notification
-<>{: #status-notification-op title="Status Notification"}
-
 From time to time during the performance of any given operation, a component may need to supply status information to the Manager (or any other concerned component), for use in display to users, or to trigger other events within the SACM ecosystem.  The status notification operation is designed to allow any component to broadcast status message payloads to any subscribers with the need to know. For example, a collection component could broadcast to the Manager that it has initiated collection, subsequent collection progress updates, and finally completion or error conditions.
 
 - Interaction Type: Broadcast (Publish/Subscribe)
@@ -829,23 +827,13 @@ N/A
 
 ## Initiate Ad-Hoc Collection
 ### Manager to Orchestrator
-<>{: #-op title=""}
-
 ### Orchestrator to Posture Collection Service
-{: #-op title=""}
-
 ### Posture Collection Service to Posture Attribute Repository
-{: #-op title=""}
 
 ## Initiate Ad-Hoc Evaluation
 ### Manager to Orchestrator
-{: #-op title=""}
-
 ### Orchestrator to Evaluator
-{: #-op title=""}
-
 ### Evaluator to Posture Evaluation Repository
-{: #-op title=""}
 
 
 # Privacy Considerations
@@ -855,8 +843,6 @@ N/A
 [TBD]
 
 # IANA Considerations
-<>{: #iana-considerations title="IANA Considerations"}
-
 [TBD] Some boilerplate code...
 
 ## Component Types
@@ -875,22 +861,22 @@ Description: The allowed enumeration of the various component types permitted to
 ### Health Check
 A URN representing a component's capability to initiate Health Check operations and to process any provided response payloads.
 
-URI: `urn:ietf:sacm:capability:action:health-check`
+URN: `urn:ietf:sacm:capability:action:health-check`
 
 ### Heartbeat
 A URN representing a component's capability to initiate Heartbeat operations and to process any provided response payloads.
 
-URI: `urn:ietf:sacm:capability:action:heartbeat`
+URN: `urn:ietf:sacm:capability:action:heartbeat`
 
 ### Status Notification (Publish)
 A URN representing a component's capability to publish status notifications.
 
-URI: `urn:ietf:sacm:capability:publish:status-notification`
+URN: `urn:ietf:sacm:capability:publish:status-notification`
 
 ### Status Notification (Subscribe)
 A URN representing a component's capability to subscribe to status notification events.
 
-URI: `urn:ietf:sacm:capability:subscribe:status-notification`
+URN: `urn:ietf:sacm:capability:subscribe:status-notification`
 
 
 --- back
