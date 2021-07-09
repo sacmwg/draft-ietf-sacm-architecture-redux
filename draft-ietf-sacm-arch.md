@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-12
+docname: draft-ietf-sacm-arch-13
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -829,9 +829,111 @@ N/A
 
 
 ## Initiate Ad-Hoc Collection
-### Manager to Orchestrator
+The Ad-hoc collection workflow MAY be initiated by the Manager, via user interaction, or through a Posture Evaluation Service, and represents a single, point-in-time operation to collect posture attributes from applicable endpoints.  The SACM Producer initiates a message payload, either through directed channels (such as the administrative interface) or through broadcast notifications to multiple subscribers, to Orchestrator components.  Orchestrators MAY manipulate the Manager's collection instructions according to various collection capabilities, prior to providing those instructions to Posture Collection Service (PCS) components.  Once collection instructions are received by the PCS, it will collect the requested posture attributes from the designated endpoints, using its advertised collection capabilities.  The following diagram illustrates this workflow with the Manager as the initiating SACM Producer:
+
+     +-----------+                      +------------------------------+
+     |  Manager  |                      |  Posture Collection Service  |
+     +-+-----^---+                      +---^----------+----------+----+
+       |     |                              |          |          |
+     1.|    (S)                           4.|         (S)       5.|
+       |     |                              |          |          |
+       |     |                              |          |          |
+     +-v-----+-----------------------------------------v----------v----+
+     |                       Integration Service                       |
+     +-+-----^------^----------------------------------^----------+----+
+       |     |      |                                  |          |
+     2.|    (S)     |3.                               (S)         |6.
+       |     |      |                                  |          |
+       |     |      |                                  |          |
+     +-v-----+------+-+               +----------------+----------v----+
+     |  Orchestrator  |               |  Posture Attribute Repository  |
+     +----------------+               +--------------------------------+
+
+1. The Manager initiates a request to one or more Orchestrators to perform collection, 
+2. The Orchestrator receives collection instructions and potentially manipulates them according to one or more collection capabilities, 
+3. The Orchestrator publishes a notification to subscribed Posture Collection Service components, indicating the posture attributes to be collected, 
+4. The Posture Collection Service receives the collection instructions and performs the actual collection of posture attributes from an endpoint or endpoints.
+5. The Posture Collection Service publishes a notification(s) containing the collected posture attributes to be persisted to the Posture Attribute Repository, 
+6. The Posture Attribute Repository persists the collected posture attributes, potentially performing normalization of the data as part of its process.
+
+Interactions labeled (S) indicate the capability of each component to publish status notifications, subscribed to by the Manager.
+
+### SACM Producer to Orchestrator
+The Ad-hoc collection workflow MAY be initiated by a number of SACM components, such as the Manager, a Posture Evaluation Service, or other events outside the scope of this document.
+
+- Interaction Type: Directed (Request/Response) or Broadcast (Publish/Subscribe)
+- Source Component: Various
+- Target Component(s): Orchestrator
+
+#### Request Payload
+A request to orchestrate posture attribute collection MUST include enough information to describe those attributes being collected, and MAY include endpoint targeting information.
+
+~~~~~~
+collection-instructions:
+  TBD
+~~~~~~
+
+#### Request Processing
+When the Orchestrator receives the collection instructions, it may be required to manipulate them according to the capabilities it's collector(s) support.  For example, generic collection instructions could be transformed to the appropriate OVAL serialization for collection via OVAL-compliant collectors.
+
+#### Response Payload
+Orchestrators have the option to provide broadcast status update messages to indicate success, failure, or other error messages when receiving posture collection orchestration payloads.
+
+#### Response Processing
+N/A
+
 ### Orchestrator to Posture Collection Service
+Once the Orchestrator has received collection instructions from the initiating SACM component, and has performed any manipulation of the instructions to conform to it's capabilities, it will provide those instructions to relevant Posture Collection Services.
+
+- Interaction Type: Directed (Request/Response) or Broadcast (Publish/Subscribe)
+- Source Component: Orchestrator
+- Target Component(s): Posture Collection Service
+
+#### Request Payload
+The payload exchanged between the Orchestrator and it's associated Posture Collection Services will be collection instructions adhering to a data model supported by the PCS based on its advertised capabilities.
+
+~~~~~~
+collection-instructions:
+  TBD
+~~~~~~
+
+#### Request Processing
+Upon receipt of the payload containing collection instructions, the Posture Collection Service should parse and validate them, indicating any errors in the process.  If the payload does not conform to any serialization or data model to which the PCS' capabilities correspond, status messages indicating such nonconformance SHOULD be provided to both the Orchestrator and the initiating SACM producer.
+
+Once successfully parsed and validated, the PCS MUST perform collection of posture attributes according to the collection instructions, from any endpoint to which the PCS has access, or from the list of endpoints described in any targeting information included in the collection instructions.
+
+#### Response Payload
+Posture Collection Service components will respond using the generic status update mechanisms to indicate success, failure, or any errors that occur. Errors may occur parsing collection instructions, verifying them, targeting indicated endpoints, or from the act of collecting the indicated posture attributes.
+
+#### Response Processing
+Any messages received by components regarding the success, failure, or errors involved in the collection of posture attributes MAY be processed according to the receiving components' capabilities.
+
 ### Posture Collection Service to Posture Attribute Repository
+Upon completion of posture attribute collection, the PCS constructs the payload of collected attributes based on its advertised capabilities, e.g. OVAL system characteristics.  This payload is provided to either a specific posture attribute repository via directed messages or to subscribed repository interfaces via broadcast messages.
+
+- Interaction Type: Directed (Request/Response) or Broadcast (Publish/Subscribe)
+- Source Component: Posture Collection Service
+- Target Component(s): Posture Attribute Repository
+
+#### Request Payload
+The payload supplied by the Posture Collection Service SHOULD conform to information and data models supported by its advertised capabilities. These data models, at a minimum, SHOULD include name/value pairs for each collected attribute.
+
+~~~~~~
+collection-results:
+  [
+    attribute-name, 
+    attribute-value
+  ]
+~~~~~~
+
+#### Request Processing
+As the Posture Attribute Repository interface receives the payload of collected posture attributes, some data normalization MAY occur in order to persist the information most efficiently based on the persistence technology.  This normalization is dependent on the implementation of the repository interface as well as the persistence technology.  For example, OVAL system characteristics, an XML payload, could be normalized to a property graph representation when persisted to a Neo4j database.
+
+#### Response Payload
+Once the Posture Attribute Repository has received, it MAY respond to the Posture Collection Service that it has successfully received the collected posture attributes. This response would only be applicable when receiving payloads via directed requests. If payloads are received via broadcast interactions, there may not be a PCS to which a response can be sent.  The Posture Attribute Repository MAY utilize the generic status update interactions to provide response messages to appropriate subscribers.
+
+#### Response Processing
+Any messages received by components regarding the success, failure, or errors involved in the persistence of collected posture attributes MAY be processed according to the receiving components' capabilities.  For example, a generic status update message could be processed by a Manager component, correlated with the initial posture collection instructions in order to "close the loop" on the posture attribute collection workflow.
 
 ## Initiate Ad-Hoc Evaluation
 ### Manager to Orchestrator
