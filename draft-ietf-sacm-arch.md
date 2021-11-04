@@ -1,7 +1,7 @@
 ---
 title: Security Automation and Continuous Monitoring (SACM) Architecture
 abbrev: SACM Architecture
-docname: draft-ietf-sacm-arch-13
+docname: draft-ietf-sacm-arch-14
 stand_alone: true
 ipr: trust200902
 area: Security
@@ -98,6 +98,9 @@ informative:
       name: David Waltermire
     - ins: M. Johnson
       name: Mark Johnson
+  NISTSIEM:
+    target: https://csrc.nist.gov/glossary/term/security_information_and_event_management_SIEM_tool
+    title: security information and event management (SIEM) tool
   XMPPEXT:
     target: https://xmpp.org/extensions/
     title: XMPP Extensions
@@ -244,11 +247,11 @@ Security Automation:
 
 SIEM:
 
-: TBD
+: NIST defines SIEM as an "application that provides the ability to gather security data from information system components and present that data as actionalbe information via a single interface" {{NISTSIEM}}.
 
 SOAR:
 
-: TBD
+: Commonly known as Security Orchestration, Automation, and Response. SOAR is an holistic enterprise capability that exists when threat management, automation of security operations, and incident response are well-coordinated across all security program components in a manner minimizing the need for human intervention.
 
 State:
 
@@ -400,7 +403,7 @@ Orchestration components provide the manager with resources for delegating work 
 These data repositories may exist separately or together in a single representation, and the design of these repositories may be as distinct as their intended purpose, such as the use of relational database management systems (RDBMS), filesystem-based storage, or graph/map implementations.  Each implementation of a SACM repository should focus on the relationships between data elements and implement the SACM information and data model(s).
 
 ### Integration Service
-If each SACM component represents a set of capabilities, then the Integration Service represents the "fabric" by which SACM components are woven together.  The Integration Service acts as a message broker, combining a set of common message categories and infrastructure to allow SACM components to communicate using a shared set of interfaces.  The Integration Service's brokering capabilities enable the exchange of various information payloads, orchestration of component capabilities, message routing and reliable delivery.  The Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.  SACM components will "attach" to the Integration Service either through native support for the integration implementation, or through the use of "adapters" which provide a proxied attachment.
+If each SACM component represents a set of capabilities, then the Integration Service represents the "fabric" by which SACM components are woven together.  The Integration Service acts as a message broker, combining a set of common message categories and infrastructure to allow SACM components to communicate using a shared set of interfaces.  The Integration Service's brokering capabilities enable the exchange of various information payloads, orchestration of component capabilities, message routing, and reliable delivery (within reason - either with persistent messaging mechanisms or by utilizing a timeout after a configurable period of time).  The Integration Service minimizes the dependencies from one system to another through the loose coupling of applications through messaging.  SACM components will "attach" to the Integration Service either through native support for the integration implementation, or through the use of "adapters" which provide a proxied attachment.
 
 The Integration Service should provide mechanisms for both synchronous and asynchronous request/response-style messaging, and a publish/subscribe mechanism to implement an event-based architecture.  It is the responsibility of the Integration Service to coordinate and manage the sending and receiving of messages.  The Integration Service should allow components to directly connect and produce or consume messages, or connect via message translators which can act as a proxy, transforming messages from a component format to one implementing a SACM data model.
 
@@ -849,11 +852,11 @@ The Ad-hoc collection workflow MAY be initiated by the Manager, via user interac
      |  Orchestrator  |               |  Posture Attribute Repository  |
      +----------------+               +--------------------------------+
 
-1. The Manager initiates a request to one or more Orchestrators to perform collection, 
-2. The Orchestrator receives collection instructions and potentially manipulates them according to one or more collection capabilities, 
-3. The Orchestrator publishes a notification to subscribed Posture Collection Service components, indicating the posture attributes to be collected, 
+1. The Manager initiates a request to one or more Orchestrators to perform collection,
+2. The Orchestrator receives collection instructions and potentially manipulates them according to one or more collection capabilities,
+3. The Orchestrator publishes a notification to subscribed Posture Collection Service components, indicating the posture attributes to be collected,
 4. The Posture Collection Service receives the collection instructions and performs the actual collection of posture attributes from an endpoint or endpoints.
-5. The Posture Collection Service publishes a notification(s) containing the collected posture attributes to be persisted to the Posture Attribute Repository, 
+5. The Posture Collection Service publishes a notification(s) containing the collected posture attributes to be persisted to the Posture Attribute Repository,
 6. The Posture Attribute Repository persists the collected posture attributes, potentially performing normalization of the data as part of its process.
 
 Interactions labeled (S) indicate the capability of each component to publish status notifications, subscribed to by the Manager.
@@ -921,7 +924,7 @@ The payload supplied by the Posture Collection Service SHOULD conform to informa
 ~~~~~~
 collection-results:
   [
-    attribute-name, 
+    attribute-name,
     attribute-value
   ]
 ~~~~~~
